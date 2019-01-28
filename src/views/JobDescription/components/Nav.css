@@ -1,0 +1,17 @@
+.nav .pagination li {
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 5px 10px;
+  margin: 1px; }
+  .nav .pagination li:hover {
+    color: #e36d01; }
+  .nav .pagination li.selected {
+    color: #fff;
+    background-color: #e36d01; }
+  .nav .pagination li.previous, .nav .pagination li.next {
+    border-radius: 50%; }
