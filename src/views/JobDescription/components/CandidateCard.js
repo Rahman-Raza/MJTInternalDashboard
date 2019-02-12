@@ -54,6 +54,8 @@ const styles = {
 
 class CandidateCard extends React.Component {
   render() {
+
+   
     return (
       <Card
         onClick={(event) => {

@@ -9,6 +9,9 @@ import LocationOn from "@material-ui/icons/LocationOn";
 
 import RegularCard from "components/Card/RegularCard.jsx";
 import Divider from "@material-ui/core/Divider";
+import ArrowBack from "@material-ui/icons/ArrowBack";
+
+import IconButton from '@material-ui/core/IconButton';
 const styles = {
   letterhead: {},
   logoContainer: {
@@ -40,7 +43,17 @@ const styles = {
     bottom: "4px"
   },
   headline: {},
-  title: {}
+  title: {},
+  a: {
+    color: "#00ADF3",
+    fontSize: "14px",
+    textDecoration: "none"
+  },
+  iconStyle: {
+    fontSize: 20,
+    position: "relative",
+    top: "0px"
+  }
 };
 
 const SubHeading = (
@@ -87,11 +100,19 @@ class LetterHead extends React.Component {
               <Typography
                 variant="subheading"
                 gutterBottom
-                style={{ color: 'rgba(0, 0, 0, 0.87)', marginBottom:'25px' }}
+                style={{ color: 'rgba(0, 0, 0, 0.87)', marginBottom:'15px' }}
               >
-                <LocationOn style={{ position: "relative", top: "5px",color:'rgb(0, 173, 243)' }} />
+                <LocationOn style={{ position: "relative", top: "-2px",color:'rgb(0, 173, 243)' }} />
                 <span>{this.props.jobData["Location"]}</span>
               </Typography>
+
+             <IconButton style={{borderRadius: "0px"}}  onClick={this.props.handleAssignRecruiter}>
+                
+             
+            <a style={styles.a} >
+               Match Job with Recruiters
+            </a>
+             </IconButton>
             </div>
           </Grid>
         </Grid>

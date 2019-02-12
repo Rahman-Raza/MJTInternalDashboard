@@ -70,7 +70,7 @@ function Header({ ...props }) {
           {/* Here we create navbar brand, based on route name */}
           <Button href="/dashboard" className={classes.title} color="transparent">
              
-          <img  src={logo} alt="Logo" class="site-logo" />
+          <img  src={logo} alt="Logo" className="site-logo" />
          
         
           </Button>

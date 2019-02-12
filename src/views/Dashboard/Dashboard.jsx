@@ -78,10 +78,13 @@ var mapData = {
 class Dashboard extends React.Component {
 
   constructor(props){
+   var signal = axios.CancelToken.source();
+   console.log("checking props in viws/Dashboard", props);
 
      super(props);
       this.state = {
-
+        isMounted: false,
+        signal: signal,
     paginator: [
     {
       limit: 10,
@@ -178,11 +181,7 @@ class Dashboard extends React.Component {
       }
     ]
   }
-  this.fetchData(this.state.positionStatus);
-  console.log("checking constructor props in views/dashboard", props);
-   console.log("running appRef.printTest");
-   this.props.appRef.printTest("adcdeded");
-
+ 
  
   }
  
@@ -218,12 +217,12 @@ this.setState({loading: true});
     
     if(pageNumber - this.state.activePage == 1){
       console.log("was in next");
-       url = 'http://18.206.187.45:8080/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
+       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
     }
     else if (pageNumber - this.state.activePage == -1){
        console.log("was in previous");
        console.log("checking in previous this.state.paginator[0]",this.state.paginator[0] );
-       url = 'http://18.206.187.45:8080/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
+       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
     }
 
     else {
@@ -237,7 +236,7 @@ this.setState({loading: true});
 
 
 
-  handlePagination = (response) =>{
+  handlePagination = async (response) =>{
 
     var page = this.state.paginator;
 
@@ -248,34 +247,98 @@ this.setState({loading: true});
     console.log("checking job postings items", response);
     this.setState({newOpenings: response});
   }
+
+  handleAssignedJobPostingsData = (data) =>{
+
+     
+     console.log("checking job postings items", data);
+
+
+   // this.setState({newOpenings: response});
+
+  }
   componentDidMount = () =>{
     
-     
+     this.setState({isMounted: true});
+ this.fetchData(this.state.positionStatus);
+  
+  
+   this.props.appRef.printTest("adcdeded");
 
 
   }
 
   fetchData = async (positionStatus) =>{
 
-    var self=this;
+   
+   try{ 
 
-    this.setState({loading: true, positionStatus: positionStatus});
-    await axios.get('http://18.206.187.45:8080/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0')
-      
-      .then(function (response) {
-        console.log("heres the response from axios pagination call", response);
+      var self=this;
+
+      this.setState({loading: true, positionStatus: positionStatus});
+       await axios.get('https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0')
         
-        if(response["status"]  == 200){
-          self.handlePagination(response.data["Data"]["paginator"]);
-          self.handleJobPostingsData(response.data["Data"]["items"]);
-          self.setState({loading: false});
+        .then(function (response) {
+          console.log("heres the response from axios pagination call", response);
+          
+          if(response["status"]  == 200){
 
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+            if(self.state.isMounted){
+            self.handlePagination(response.data["Data"]["paginator"]);
+            self.handleJobPostingsData(response.data["Data"]["items"]);
+            self.setState({loading: false});
+          }
+          }
+        })
+      }
+
+    catch (err) {
+
+      if (axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled
+      } else {
+        this.setState({ isLoading: false });
+      }
   }
+
+}
+
+  fetchDataAssigned = async () =>{
+
+   
+   try{ 
+
+      var self=this;
+
+      this.setState({loading: true});
+       await axios.get('https://mjtbe.tk/viewassignedjoborders')
+        
+        .then(function (response) {
+          console.log("heres the response from axios viewassignedjoborders call", response);
+          
+          if(response["status"]  == 200){
+
+            if(self.state.isMounted){
+
+
+          
+            self.handleAssignedJobPostingsData(response.data["Data"]);
+            // self.setState({loading: false});
+          }
+          }
+        })
+      }
+
+    catch (err) {
+
+      if (axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled
+      } else {
+        this.setState({ isLoading: false });
+      }
+  }
+
+}
 
 
   handleChange = (event, value) => {
@@ -286,7 +349,7 @@ this.setState({loading: true});
   };
 
   changeNavPill = (index) =>{
-    console.log("got to changeNavPill", index);
+    //console.log("got to changeNavPill", index);
 
     switch(index){
       case 0:
@@ -297,6 +360,9 @@ this.setState({loading: true});
         break;
       case 2:
         this.fetchData('Closed');
+        break;
+      case 3:
+        this.fetchDataAssigned('Assigned');
         break;
     }
 
@@ -354,7 +420,9 @@ this.setState({loading: true});
 
   openJobDescription = (opening) => {
     console.log("opened job number", opening);
-    history.push('/job-description',{jobID: opening["ID"]});
+
+    console.log("checking props.cookies in openJobDescription", this.props.cookies);
+    history.push('/job-description',{jobID: opening["ID"]},);
 
   };
   handleClickOpen = () => {
@@ -375,7 +443,15 @@ this.setState({loading: true});
     ,
     3000
 );
-  }
+  };
+
+    componentWillUnmount = () => {
+    this.state.signal.cancel('Api is being canceled');
+
+     this.state.isMounted = false
+
+
+  };
   
 
   render() {
@@ -402,7 +478,7 @@ this.setState({loading: true});
             marginTop: "25px",
           }}
         >
-          <GridContainer dashGrid={true}>
+          <GridContainer dashgrid="true">
             <ItemGrid xs={1} sm={1} />
 
             <ItemGrid xs={10} sm={10} style={{ marginTop: "50px" }}>
@@ -435,6 +511,7 @@ this.setState({loading: true});
                                     }
                                     description={opening.JobPosition}
                                     small="Tech"
+                                    category="New"
                                     statIcon={Email}
                                     statText="Updated 2 Min ago..."
                                   />
@@ -462,6 +539,7 @@ this.setState({loading: true});
                                     }
                                     description={opening.JobPosition}
                                     small="Tech"
+                                    category="Open"
                                     statIcon={Email}
                                     statText="Updated 2 Min ago..."
                                   />
@@ -487,6 +565,7 @@ this.setState({loading: true});
                                     title={
                                       opening.CompanyName + " - " + opening.Location
                                     }
+                                    category="Closed"
                                     description={opening.JobPosition}
                                     small="Tech"
                                     statIcon={Email}
@@ -497,7 +576,37 @@ this.setState({loading: true});
                             </GridContainer>
                           </div>
                         )
-                      }
+                      },
+
+                      this.props.cookies.get('Role') == 'User' ? 
+                      ({
+                        tabButton: "Assigned Positions",
+                        tabContent: (
+                          <div>
+                              <GridContainer>
+                              {this.state.newOpenings.map((opening, index) => (
+                                <ItemGrid xs={12} sm={6} md={3} key={index}>
+                                  <StatsCard
+                                    onClick={() => {
+                                      this.openJobDescription(opening);
+                                    }}
+                                    category="Assigned"
+                                    icon={FaGooglePlusSquare}
+                                    iconColor="orange"
+                                    title={
+                                      opening.CompanyName + " - " + opening.Location
+                                    }
+                                    description={opening.JobPosition}
+                                    small="Tech"
+                                    statIcon={Email}
+                                    statText="Updated 2 Min ago..."
+                                  />
+                                </ItemGrid>
+                              ))}
+                            </GridContainer>
+                          </div>
+                        )
+                      }) : {}
                     ]}
                   />
 

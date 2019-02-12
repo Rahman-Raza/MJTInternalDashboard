@@ -9,10 +9,8 @@ import Pages from "layouts/Pages.jsx";
 import { createBrowserHistory } from "history";
 import hist from 'index.js';
 function AddExtraProps(Component, extraProps) {
-    return <Component.type {...Component.props} {...extraProps} />;
-}
-
-
+    return <Component.type {...Component.props} {...extraProps}/>
+  }
 class App extends React.Component {
 
   constructor(props){
@@ -29,20 +27,26 @@ class App extends React.Component {
 
     }
 
-    if (bool){
-      this.handleLoginTrue();
-    }
+    
+
+  }
+
+  componentDidMount = () =>{
+      console.log("checking log in status true");
+
+      if (this.state.loggedIn == true)
+        this.handleLoginTrue();
 
   }
 
 
-componentDidUnmount = () =>{
+componentWillUnmount = () =>{
   console.log("unmounting")
 }
   checkCookieExpiration = () =>{
    
 
-    if (this.props.cookies.get('cookie-user') != null)
+    if (this.props.cookies.get('Role') != null)
       return true;
     else return false;
 
@@ -66,8 +70,7 @@ handleLoginTrue = () =>{
 }
 
 handleLogOut = () =>{
-
-  this.props.cookies.remove('cookie-user');
+  this.props.cookies.remove('Role');
   this.setState({loggedIn: false});
 
 }

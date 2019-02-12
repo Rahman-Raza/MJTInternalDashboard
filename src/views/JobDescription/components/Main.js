@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import grey from "@material-ui/core/colors/grey";
-import List from "@material-ui/core/List";
+import Button from "components/CustomButtons/Button.jsx";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import axios from "axios";
@@ -16,6 +16,20 @@ import ChecklistSection from "./ChecklistSection";
 import CandidateCard from "./CandidateCard";
 import Resume from "./Resume";
 import LoadingOverlay from 'react-loading-overlay';
+
+import Dialog from '@material-ui/core/Dialog';
+
+import DialogContent from '@material-ui/core/DialogContent';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Checkbox from '@material-ui/core/Checkbox';
+import Avatar from '@material-ui/core/Avatar';
+
+
+
 const styles = {
   paper: {
     padding: "20px"
@@ -48,8 +62,15 @@ const styles = {
 
 class Main extends Component {
   constructor(props) {
+
+  console.log("checking props in Main", props);
     super(props);
     this.state = {
+      loadingMessageMatchRecruiter: "Matching Recruiters...",
+      matchRecruiterLoading: false,
+      isMounted: false,
+       checked: [],
+      dialogOpen: false,
       showResume: false,
       loadingMessage: 'Loading Data...',
       loading: false,
@@ -86,6 +107,7 @@ class Main extends Component {
         WorkExperience: "2 - 5 Years",
       },
       matchedRateList: [],
+      recruiterList: [],
     };
     this.toggleResume = this.toggleResume.bind(this);
     console.log("checking jobID in Main", this.props.jobID);
@@ -94,16 +116,22 @@ class Main extends Component {
    componentDidMount = async () =>{
       var self=this;
 
-    this.setState({loading: true});
-    await axios.get('http://18.206.187.45:8080/jobpostinginfo/'+this.props.jobID)
+ 
+
+    this.setState({loading: true, isMounted: true});
+    await axios.get('https://mjtbe.tk/jobpostinginfo/'+this.props.jobID)
       
       .then(function (response) {
         console.log("heres the response from /jobpostinginfo", response);
         
         if(response["status"]  == 200){
+
+           if(self.state.isMounted){
             self.setState({loading: false, jobData: response.data["Data"]});
             console.log("success in /jobpostinginfo", response.data["Data"]);
              self.matchingRateServiceCall();
+             self.viewRecruitersServiceCall();
+           }
 
         }
       })
@@ -115,21 +143,74 @@ class Main extends Component {
 
 matchingRateServiceCall = async () =>{
    var self=this;
-  await axios.get('http://18.206.187.45:8080/listofmatchedresumes/'+this.props.jobID)
+  await axios.get('https://mjtbe.tk/listofmatchedresumes/'+this.props.jobID)
       
       .then(function (response) {
         console.log("heres the response from /listofmatchedresumed", response);
         
         if(response["status"]  == 200){
+
+           if(self.state.isMounted){
             self.setState({ matchedRateList: response.data["Data"]});
             console.log("success in /matchedRateList", response.data["Data"]);
-
+          }
         }
       })
       .catch(function (error) {
         console.log('error in /matchedRateList ', error);
         
       });
+
+}
+
+viewRecruitersServiceCall = async () =>{
+   var self=this;
+  await axios.get('https://mjtbe.tk/viewrecruiters')
+      
+      .then(function (response) {
+        console.log("heres the response from /viewrecriiters", response);
+        
+        if(response["status"]  == 200){
+
+          if(self.state.isMounted){
+              
+                console.log("success in /viewrecruiters", response.data["Data"]);
+                self.setState({ recruiterList: response.data["Data"]});
+              }
+
+        }
+      })
+      .catch(function (error) {
+        console.log('error in /viewrecruietrs ', error);
+        
+      });
+
+}
+
+matchRecruiterServiceCall = async (recruiterName) =>{
+
+   var self=this;
+  await axios.post('https://mjtbe.tk/assignjoborder/'+recruiterName+'/'+this.props.jobID)
+      
+      .then(function (response) {
+        console.log("heres the response from /assignJobOrder", response);
+        
+        if(response["status"]  == 200){
+
+          if(self.state.isMounted){
+              
+                console.log("success in /assignJobOrder", response.data["Data"]);
+
+               
+              }
+
+        }
+      })
+      .catch(function (error) {
+        console.log('error in /assignJobOrder ', error);
+        
+      });
+
 
 }
  
@@ -143,6 +224,68 @@ matchingRateServiceCall = async () =>{
       showResume: !this.state.showResume
     });
   }
+handleAssignRecruiter (event){
+  console.log("got to handleAssignRecruiter",event);
+  this.setState({dialogOpen: true});
+}
+
+ handleClose = () => {
+    this.setState({ dialogOpen: false});
+  };
+  
+  handleToggle = value => () => {
+    const { checked } = this.state;
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({
+      checked: newChecked,
+    });
+  };
+
+   componentWillUnmount = () => {
+
+
+     this.state.isMounted = false
+
+
+  };
+
+  handleSubmitMatchRecruiter = () =>{
+
+    var self = this;
+
+    self.setState({matchRecruiterLoading: true});
+
+
+
+    
+     setTimeout(
+    function() {
+
+      
+        self.setState({matchRecruiterLoading: false});
+        self.handleClose();
+
+    }
+    ,
+    1200
+);
+
+
+     this.state.checked.map((value, index) => {
+      console.log("checked value", this.state.recruiterList[value]["Name"] );
+
+       this.matchRecruiterServiceCall(this.state.recruiterList[value]["Name"]);
+
+     })
+  }
 
   render() {
     return (
@@ -152,6 +295,71 @@ matchingRateServiceCall = async () =>{
                         text={this.state.loadingMessage}
                         
                         >
+
+    <Dialog
+        open={this.state.dialogOpen}
+        onClose={this.handleClose}
+      aria-labelledby="form-dialog-title">
+       <LoadingOverlay
+                        active={this.state.matchRecruiterLoading}
+                        spinner
+                        text={this.state.loadingMessageMatchRecruiter}
+                        
+                        >
+         <DialogContent style={{padding: "40px 60px"}}>
+
+         
+               <Typography
+                      variant="subheading"
+                      gutterBottom
+                      style={{ color: '#00ADF3', marginBottom:'10px' ,textAlign: "center", fontSize: "20px",}}
+                    >
+                      
+                      Match job with recruiters
+                    </Typography>
+
+                    <Typography
+                      variant="subheading"
+                      gutterBottom
+                      style={{ color: '#666666', marginBottom:'25px' ,textAlign: "center",fontSize: "15px",}}
+                    >
+                      
+                     Choose the recruiters you would like to assign this job posting too:
+                    </Typography>
+
+                    <List dense >
+                    {
+
+                      this.state.recruiterList.length > 0 ?
+                      this.state.recruiterList.map((value,index) => (
+                      <ListItem key={index} button>
+                        <ListItemAvatar>
+                          <Avatar
+                            alt={`Avatar n°${index + 1}`}
+                            src={'assets/img/people/'+(index + 1).toString()+'.jpg'}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary={value["Name"]} />
+                        <ListItemSecondaryAction>
+                          <Checkbox
+                            color="primary"
+                            onChange={this.handleToggle(index)}
+                            checked={this.state.checked.indexOf(index) !== -1}
+                          />
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    ))
+                      : (<div></div>)
+                    }
+                  </List>
+
+                    <Button onClick={this.handleSubmitMatchRecruiter}  color="rose" simple size="lg" block>
+                        Match
+                    </Button>
+         
+         </DialogContent>
+          </LoadingOverlay>
+      </Dialog>
       <div className="container">
         {this.state.showResume ? (
           <Resume resumeID={this.state.resumeID} matchedRateList={this.state.matchedRateList} jobID={this.props.jobID} closeHandler={this.toggleResume} />
@@ -160,7 +368,7 @@ matchingRateServiceCall = async () =>{
         <Grid container spacing={0}>
           <Grid item sm={7}>
             <Paper classes={{ root: this.props.classes.paper }} elevation={0}>
-              <LetterHead jobData={this.state.jobData}/>
+              <LetterHead handleAssignRecruiter={this.handleAssignRecruiter.bind(this)} jobData={this.state.jobData}/>
 
               <Divider inset style={{ margin: "40px" }} />
 
@@ -229,17 +437,12 @@ matchingRateServiceCall = async () =>{
                      <CandidateCard
                       resumeToggler={this.toggleResume}
                       percentage={current["ResumeScore"]}
-                      data={current}
-
-                      />
-          
-                  ) 
-               })
+                      data={current} /> ) 
+                })
               
               )
               :
-              (<div style={{padding:"620px"
-            }}> </div>)
+              ( <div style={{padding:"620px"}}> </div>)
     
               
               }

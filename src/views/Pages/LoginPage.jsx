@@ -72,11 +72,11 @@ class LoginPage extends React.Component {
     this.sendData(json);
   }
 
-  sendData = (form) =>{
+  sendData = async (form) =>{
     const self = this;
     const { cookies } = this.props;
     console.log("checking cookie in /sendData function of login page", cookies);
-    axios ("http://18.206.187.45:8080/login",{
+   await axios ("https://mjtbe.tk/login",{
    method: 'post',
    data:  form,
    headers: {

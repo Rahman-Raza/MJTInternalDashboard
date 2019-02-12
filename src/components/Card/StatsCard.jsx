@@ -13,9 +13,29 @@ import LocationOn from "@material-ui/icons/LocationOn";
 
 import statsCardStyle from "assets/jss/material-dashboard-pro-react/components/statsCardStyle";
 
+function switchCategory(category, classes){
+
+    switch(category){
+      case 'New':
+       return classes.card;
+        break;
+      case 'Open':
+        return classes.cardOpen;
+        break;
+      case 'Closed':
+        return classes.cardClosed;
+        break;
+      case 'Assigned':
+        return classes.cardAssigned;
+        break;
+    }
+
+}
+
 function StatsCard({ ...props }) {
   const {
     classes,
+    category,
     title,
     description,
     statLink,
@@ -30,9 +50,10 @@ function StatsCard({ ...props }) {
   let [company, location] = title.split("-");
   company = company.trim();
   location = location.trim();
+  
 
   return (
-    <Card className={classes.card} onClick={props.onClick}>
+    <Card className={switchCategory(category, classes)} onClick={props.onClick}>
       
       <Typography variant="body2" className={classes.cardHeaderTitle} >
         {small}
@@ -56,6 +77,20 @@ function StatsCard({ ...props }) {
           <LocationOn style={{ fontSize: 20 }} />
           {location}
         </Typography>
+
+        {category === "Assigned" ? 
+        ( 
+          <Typography
+          className={classes.cardContentSubheading}
+          variant="subheading"
+          gutterBottom >
+          
+          Assigned by John Adams
+           </Typography>
+          )
+
+          : ( <div> </div>)
+        }
       </CardContent>
       <CardActions className={classes.cardActions}>
         <div className={classes.cardStats}>
@@ -65,6 +100,7 @@ function StatsCard({ ...props }) {
               " " +
               classes[statIconColor + "CardStatsIcon"]
             }
+            style={{top: "0px"}}
           />{" "}
           {statLink !== undefined ? (
             <a href={statLink.href} className={classes.cardStatsLink}>

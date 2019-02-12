@@ -28,6 +28,8 @@ const styles = {
 class JobDescription extends Component {
 
      constructor(props) {
+
+        console.log("checking incoming cookies into JobDescription", props);
     super(props);
     this.state = {
       loading:false,
@@ -47,7 +49,7 @@ class JobDescription extends Component {
                 <Paper style={styles.paper}>
 
                     
-                    <Main jobID={this.props.location.state.jobID}/>
+                    <Main jobID={this.props.location.state.jobID} cookies={this.props.cookies} />
                
                 </Paper>
             </div>

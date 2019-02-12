@@ -169,7 +169,7 @@ class AddAJob extends React.Component {
 
     const self = this;
 
-    await axios("http://18.206.187.45:8080/jobposting", {
+    await axios("https://mjtbe.tk/jobposting", {
      method: 'post',
       data: json,
       headers: {

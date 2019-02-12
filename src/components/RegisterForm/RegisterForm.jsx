@@ -94,7 +94,7 @@ class RegisterForm extends React.Component {
 
     sendData = (form) =>{
     const self = this;
-    axios ("http://18.206.187.45:8080/register",{
+    axios ("https://mjtbe.tk/register",{
    method: 'post',
    data:  form,
    headers: {
@@ -164,7 +164,20 @@ class RegisterForm extends React.Component {
                   </div>
                 </CardHeader>
                 <CardBody>
-                  
+                     <CustomInput
+                    labelText="Name..."
+                    id="name"
+                    name="Name"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Email className={classes.inputAdornmentIcon} />
+                        </InputAdornment>
+                      )
+                    }}/>
                   <CustomInput
                     labelText="Email..."
                     id="email"

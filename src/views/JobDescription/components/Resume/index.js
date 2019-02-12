@@ -113,7 +113,7 @@ class Resume extends React.Component {
   loadData = async (resumeID) =>{
      var self=this;
      this.setState({loading: true});
-    await axios.get('http://18.206.187.45:8080/personalresume/'+resumeID)
+    await axios.get('https://mjtbe.tk/personalresume/'+resumeID)
       
       .then(function (response) {
         console.log("heres the response from /personalresume", response);
@@ -140,7 +140,7 @@ class Resume extends React.Component {
      this.setState({loading: true});
      console.log("checking resume FileName",self.state.resumeData["FileName"] );
     axios({
-          url: 'http://18.206.187.45:8080/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
+          url: 'https://mjtbe.tk/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
           method: 'GET',
          responseType: 'arraybuffer',
             headers: {

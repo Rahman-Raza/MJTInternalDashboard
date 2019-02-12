@@ -24,6 +24,24 @@ import {
 const StatsCardBackground = "#00ADF3";
 
 const statsCardStyle = {
+   cardOpen: {
+  ...card,
+    backgroundColor: "#4481EB",
+    borderRadius: "4px",
+    minHeight: "300px"
+  },
+  cardClosed:{
+  ...card,
+    backgroundColor: "#5D5D5D",
+    borderRadius: "4px",
+    minHeight: "300px"
+  },
+  cardAssigned: {
+  ...card,
+    backgroundColor: StatsCardBackground,
+    borderRadius: "4px",
+    minHeight: "300px"
+  },
   card: {
     ...card,
     backgroundColor: StatsCardBackground,

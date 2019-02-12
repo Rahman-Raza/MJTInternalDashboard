@@ -212,7 +212,7 @@ class HeaderLinks extends React.Component {
             label: rtlActive ? classes.labelRTL : ""
           }}
         >
-          <i class="material-icons" style={{color: "white"}}>
+          <i className="material-icons" style={{color: "white"}}>
               person_add
               </i>
           <Hidden mdUp implementation="css">
