@@ -115,15 +115,15 @@ class AddAJob extends React.Component {
             loading: false,
             loadingMessage: 'Sending your job order to our team...',
             formData:{
-                EmploymentType: '',
-                SalaryRange: '',
-                WorkExperience: '',
-                CompanyName: '',
-                CompanySize: '',
-                JobPosition: '',
-                Location: '',
-                Summary: '',
-                KeyPoints: '',
+                EmploymentType: ' ',
+                SalaryRange: ' ',
+                WorkExperience: ' ',
+                CompanyName: ' ',
+                CompanySize: ' ',
+                JobPosition: ' ',
+                Location: ' ',
+                Summary: ' ',
+                KeyPoints: ' ',
 
 
             }
@@ -238,10 +238,11 @@ handleLoadingClose = () =>{
                                     InputProps={{
                                         disableUnderline: true
                                     }}
-                                    validators={["required", "isString"]}
+                                    validators={["required", "isString", "minStringLength:5"]}
                                     errorMessages={[
                                       "this field is required",
-                                      "please enter a valid company name"
+                                      "please enter a valid company name",
+                                      "Please enter at least 5 Characters"
                                     ]}
                                 />
                             </div>
@@ -257,10 +258,11 @@ handleLoadingClose = () =>{
                                     InputProps={{
                                         disableUnderline: true
                                     }}
-                                    validators={["required", "isString"]}
+                                    validators={["required", "isString", "minStringLength:5"]}
                                     errorMessages={[
                                       "this field is required",
-                                      "please enter a valid Job Position"
+                                      "please enter a valid Job Position",
+                                      "Please enter at least 5 Characters"
                                     ]}
                                 />
                                
@@ -291,14 +293,14 @@ handleLoadingClose = () =>{
                                 <p style={styles.textLabel}>Employment Type</p>
                                 
                                     <Select
-                                        value={this.state.formData["EmploymentType"]}
+                                        value={formData["EmploymentType"]}
                                         onChange={this.handleChange}
                                         style={styles.textField}
                                          input={
                                         <Input name="EmploymentType" disableUnderline />
                                     }
                                     >
-                                        <MenuItem value="">
+                                        <MenuItem value=" ">
                                             <em>None</em>
                                         </MenuItem>
                                         <MenuItem value={"Full-time"}>Full-time</MenuItem>
@@ -321,7 +323,7 @@ handleLoadingClose = () =>{
                                         <Input name="WorkExperience" disableUnderline />
                                     }
                                 >
-                                    <MenuItem value="">
+                                    <MenuItem value=" ">
                                         <em>None</em>
                                     </MenuItem>
                                     <MenuItem value={"0 - 2 Years"}>0 - 2 Years</MenuItem>
@@ -334,14 +336,21 @@ handleLoadingClose = () =>{
                            
                             <div style={styles.inputContainer}>
                                 <p style={styles.textLabel}>Location</p>
-                                <TextField
+
+                                <TextValidator
                                  onChange={this.handleChange}
-                                    value={formData["Location"]}
+                                    value={formData.Location}
                                     name="Location"
                                     style={styles.textField}
                                     InputProps={{
                                         disableUnderline: true
                                     }}
+                                    validators={["required", "isString",  "minStringLength:5"]}
+                                    errorMessages={[
+                                      "this field is required",
+                                      "please enter a valid Location",
+                                      "Please enter at least 5 characters"
+                                    ]}
                                 />
                             </div>
 
@@ -383,7 +392,7 @@ handleLoadingClose = () =>{
                                      value={formData.KeyPoints}
                                     id="textarea"
                                     multiline
-                                    rows="4"
+                                   
                                     margin="normal"
                                     name="KeyPoints"
                                     style={styles.textField}
@@ -464,7 +473,7 @@ handleLoadingClose = () =>{
                                         <Input name="SalaryRange" disableUnderline />
                                     }
                                 >
-                                    <MenuItem value="">
+                                    <MenuItem value=" ">
                                         <em>None</em>
                                     </MenuItem>
                                     <MenuItem value={"$0-$50,000"}>$0-$50,000</MenuItem>

@@ -38,7 +38,9 @@ const styles = {
     background: "#00ADF3",
     padding: " 1px 50px",
     position: "relative",
-    top: "-50px"
+    top: "-50px",
+    minHeight: "101.9%",
+    width: "103%",
   },
   sidebarHeading: {
     color: "#FFF",
@@ -130,7 +132,7 @@ class Main extends Component {
             self.setState({loading: false, jobData: response.data["Data"]});
             console.log("success in /jobpostinginfo", response.data["Data"]);
              self.matchingRateServiceCall();
-             self.viewRecruitersServiceCall();
+             self.props.cookies.get('Role') == 'Admin'? self.viewRecruitersServiceCall() : null;
            }
 
         }
@@ -190,7 +192,9 @@ viewRecruitersServiceCall = async () =>{
 matchRecruiterServiceCall = async (recruiterName) =>{
 
    var self=this;
-  await axios.post('https://mjtbe.tk/assignjoborder/'+recruiterName+'/'+this.props.jobID)
+
+  
+  await axios.post('https://mjtbe.tk/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
       
       .then(function (response) {
         console.log("heres the response from /assignJobOrder", response);
@@ -261,10 +265,23 @@ handleAssignRecruiter (event){
 
     var self = this;
 
+    if (this.state.checked.length <= 0){
+
+      self.setState({matchRecruiterLoading: true, loadingMessageMatchRecruiter: "Please select at least one recruiter..."});
+
+      setTimeout(
+    function() {
+
+        self.setState({matchRecruiterLoading: false, loadingMessageMatchRecruiter: "Matching Recruiters..."});
+        }, 1200);
+
+
+    }
+    else{
+
     self.setState({matchRecruiterLoading: true});
 
-
-
+    console.log("checking checked values", this.state.checked);
     
      setTimeout(
     function() {
@@ -285,6 +302,8 @@ handleAssignRecruiter (event){
        this.matchRecruiterServiceCall(this.state.recruiterList[value]["Name"]);
 
      })
+
+   }
   }
 
   render() {
@@ -368,7 +387,7 @@ handleAssignRecruiter (event){
         <Grid container spacing={0}>
           <Grid item sm={7}>
             <Paper classes={{ root: this.props.classes.paper }} elevation={0}>
-              <LetterHead handleAssignRecruiter={this.handleAssignRecruiter.bind(this)} jobData={this.state.jobData}/>
+              <LetterHead handleAssignRecruiter={this.handleAssignRecruiter.bind(this)} jobData={this.state.jobData} cookieRole={this.props.cookies.get('Role')} />
 
               <Divider inset style={{ margin: "40px" }} />
 
@@ -435,6 +454,7 @@ handleAssignRecruiter (event){
                this.state.matchedRateList.map((current, index) => {
                   return (
                      <CandidateCard
+                      key={current.ID}
                       resumeToggler={this.toggleResume}
                       percentage={current["ResumeScore"]}
                       data={current} /> ) 

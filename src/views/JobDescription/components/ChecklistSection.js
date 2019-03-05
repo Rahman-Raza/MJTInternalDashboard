@@ -41,7 +41,7 @@ class ChecklistSection extends React.Component {
   return item != 0;
 }).map((current, index) => {
         return (
-           <div style={styles.chipContainer}>
+           <div style={styles.chipContainer} key={index} >
                 <ListItemIcon>
                   <DoneIcon />
                 </ListItemIcon>

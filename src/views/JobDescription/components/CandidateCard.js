@@ -10,6 +10,10 @@ import CircularProgressbar from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const styles = {
+  wordWrap: {
+   
+    wordWrap: "break-word",
+  },
   card: {
     boxShadow: "0 0 16px 0 #eee",
     cursor: "pointer",
@@ -45,6 +49,11 @@ const styles = {
     top: "5px",
     margin: "0 5px"
   },
+   emailIcon: {
+    position: "relative",
+   
+    margin: "0 5px"
+  },
   name: {
     color: "#00ADF3",
     textTransform: "uppercase",
@@ -55,7 +64,7 @@ const styles = {
 class CandidateCard extends React.Component {
   render() {
 
-   
+
     return (
       <Card
         onClick={(event) => {
@@ -86,11 +95,11 @@ class CandidateCard extends React.Component {
             </Typography>
             <p style={{ margin: 0 }}>
               <Icon style={styles.icon}>phone</Icon>
-              <span> {this.props.data["Phone"]}</span>
+              <span > {this.props.data["Phone"]}</span>
             </p>
-            <p style={{ margin: 0 }}>
-              <Icon style={styles.icon}>email</Icon>
-              <span> {this.props.data["Email"]}</span>
+            <p style={{ margin: 0, display: "inline-flex" }}>
+              <Icon style={styles.emailIcon}>email</Icon>
+              <span style={styles.wordWrap}> {this.props.data["Email"]}</span>
             </p>
           </section>
         </CardContent>

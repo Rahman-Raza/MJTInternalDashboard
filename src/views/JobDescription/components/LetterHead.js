@@ -64,6 +64,8 @@ const SubHeading = (
 );
 
 class LetterHead extends React.Component {
+
+
   render() {
     return (
       <section style={styles.letterhead}>
@@ -100,19 +102,26 @@ class LetterHead extends React.Component {
               <Typography
                 variant="subheading"
                 gutterBottom
-                style={{ color: 'rgba(0, 0, 0, 0.87)', marginBottom:'15px' }}
+                style={{ color: 'rgba(0, 0, 0, 0.87)', marginBottom:'25px' }}
               >
                 <LocationOn style={{ position: "relative", top: "-2px",color:'rgb(0, 173, 243)' }} />
                 <span>{this.props.jobData["Location"]}</span>
               </Typography>
 
-             <IconButton style={{borderRadius: "0px"}}  onClick={this.props.handleAssignRecruiter}>
+             {  this.props.cookieRole == 'Admin' ? 
+
+             ( <IconButton style={{borderRadius: "0px"}}  onClick={this.props.handleAssignRecruiter}>
                 
              
-            <a style={styles.a} >
-               Match Job with Recruiters
-            </a>
-             </IconButton>
+                  <a style={styles.a} >
+                     Match Job with Recruiters
+                  </a>
+             </IconButton>)
+             :
+
+             (<div></div>)
+             }
+
             </div>
           </Grid>
         </Grid>

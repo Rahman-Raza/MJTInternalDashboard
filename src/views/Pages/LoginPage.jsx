@@ -94,7 +94,7 @@ class LoginPage extends React.Component {
           self.setState({loading: true});
 
           //history.push('/dashboard');
-          cookies.set('Role',response.data["Data"]["Role"]);
+         cookies.set('Role',response.data["Data"]["Role"]);
 
           self.handleLogin();
           

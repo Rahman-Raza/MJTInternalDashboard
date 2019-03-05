@@ -34,8 +34,8 @@ class Nav extends React.Component {
   render() {
     return (
       <nav className="nav" style={styles.nav}>
-        <Grid container>
-          <Grid md={8} item justify="flex-start">
+        <Grid container justify="flex-start">
+          <Grid md={8} item >
            <IconButton style={{borderRadius: "0px"}} disableRipple={true} onClick={this.handlePageChange}>
                 
              
