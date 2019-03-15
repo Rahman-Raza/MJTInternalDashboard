@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
 import IconButton from '@material-ui/core/IconButton';
+
 const styles = {
   letterhead: {},
   logoContainer: {
@@ -75,8 +76,8 @@ class LetterHead extends React.Component {
             <div style={styles.infoContainer}>
           <Typography
                 
-                gutterBottom
-                style={{ color: 'rgb(0, 173, 243)', fontSize: '20px' }}
+                
+                style={{ color: 'rgb(0, 173, 243)', fontSize: '1.75rem' }}
               >
                Job description
               </Typography>
@@ -110,13 +111,29 @@ class LetterHead extends React.Component {
 
              {  this.props.cookieRole == 'Admin' ? 
 
-             ( <IconButton style={{borderRadius: "0px"}}  onClick={this.props.handleAssignRecruiter}>
-                
-             
-                  <a style={styles.a} >
-                     Match Job with Recruiters
-                  </a>
-             </IconButton>)
+             (
+              <div>
+                <div className="row"> 
+                  <IconButton style={{borderRadius: "0px"}}  onClick={this.props.handleAssignRecruiter}>
+                    
+                 
+                      <a style={styles.a} >
+                         Match Job with Recruiters
+                      </a>
+                 </IconButton>
+               </div>
+              <div className="row"> 
+                 <IconButton style={{borderRadius: "0px"}}  onClick={this.props.editJobDescription}>
+                    
+                 
+                      <a style={styles.a} >
+                         Edit Job Description
+                      </a>
+                 </IconButton>
+               </div>
+             </div>
+
+             )
              :
 
              (<div></div>)

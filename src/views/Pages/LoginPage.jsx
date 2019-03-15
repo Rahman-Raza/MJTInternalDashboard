@@ -76,7 +76,7 @@ class LoginPage extends React.Component {
     const self = this;
     const { cookies } = this.props;
     console.log("checking cookie in /sendData function of login page", cookies);
-   await axios ("https://mjtbe.tk/login",{
+   await axios ("http://myjobtank.com:8087/login",{
    method: 'post',
    data:  form,
    headers: {
@@ -94,7 +94,7 @@ class LoginPage extends React.Component {
           self.setState({loading: true});
 
           //history.push('/dashboard');
-         cookies.set('Role',response.data["Data"]["Role"]);
+         cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (10 * 60)});
 
           self.handleLogin();
           

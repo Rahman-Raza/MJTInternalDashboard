@@ -44,7 +44,7 @@ componentWillUnmount = () =>{
   console.log("unmounting")
 }
   checkCookieExpiration = () =>{
-   
+   console.log("checking this.props.cookies in App", this.props.cookies.getAll());
 
     if (this.props.cookies.get('Role') != null)
       return true;

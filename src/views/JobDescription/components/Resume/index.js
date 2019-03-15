@@ -113,7 +113,7 @@ class Resume extends React.Component {
   loadData = async (resumeID) =>{
      var self=this;
      this.setState({loading: true});
-    await axios.get('https://mjtbe.tk/personalresume/'+resumeID)
+    await axios.get('http://myjobtank.com:8087/personalresume/'+resumeID)
       
       .then(function (response) {
         console.log("heres the response from /personalresume", response);
@@ -140,7 +140,7 @@ class Resume extends React.Component {
      this.setState({loading: true});
      console.log("checking resume FileName",self.state.resumeData["FileName"] );
     axios({
-          url: 'https://mjtbe.tk/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
+          url: 'http://myjobtank.com:8087/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
           method: 'GET',
          responseType: 'arraybuffer',
             headers: {
@@ -218,7 +218,7 @@ class Resume extends React.Component {
               <ResumeSection icon="school" heading="Education" color="#FFF">
                 
               {this.state.resumeData["Edu"].length > 0 ? this.state.resumeData["Edu"].map((current, index) => {
-                return ( <EducationEntry data={current} />)
+                return ( <EducationEntry key={index} data={current} />)
               }) : (<div> </div>)}
               </ResumeSection>
               <Divider style={{ backgroundColor: "#EEE" }} />

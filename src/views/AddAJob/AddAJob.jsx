@@ -109,12 +109,49 @@ const styles = {
 class AddAJob extends React.Component {
 
     constructor(props){
-        super();
-        this.state = {
+        super(props);
 
-            loading: false,
-            loadingMessage: 'Sending your job order to our team...',
-            formData:{
+        let formData = {};
+        let editMode = false;
+
+         props.location.state ?  console.log("there is jobData",props.location ) : console.log("no jobData");
+    //this.props.location.state ? this.setState({formData: this.props.location.state.jobData}) : console.log("no jobData");
+
+    
+
+    if (props.location.state){
+
+        editMode = true;
+        formData = props.location.state.jobData;
+
+        console.log(formData['Language']);
+
+        let language;
+        let requiredskills;
+
+       formData['Language'].length  ? language =   formData['Language'] : language =  formData['Language'] ;
+        formData['RequiredSkills'].length ?  requiredskills =  formData['RequiredSkills']  : requiredskills =  formData['RequiredSkills'] ; 
+      
+
+        console.log("checking language and requiredskills", language, requiredskills)
+
+        language.length > 0 ? console.log("language length", language) : console.log("no language length");
+        language.length > 0 ? formData['Language'] = language : formData['Language'] = [];
+
+        requiredskills.length > 0 ? formData['RequiredSkills'] = requiredskills : formData['RequiredSkills'] = [];
+
+         formData['Bonuses'] = props.location.state.jobData['Bonuses'];
+         formData['Commission'] = props.location.state.jobData['Commission'];
+         formData['HealthBenefits'] = props.location.state.jobData['HealthBenefits'];
+         formData['OvertimePay'] = props.location.state.jobData['OvertimePay'];
+         formData['TravelMealHousingAllowance'] = props.location.state.jobData['TravelMealHousingAllowance'];
+         formData['Wellness'] = props.location.state.jobData['Wellness'];
+
+
+    }
+
+    else{
+        formData = {
                 EmploymentType: ' ',
                 SalaryRange: ' ',
                 WorkExperience: ' ',
@@ -124,10 +161,32 @@ class AddAJob extends React.Component {
                 Location: ' ',
                 Summary: ' ',
                 KeyPoints: ' ',
+                BaseSalary: ' ',
+                Language: [],
+                RequiredSkills: [],
+                OvertimePay: false,
+                Commission: false,
+                Bonuses: false,
+                HealthBenefits: false,
+                Wellness: false,
+                TravelMealHousingAllowance: false,
 
 
-            }
+            };
+    }
+
+
+        this.state = {
+
+            loading: false,
+            loadingMessage: 'Sending your job order to our team...',
+            formData: formData,
+            editMode: editMode,
         }
+
+        
+
+
     }
 
     handleSubmit = () =>{
@@ -146,7 +205,9 @@ class AddAJob extends React.Component {
 
          console.log("checking final form", submitForm);
 
-         this.sendPostData(submitForm);
+         this.state.editMode == true ? this.sendEditPostData(submitForm) : this.sendPostData(submitForm);
+
+         
 }
 
     handleChange = (event) =>{
@@ -169,7 +230,7 @@ class AddAJob extends React.Component {
 
     const self = this;
 
-    await axios("https://mjtbe.tk/jobposting", {
+    await axios("http://myjobtank.com:8087/jobposting", {
      method: 'post',
       data: json,
       headers: {
@@ -193,6 +254,41 @@ class AddAJob extends React.Component {
       });
   }
 
+  sendEditPostData = async (form) =>{
+
+
+     var json = JSON.stringify(form);
+
+    const self = this;
+       await axios("http://myjobtank.com:8087/editjobposting", {
+     method: 'post',
+      data: form,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    })
+      
+      .then(function (response) {
+        console.log("heres the response from /editjobposting", response);
+        
+        if(response["status"]  == 200){
+          console.log("sucessfull call to /editjobposting");
+          self.setState({loadingMessage: 'Your job order edits was recieved!'});
+          self.handleLoadingClose();
+         
+          
+        }
+      })
+      .catch(function (error) {
+        console.log('error in /editjobposting ', error);
+        self.setState({loadingMessage: "There was an issue with your submission. Please try again."});
+        self.handleLoadingCloseError();
+      });
+  }
+
+
+
+
   handleGoBack = () =>{
     history.goBack();
   }
@@ -201,8 +297,22 @@ handleLoadingClose = () =>{
     const self = this;
     setTimeout(
     function() {
-        self.setState({loading: false});
+        self.setState({loading: false, loadingMessage: "Sending your job order to our team..."});
         self.handleGoBack()
+    },
+    3000
+);
+ 
+
+  }
+
+  handleLoadingCloseError = () =>{
+
+    const self = this;
+    setTimeout(
+    function() {
+        self.setState({loading: false, loadingMessage: "Sending your job order to our team..."});
+       
     },
     3000
 );
@@ -303,7 +413,7 @@ handleLoadingClose = () =>{
                                         <MenuItem value=" ">
                                             <em>None</em>
                                         </MenuItem>
-                                        <MenuItem value={"Full-time"}>Full-time</MenuItem>
+                                        <MenuItem value={"Full-time(Long Term)"}>Full-time</MenuItem>
                                         <MenuItem value={"Full-time (Contactor)"}>Full-time (Contactor)</MenuItem>
                                         <MenuItem value={"Part-time"}>Part-time</MenuItem>
                                          <MenuItem value={"Part-time (Contactor)"}>Part-time (Contactor)</MenuItem>
@@ -327,7 +437,7 @@ handleLoadingClose = () =>{
                                         <em>None</em>
                                     </MenuItem>
                                     <MenuItem value={"0 - 2 Years"}>0 - 2 Years</MenuItem>
-                                    <MenuItem value={"2 - 5 Years"}>2 - 5 Years</MenuItem>
+                                    <MenuItem value={"2 - 4 Years"}>2 - 5 Years</MenuItem>
                                     <MenuItem value={"5 - 10 Years"}>5 - 10 Years</MenuItem>
                                     <MenuItem value={"5 - 10 Years"}>10+ Years</MenuItem>
                                 </Select>
@@ -415,14 +525,14 @@ handleLoadingClose = () =>{
                              onRef={(ref) => {this.LanguagesContainer = ref}}
                                 title="Languages"
                                 dataType="Languages"
-                                defaultValues={["English", "Spanish"]}
+                                defaultValues={formData['Language'].length > 0 ? formData['Language'] : ["English", "Spanish"]}
                             />
 
                             <RatedInputContainer
                             onRef={(ref) => {this.SkillsContainer = ref}}
                                 title="Key Skills"
                                 dataType="Skills"
-                                defaultValues={["Python", "JavaScript"]}
+                                defaultValues={formData['RequiredSkills'].length > 0 ? formData['RequiredSkills'] : ["Python", "JavaScript"]}
                             />
 
                             <Divider style={styles.divider} />
@@ -433,27 +543,33 @@ handleLoadingClose = () =>{
                                 inputs={[
             {
               name: "OvertimePay",
-              label: "Overtime"
+              label: "Overtime",
+              checked: formData['OvertimePay'],
             },
             {
               name: "Commission",
-              label: "Commission"
+              label: "Commission",
+              checked: formData['Commission'], 
             },
             {
               name: "Bonuses",
-              label: "Bonuses"
+              label: "Bonuses",
+              checked: formData['Bonuses'],
             },
             {
               name: "HealthBenefits",
-              label: "Health Benefits"
+              label: "Health Benefits",
+              checked: formData['HealthBenefits'],
             },
             {
               name: "Wellness",
-              label: "Wellness"
+              label: "Wellness",
+              checked: formData['Wellness']
             },
             {
               name: "TravelMealHousingAllowance",
-              label: "Travel / Meal / Housing Allowance"
+              label: "Travel / Meal / Housing Allowance",
+              checked: formData['TravelMealHousingAllowance'],
             }
           ]}/>
                           
@@ -467,19 +583,19 @@ handleLoadingClose = () =>{
                                 <p style={styles.textLabel}>Salary Range</p>
                                 <Select
                                  onChange={this.handleChange}
-                                    value={this.state.formData["SalaryRange"]}
+                                    value={this.state.formData["BaseSalary"]}
                                     style={styles.textField}
                                     input={
-                                        <Input name="SalaryRange" disableUnderline />
+                                        <Input name="BaseSalary" disableUnderline />
                                     }
                                 >
                                     <MenuItem value=" ">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={"$0-$50,000"}>$0-$50,000</MenuItem>
-                                    <MenuItem value={"$50,000 - $100,000"}>$50,000 - $100,000</MenuItem>
-                                    <MenuItem value={"$100,000 - $250,000"}>$100,000 - $250,000</MenuItem>
-                                    <MenuItem value={"$250k+"}>$250k+</MenuItem>
+                                    <MenuItem value={"$0-$50k"}>$0-$50,000</MenuItem>
+                                    <MenuItem value={"$50k-100k"}>$50,000 - $100,000</MenuItem>
+                                    <MenuItem value={"$100k - $200k"}>$100,000 - $200,000</MenuItem>
+                                    <MenuItem value={"$200k+"}>$200k+</MenuItem>
                                 </Select>
                             </div>
 

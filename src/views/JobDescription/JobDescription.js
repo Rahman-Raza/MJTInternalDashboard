@@ -49,7 +49,7 @@ class JobDescription extends Component {
                 <Paper style={styles.paper}>
 
                     
-                    <Main jobID={this.props.location.state.jobID} cookies={this.props.cookies} />
+                    <Main jobID={this.props.location.state.jobID} cookies={this.props.cookies}  />
                
                 </Paper>
             </div>

@@ -218,12 +218,12 @@ this.setState({loading: true});
     
     if(pageNumber - this.state.activePage == 1){
       console.log("was in next");
-       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
+       url = 'http://myjobtank.com:8087/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
     }
     else if (pageNumber - this.state.activePage == -1){
        console.log("was in previous");
        console.log("checking in previous this.state.paginator[0]",this.state.paginator[0] );
-       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
+       url = 'http://myjobtank.com:8087/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
     }
 
     else {
@@ -287,7 +287,7 @@ this.setState({loading: true});
       var self=this;
 
       this.setState({loading: true, positionStatus: positionStatus});
-       await axios.get('https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0')
+       await axios.get('http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0')
         
         .then(function (response) {
           console.log("heres the response from axios pagination call", response);
@@ -322,7 +322,7 @@ this.setState({loading: true});
       var self=this;
 
       this.setState({loading: true});
-       await axios.get('https://mjtbe.tk/viewassignedjoborders')
+       await axios.get('http://myjobtank.com:8087/viewassignedjoborders')
         
         .then(function (response) {
           console.log("heres the response from axios viewassignedjoborders call", response);

@@ -33,16 +33,15 @@ class BenefitsSection extends React.Component {
     constructor(props) {
         super(props);
 
+        let formData = {};
+
+        props.inputs.forEach((item) => {
+            formData[item.name] = item.checked;
+        })
+
         this.state = {
             inputs: props.inputs,
-             formData: {
-        
-        OvertimePay: false,
-        Bonuses: false,
-        TravelMealHousingAllowance: false,
-        HealthBenefits: false,
-        Wellness: false
-      }
+             formData: formData,
         }
     }
 
@@ -77,6 +76,7 @@ class BenefitsSection extends React.Component {
                     <article key={index} style={styles.checkboxContainer}>
                         <Checkbox
                             id={current.name}
+                            checked={this.state.formData[current.name]}
                             name={current.name}
                             onChange={this.handleChange}
                             checkedIcon={

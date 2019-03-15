@@ -69,7 +69,7 @@ sendResume = (resume) =>{
     console.log("checking file", resume);
 
     this.props.loadingRef.setState({loading: true, loadingMessage: 'Sending your resume file to our team...'});  //setting the state of dashboard to activate loading overlay
-    axios ("https://mjtbe.tk/resumeupload",{
+    axios ("http://myjobtank.com:8087/resumeupload",{
             method: 'post',
             data:  form,
             //headers: { "Content-Type": "application/json" }

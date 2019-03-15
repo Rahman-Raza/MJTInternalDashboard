@@ -27,7 +27,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
-
+import history from 'index.js';
 
 
 const styles = {
@@ -45,8 +45,8 @@ const styles = {
   sidebarHeading: {
     color: "#FFF",
     display: "block",
-    padding: "0 50px 50px 0",
-    margin: "75px 0",
+    padding: "0 50px 25px 0",
+    margin: "100px 0",
     borderBottom: "1px solid #FFF"
   },
   responsibility: {
@@ -68,6 +68,7 @@ class Main extends Component {
   console.log("checking props in Main", props);
     super(props);
     this.state = {
+      jobDataPulled: false,
       loadingMessageMatchRecruiter: "Matching Recruiters...",
       matchRecruiterLoading: false,
       isMounted: false,
@@ -121,7 +122,7 @@ class Main extends Component {
  
 
     this.setState({loading: true, isMounted: true});
-    await axios.get('https://mjtbe.tk/jobpostinginfo/'+this.props.jobID)
+    await axios.get('http://myjobtank.com:8087/jobpostinginfo/'+this.props.jobID)
       
       .then(function (response) {
         console.log("heres the response from /jobpostinginfo", response);
@@ -129,7 +130,8 @@ class Main extends Component {
         if(response["status"]  == 200){
 
            if(self.state.isMounted){
-            self.setState({loading: false, jobData: response.data["Data"]});
+            self.setState({loading: false, jobData: response.data["Data"], jobDataPulled: true});
+
             console.log("success in /jobpostinginfo", response.data["Data"]);
              self.matchingRateServiceCall();
              self.props.cookies.get('Role') == 'Admin'? self.viewRecruitersServiceCall() : null;
@@ -145,7 +147,7 @@ class Main extends Component {
 
 matchingRateServiceCall = async () =>{
    var self=this;
-  await axios.get('https://mjtbe.tk/listofmatchedresumes/'+this.props.jobID)
+  await axios.get('http://myjobtank.com:8087/listofmatchedresumes/'+this.props.jobID)
       
       .then(function (response) {
         console.log("heres the response from /listofmatchedresumed", response);
@@ -167,7 +169,7 @@ matchingRateServiceCall = async () =>{
 
 viewRecruitersServiceCall = async () =>{
    var self=this;
-  await axios.get('https://mjtbe.tk/viewrecruiters')
+  await axios.get('http://myjobtank.com:8087/viewrecruiters')
       
       .then(function (response) {
         console.log("heres the response from /viewrecriiters", response);
@@ -194,7 +196,7 @@ matchRecruiterServiceCall = async (recruiterName) =>{
    var self=this;
 
   
-  await axios.post('https://mjtbe.tk/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
+  await axios.post('http://myjobtank.com:8087/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
       
       .then(function (response) {
         console.log("heres the response from /assignJobOrder", response);
@@ -306,6 +308,11 @@ handleAssignRecruiter (event){
    }
   }
 
+  editJobDescription = () =>{
+
+    this.state.jobDataPulled == true ?  history.push('/add-job', {jobData: this.state.jobData }) : history.push('/add-job');
+  }
+
   render() {
     return (
       <LoadingOverlay
@@ -387,7 +394,7 @@ handleAssignRecruiter (event){
         <Grid container spacing={0}>
           <Grid item sm={7}>
             <Paper classes={{ root: this.props.classes.paper }} elevation={0}>
-              <LetterHead handleAssignRecruiter={this.handleAssignRecruiter.bind(this)} jobData={this.state.jobData} cookieRole={this.props.cookies.get('Role')} />
+              <LetterHead editJobDescription={this.editJobDescription} handleAssignRecruiter={this.handleAssignRecruiter.bind(this)} jobData={this.state.jobData} cookieRole={this.props.cookies.get('Role')} />
 
               <Divider inset style={{ margin: "40px" }} />
 
