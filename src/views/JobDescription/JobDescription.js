@@ -8,7 +8,7 @@ import "./JobDescription.scss";
 import Header from "./components/Header";
 import Nav from "./components/Nav";
 import Main from "./components/Main";
-
+import LoadingOverlay from 'react-loading-overlay';
 import bgImage from "assets/img/job-position-background.png";
 
 const styles = {
@@ -37,10 +37,21 @@ class JobDescription extends Component {
     };
 }
 
+handleLoading = (loading, loadingMessage) =>{
+    this.setState({loading: loading, loadingMessage: loadingMessage});
+}
+
     
     render() {
         return (
         <div>
+        <LoadingOverlay
+                        active={this.state.loading}
+                        spinner
+                        text={this.state.loadingMessage}
+                        classNamePrefix="MyLoader_"
+                        
+                        >
             <div className="container">
             <Nav />
             </div>
@@ -49,10 +60,11 @@ class JobDescription extends Component {
                 <Paper style={styles.paper}>
 
                     
-                    <Main jobID={this.props.location.state.jobID} cookies={this.props.cookies}  />
+                    <Main loadingRef={this.handleLoading} jobID={this.props.location.state.jobID} cookies={this.props.cookies}  />
                
                 </Paper>
             </div>
+            </LoadingOverlay>
         </div>
         );
     }

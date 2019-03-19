@@ -121,7 +121,8 @@ class Main extends Component {
 
  
 
-    this.setState({loading: true, isMounted: true});
+    this.setState({ isMounted: true});
+    this.props.loadingRef(true,"Loading Job Data...");
     await axios.get('http://myjobtank.com:8087/jobpostinginfo/'+this.props.jobID)
       
       .then(function (response) {
@@ -130,10 +131,11 @@ class Main extends Component {
         if(response["status"]  == 200){
 
            if(self.state.isMounted){
-            self.setState({loading: false, jobData: response.data["Data"], jobDataPulled: true});
+           
 
             console.log("success in /jobpostinginfo", response.data["Data"]);
              self.matchingRateServiceCall();
+              self.setState({ jobData: response.data["Data"], jobDataPulled: true});
              self.props.cookies.get('Role') == 'Admin'? self.viewRecruitersServiceCall() : null;
            }
 
@@ -142,12 +144,14 @@ class Main extends Component {
       .catch(function (error) {
         console.log('error in /jobpostinginfo ', error);
         self.setState({loadingMessage: 'Error Loading Data...'});
+        self.handleLoadingClose();
       });
   }
 
-matchingRateServiceCall = async () =>{
+matchingRateServiceCall =  () =>{
+  this.props.loadingRef(true,"Generating Matching Rate List...");
    var self=this;
-  await axios.get('http://myjobtank.com:8087/listofmatchedresumes/'+this.props.jobID)
+   axios.get('http://myjobtank.com:8087/listofmatchedresumes/'+this.props.jobID)
       
       .then(function (response) {
         console.log("heres the response from /listofmatchedresumed", response);
@@ -157,11 +161,15 @@ matchingRateServiceCall = async () =>{
            if(self.state.isMounted){
             self.setState({ matchedRateList: response.data["Data"]});
             console.log("success in /matchedRateList", response.data["Data"]);
+
+            self.handleLoadingClose();
           }
         }
       })
       .catch(function (error) {
         console.log('error in /matchedRateList ', error);
+         self.setState({loadingMessage: 'Error Loading Matching Rate Service Data...'});
+         self.handleLoadingClose();
         
       });
 
@@ -310,17 +318,26 @@ handleAssignRecruiter (event){
 
   editJobDescription = () =>{
 
+    console.log("validating jobdata before routing to edit job posting", this.state.jobData);
+
     this.state.jobDataPulled == true ?  history.push('/add-job', {jobData: this.state.jobData }) : history.push('/add-job');
   }
 
+    handleLoadingClose = () =>{
+
+   
+    setTimeout(
+    () => {
+        this.props.loadingRef(false,"Loading...");
+    }
+    ,
+    500
+);
+  };
+
   render() {
     return (
-      <LoadingOverlay
-                        active={this.state.loading}
-                        spinner
-                        text={this.state.loadingMessage}
-                        
-                        >
+    <div>
 
     <Dialog
         open={this.state.dialogOpen}
@@ -438,12 +455,12 @@ handleAssignRecruiter (event){
                 <ChecklistSection
                   subheading="Benefits"
                   labels={[
-                    this.state.jobData["Commission"] === true ? "Commmission":"0",
-                    this.state.jobData["Bonuses"] === true? "Bonuses":"0",
-                    this.state.jobData["OvertimePay"] === true? "Overtime Pay":"0",
-                    this.state.jobData["TravelMealHousingAllowance"] === true? "Travel / Meal / Housing Allowance":"0",
-                    this.state.jobData["HealthBenefits"] === true? "Health Benefits":"0",
-                    this.state.jobData["Wellness"] === true? "Wellness":"0",
+                    this.state.jobData["Commission"] === "true" ? "Commmission":"0",
+                    this.state.jobData["Bonuses"] === "true"? "Bonuses":"0",
+                    this.state.jobData["OvertimePay"] === "true"? "Overtime Pay":"0",
+                    this.state.jobData["TravelMealHousingAllowance"] === "true"? "Travel / Meal / Housing Allowance":"0",
+                    this.state.jobData["HealthBenefits"] === "true"? "Health Benefits":"0",
+                    this.state.jobData["Wellness"] === "true" ? "Wellness":"0",
                     
                   ]}
                 />
@@ -477,7 +494,7 @@ handleAssignRecruiter (event){
           </Grid>
         </Grid>
       </div>
-      </LoadingOverlay>
+</div>
     );
   }
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { withCookies } from 'react-cookie';
 import { Router, Route, Switch } from "react-router-dom";
+import {connect} from "react-redux";
+
 import indexRoutes from "routes/index.jsx";
 import {AddPropsToRoute} from "variables/general.jsx";
 import {ProtectedRoute} from "routes/ProtectedRoute.js";
@@ -8,6 +10,7 @@ import Dashboard from "layouts/Dashboard.jsx";
 import Pages from "layouts/Pages.jsx";
 import { createBrowserHistory } from "history";
 import hist from 'index.js';
+import LoadingOverlay from 'react-loading-overlay';
 function AddExtraProps(Component, extraProps) {
     return <Component.type {...Component.props} {...extraProps}/>
   }
@@ -18,12 +21,16 @@ class App extends React.Component {
 
     console.log("checking initial hist", hist, this.props.location);
 
-   
-   var bool = this.checkCookieExpiration();
+   let cookieProp = {"cookies": props.cookies};
+   let bool = this.checkCookieExpiration();
+   let LoginComponent = AddPropsToRoute(AddPropsToRoute(Pages,cookieProp),{"appRef": this});
+   let DashboardComponent = AddPropsToRoute(AddPropsToRoute(Dashboard,cookieProp),{"appRef": this});
 
     this.state = {
       loggedIn:  bool,
-      prevLocation: this.props.location,
+      prevLocation: props.location,
+      LoginComponent: LoginComponent,
+      DashboardComponent: DashboardComponent,
 
     }
 
@@ -75,20 +82,43 @@ handleLogOut = () =>{
 
 }
 render() {
-   var cookieProp = {"cookies": this.props.cookies};
+   
+
+
    const self = this;
       return (
+       <LoadingOverlay
+                active={this.props.loading}
+                spinner
+                text={this.props.loadingMessage}
+                classNamePrefix="MyLoader_"
+                >
        <Router history={hist}>
          <Switch>
-          <Route path={'/pages'}  appRef={self} component={ AddPropsToRoute(AddPropsToRoute(Pages,cookieProp),{"appRef": self})} key={'/pages'} />
-          <ProtectedRoute path={'/'} loggedIn={this.state.loggedIn} component={ AddPropsToRoute(AddPropsToRoute(Dashboard,cookieProp),{"appRef": self})} key={'/'} />
+          <Route path={'/pages'}  appRef={self} component={ this.state.LoginComponent} key={'/pages'} />
+          <ProtectedRoute path={'/'} loggedIn={this.state.loggedIn} component={ this.state.DashboardComponent} key={'/'} />
 
          
 
         </Switch>
      </Router>
+    </LoadingOverlay>
     );
    }
   }
+const mapStateToProps = ({loadingOverlay}) => {
+  return{
+    loading: loadingOverlay.loading,
+    loadingMessage: loadingOverlay.loadingMessage,
 
-  export default withCookies(App);
+
+
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+  loading_handler: (loadingMessage) => dispatch({ type: "LOADING_TRUE", payload: loadingMessage})
+});
+
+
+  export default connect(mapStateToProps, mapDispatchToProps) (withCookies(App));

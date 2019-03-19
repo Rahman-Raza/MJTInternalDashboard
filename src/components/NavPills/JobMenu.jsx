@@ -23,7 +23,7 @@ const styles = {
         fontSize: 30,
         position: "absolute",
         right: "31px",
-        top: "21px"
+        top: "10px"
     },
     menuItemStyle: {
         color: "#00ADF3"
@@ -107,8 +107,8 @@ sendResume = (resume) =>{
                     classes={{
                         root: classes.addIconStyle
                     }}
-                    aria-owns={anchorEl ? "simple-menu" : null}
-                    aria-haspopup="true"
+                   
+                    
                     onClick={this.handleClick}
                 />
                 <Menu

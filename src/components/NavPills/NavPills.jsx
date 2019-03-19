@@ -14,6 +14,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 
 // local components
 import JobMenu from "./JobMenu.jsx";
+import FilterJobs from "./FilterJobs.jsx";
 
 import navPillsStyle from "assets/jss/material-dashboard-pro-react/components/navPillsStyle.jsx";
 
@@ -92,7 +93,9 @@ class NavPills extends React.Component {
             />
           );
         })}
-        <JobMenu loadingRef={this.props.loadingRef} />
+       
+        <FilterJobs filterJobs={this.props.filterJobs} />
+         <JobMenu loadingRef={this.props.loadingRef} />
       </Tabs>
     );
     const tabContent = (
@@ -132,6 +135,7 @@ NavPills.defaultProps = {
 };
 
 NavPills.propTypes = {
+  filterJobs: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   // index of the default active pill
   active: PropTypes.number,

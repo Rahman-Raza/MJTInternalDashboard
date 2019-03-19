@@ -129,8 +129,8 @@ class AddAJob extends React.Component {
         let language;
         let requiredskills;
 
-       formData['Language'].length  ? language =   formData['Language'] : language =  formData['Language'] ;
-        formData['RequiredSkills'].length ?  requiredskills =  formData['RequiredSkills']  : requiredskills =  formData['RequiredSkills'] ; 
+       formData['Language'].length  ? language =   JSON.parse(formData['Language']) : language =  formData['Language'] ;
+        formData['RequiredSkills'].length ?  requiredskills =  JSON.parse(formData['RequiredSkills'])  : requiredskills =  formData['RequiredSkills'] ; 
       
 
         console.log("checking language and requiredskills", language, requiredskills)
@@ -140,14 +140,14 @@ class AddAJob extends React.Component {
 
         requiredskills.length > 0 ? formData['RequiredSkills'] = requiredskills : formData['RequiredSkills'] = [];
 
-         formData['Bonuses'] = props.location.state.jobData['Bonuses'];
-         formData['Commission'] = props.location.state.jobData['Commission'];
-         formData['HealthBenefits'] = props.location.state.jobData['HealthBenefits'];
-         formData['OvertimePay'] = props.location.state.jobData['OvertimePay'];
-         formData['TravelMealHousingAllowance'] = props.location.state.jobData['TravelMealHousingAllowance'];
-         formData['Wellness'] = props.location.state.jobData['Wellness'];
+         formData['Bonuses'] = Boolean(props.location.state.jobData['Bonuses']);
+         formData['Commission'] = Boolean(props.location.state.jobData['Commission']);
+         formData['HealthBenefits'] = Boolean(props.location.state.jobData['HealthBenefits']);
+         formData['OvertimePay'] = Boolean(props.location.state.jobData['OvertimePay']);
+         formData['TravelMealHousingAllowance'] = Boolean(props.location.state.jobData['TravelMealHousingAllowance']);
+         formData['Wellness'] = Boolean(props.location.state.jobData['Wellness']);
 
-
+         console.log("checking new jobData formData", formData);
     }
 
     else{
@@ -156,7 +156,7 @@ class AddAJob extends React.Component {
                 SalaryRange: ' ',
                 WorkExperience: ' ',
                 CompanyName: ' ',
-                CompanySize: ' ',
+                CompanySize: '',
                 JobPosition: ' ',
                 Location: ' ',
                 Summary: ' ',
@@ -200,7 +200,9 @@ class AddAJob extends React.Component {
          submitForm["RequiredSkills"] = JSON.stringify(this.SkillsContainer.returnInfo());
 
          for (var key in benefits){
-            submitForm[key] = benefits[key];
+
+          console.log("key in benefit", key, benefits[key]);
+            submitForm[key] = JSON.stringify(benefits[key]);
          }
 
          console.log("checking final form", submitForm);
@@ -251,6 +253,8 @@ class AddAJob extends React.Component {
       })
       .catch(function (error) {
         console.log('error in /jobposting ', error);
+         self.setState({loadingMessage: "There was an issue with your submission. Please try again."});
+        self.handleLoadingCloseError();
       });
   }
 
@@ -475,7 +479,7 @@ handleLoadingClose = () =>{
                                  
                                     id="textarea"
                                     multiline
-                                    rows="4"
+                                    
                                     margin="normal"
                                     value={formData.Summary}
                                     name="Summary"
@@ -525,14 +529,14 @@ handleLoadingClose = () =>{
                              onRef={(ref) => {this.LanguagesContainer = ref}}
                                 title="Languages"
                                 dataType="Languages"
-                                defaultValues={formData['Language'].length > 0 ? formData['Language'] : ["English", "Spanish"]}
+                                defaultValues={formData['Language'].length > 0 ? formData['Language'] : []}
                             />
 
                             <RatedInputContainer
                             onRef={(ref) => {this.SkillsContainer = ref}}
                                 title="Key Skills"
                                 dataType="Skills"
-                                defaultValues={formData['RequiredSkills'].length > 0 ? formData['RequiredSkills'] : ["Python", "JavaScript"]}
+                                defaultValues={formData['RequiredSkills'].length > 0 ? formData['RequiredSkills'] : []}
                             />
 
                             <Divider style={styles.divider} />
@@ -544,32 +548,32 @@ handleLoadingClose = () =>{
             {
               name: "OvertimePay",
               label: "Overtime",
-              checked: formData['OvertimePay'],
+              checked:false,
             },
             {
               name: "Commission",
               label: "Commission",
-              checked: formData['Commission'], 
+              checked: false, 
             },
             {
               name: "Bonuses",
               label: "Bonuses",
-              checked: formData['Bonuses'],
+              checked: false,
             },
             {
               name: "HealthBenefits",
               label: "Health Benefits",
-              checked: formData['HealthBenefits'],
+              checked:false,
             },
             {
               name: "Wellness",
               label: "Wellness",
-              checked: formData['Wellness']
+              checked: false
             },
             {
               name: "TravelMealHousingAllowance",
               label: "Travel / Meal / Housing Allowance",
-              checked: formData['TravelMealHousingAllowance'],
+              checked: false,
             }
           ]}/>
                           

@@ -70,13 +70,15 @@ class BenefitsSection extends React.Component {
   }
 
     render() {
+
+        const {formData} = this.state;
         return (
             <section>
                 {this.state.inputs.map((current, index) => (
                     <article key={index} style={styles.checkboxContainer}>
                         <Checkbox
                             id={current.name}
-                            checked={this.state.formData[current.name]}
+                            checked={formData[current.name]}
                             name={current.name}
                             onChange={this.handleChange}
                             checkedIcon={

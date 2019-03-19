@@ -10,6 +10,7 @@ import Icon from "@material-ui/core/Icon";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
+import {connect} from "react-redux";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -32,11 +33,14 @@ class LoginPage extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
+      isMounted: true,
       loading: false,
       loadingMessage: "Logging In..."
     };
   }
   componentDidMount() {
+    console.log("login did mount");
+     this.setState({isMounted: true});
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
       function() {
@@ -44,10 +48,17 @@ class LoginPage extends React.Component {
       }.bind(this),
       700
     );
+
+   
+  }
+
+  componentDidUpdate(){
+
   }
   componentWillUnmount() {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
+    
   }
 
   handleSubmit = (event) =>{
@@ -76,6 +87,8 @@ class LoginPage extends React.Component {
     const self = this;
     const { cookies } = this.props;
     console.log("checking cookie in /sendData function of login page", cookies);
+
+     self.dispatchLoading("Logging in...",true);
    await axios ("http://myjobtank.com:8087/login",{
    method: 'post',
    data:  form,
@@ -90,14 +103,18 @@ class LoginPage extends React.Component {
         console.log("checking cookies", cookies.getAll());
         
         if(response["status"]  == 200){
-          console.log("sucessfull call to /login");
-          self.setState({loading: true});
 
-          //history.push('/dashboard');
-         cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (10 * 60)});
-
-          self.handleLogin();
           
+            console.log("sucessfull call to /login");
+           
+
+            //history.push('/dashboard');
+            cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (24 * 60 * 60)});
+
+            self.handleLogin();
+             self.handleLoadingClose();
+          
+        
 
         }
       })
@@ -108,24 +125,17 @@ class LoginPage extends React.Component {
       });
   }
   handleLoadingClose = () =>{
-    setTimeout(
-    function() {
-        this.setState({loading: false, loadingMessage: 'Loading...'});
-    }
-    .bind(this),
-    3000
-);
-    
+   this.dispatchLoading("Loading", false);
   }
 
   handleLogin = () => {
- console.log("checking this.props.location", this.props.location);
- console.log("checking appRef", this.props.appRef);
-
- console.log("running appRef.printTest", this.props.appRef.printTest("abs123"));
 
  this.props.appRef.handleLoginTrue();
-};
+}
+
+dispatchLoading = (loadingMessage, loading) =>{
+  loading == true ? this.props.loading_handler_true(loadingMessage) : this.props.loading_handler_false();
+}
   render() {
     const { classes,cookies } = this.props;
     return (
@@ -133,12 +143,7 @@ class LoginPage extends React.Component {
         <GridContainer justify="center">
         
           <GridItem xs={12} sm={6} md={4}>
-          <LoadingOverlay
-                active={this.state.loading}
-                spinner
-                text={this.state.loadingMessage}
-                classNamePrefix="MyLoader_"
-                >
+         
             <form onSubmit={this.handleSubmit}>
               <Card login className={classes[this.state.cardAnimaton]}>
               
@@ -210,7 +215,7 @@ class LoginPage extends React.Component {
                 
               </Card>
             </form>
-            </LoadingOverlay>
+           
           </GridItem>
           
         </GridContainer>
@@ -223,4 +228,15 @@ LoginPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(loginPageStyle)(LoginPage);
+const mapStateToProps = (state) => {
+  return {
+    loadingOverlay: state.loadingOverlay
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  loading_handler_true: (loadingMessage) => dispatch({ type: "LOADING_TRUE", payload: loadingMessage}),
+  loading_handler_false: () => dispatch ({type: "LOADING_FALSE"})
+});
+
+export default connect(mapStateToProps,mapDispatchToProps) (withStyles(loginPageStyle)(LoginPage));

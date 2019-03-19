@@ -40,6 +40,8 @@ import LocalSearch from "./Search.js";
 import Pagination from "react-js-pagination";
 import LoadingOverlay from 'react-loading-overlay';
 import history from 'index.js';
+import {connect} from "react-redux";
+
 const us_flag = require("assets/img/flags/US.png");
 const de_flag = require("assets/img/flags/DE.png");
 const au_flag = require("assets/img/flags/AU.png");
@@ -187,11 +189,11 @@ class Dashboard extends React.Component {
   }
  
 
-  reloadPageData = (url) =>{
+  reloadPageData = async (url) =>{
 var self = this;
 
 this.setState({loading: true});
-    axios.get(url)
+   await axios.get(url)
       
       .then(function (response) {
         console.log("heres the response from axios pagination call in reload data", response);
@@ -252,7 +254,7 @@ this.setState({loading: true});
   handleAssignedJobPostingsData = (data) =>{
 
      
-     console.log("checking job postings items", data);
+     console.log("checking job postings items assigned", data);
 
      let assignedOpenings = [];
 
@@ -265,7 +267,7 @@ this.setState({loading: true});
      }
 
 
-   this.setState({assignedOpenings: assignedOpenings});
+   this.setState({assignedOpenings: data});
 
   }
   componentDidMount = () =>{
@@ -279,15 +281,25 @@ this.setState({loading: true});
 
   }
 
-  fetchData = async (positionStatus) =>{
+  fetchData = async (positionStatus="", filter=null) =>{
+
+    let getURL = '';
+
+    positionStatus.length>0 ?  getURL = filter ? 'http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0' 
+
+                  : getURL =  'http://myjobtank.com:8087/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword
+
+     
 
    
    try{ 
 
       var self=this;
 
+      //this.dispatchLoading("Loading Check", true);
+
       this.setState({loading: true, positionStatus: positionStatus});
-       await axios.get('http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0')
+       await axios.get(getURL)
         
         .then(function (response) {
           console.log("heres the response from axios pagination call", response);
@@ -365,12 +377,15 @@ this.setState({loading: true});
 
     switch(index){
       case 0:
+      this.setState({positionStatus: 'New'});
         this.fetchData('New');
         break;
       case 1:
+        this.setState({positionStatus: 'Open'});
         this.fetchData('Open');
         break;
       case 2:
+      this.setState({positionStatus: 'Closed'});
         this.fetchData('Closed');
         break;
       case 3:
@@ -532,6 +547,10 @@ this.setState({loading: true});
     return newTime;
 
   }
+
+  dispatchLoading = (loadingMessage, loading) =>{
+  loading == true ? this.props.loading_handler_true(loadingMessage) : this.props.loading_handler_false();
+}
   
 
   render() {
@@ -540,12 +559,13 @@ this.setState({loading: true});
     const self = this;
     return (
       <div>
-      <LoadingOverlay
-        active={this.state.loading}
-        spinner
-        text={this.state.loadingMessage}
-        classNamePrefix="MyLoader_"
-        >
+       <LoadingOverlay
+                active={this.state.loading}
+                spinner
+                text={this.state.loadingMessage}
+                classNamePrefix="MyLoaderDashboard_"
+                >
+      
         <AddJob open={this.state.open} onClose={this.handleClose} />
 
         <Section
@@ -572,6 +592,7 @@ this.setState({loading: true});
                     color="warning"
                     loadingRef={self}
                     changeNavPill={this.changeNavPill}
+                    filterJobs={this.fetchData}
                     tabs={[
                       {
                         tabButton: "New Positions",
@@ -731,7 +752,7 @@ this.setState({loading: true});
           </GridContainer>
         </Section>
 
-        </LoadingOverlay>
+       </LoadingOverlay>
       </div>
     );
   }
@@ -741,4 +762,15 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+const mapStateToProps = (state) => {
+  return {
+    loadingOverlay: state.loadingOverlay
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  loading_handler_true: (loadingMessage) => dispatch({ type: "LOADING_TRUE", payload: loadingMessage}),
+  loading_handler_false: () => dispatch ({type: "LOADING_FALSE"})
+});
+
+export default connect(mapStateToProps,mapDispatchToProps) (withStyles(dashboardStyle)(Dashboard));

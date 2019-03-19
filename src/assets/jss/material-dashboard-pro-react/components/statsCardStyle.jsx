@@ -28,25 +28,29 @@ const statsCardStyle = {
   ...card,
     backgroundColor: "#4481EB",
     borderRadius: "4px",
-    minHeight: "300px"
+    minHeight: "300px",
+    cursor: "pointer",
   },
   cardClosed:{
   ...card,
     backgroundColor: "#5D5D5D",
     borderRadius: "4px",
-    minHeight: "300px"
+    minHeight: "300px",
+    cursor: "pointer",
   },
   cardAssigned: {
   ...card,
     backgroundColor: StatsCardBackground,
     borderRadius: "4px",
-    minHeight: "300px"
+    minHeight: "300px",
+    cursor: "pointer",
   },
   card: {
     ...card,
     backgroundColor: StatsCardBackground,
     borderRadius: "4px",
-    minHeight: "300px"
+    minHeight: "300px",
+    cursor: "pointer",
   },
   cardHeader: {
     ...cardHeader,

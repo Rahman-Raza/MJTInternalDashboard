@@ -5,8 +5,20 @@ LEVEL 0. RESET BROWSER'S STYLES
 */
 
 
-.MyLoader_wrapper{
-  z-index: 1;
+.MyLoaderDashboard_wrapper{
+ z-index: 1;
+}
+.MyLoaderDashboard_overlay{
+  position: fixed;
+}
+.MyLoader_overlay{
+  position: fixed;
+
+}
+.MyLoader_content{
+  position: fixed;
+  top: 60%;
+  left: 45%;
 }
 .pagination__list {
   padding-left: 0;
