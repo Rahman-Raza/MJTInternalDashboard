@@ -1,32 +1,29 @@
 
 
-export  function decompose_show(episodes){
+export  function decompose_data(data){
 
 	//organzie and optimize API call data here
+	try{
 
-	console.log("checking episodes object", episodes);
+		let arrMap = data.map( (ele, index) => {
+			return [ele.payload]
+		}).reduce ( (accumulator, v, i) =>{
+			return accumulator + v * i
+		});
 
-	let seasons = [];
-	let seasonCount = 0;
+
+
+		}
+		catch(error){
+			console.log("error in seasons.reduce", error);
+		}
 
 
 
-		try{
 
-		seasonCount = episodes[episodes.length-1]['season'];
-	 	seasons = episodes.reduce((obj,v,i) =>{
-			obj[v.season] = obj[v.season] || [];
-			obj[v.season].push(v);
-			return obj;
-		}, {})
-	}
-	catch(error){
-		console.log("error in seasons.reduce", error);
-	}
-	
 
-		console.log("debugging decompose_show",seasons);
-	return {
-		seasons: seasons, seasonCount: seasonCount, 
-	}
+		console.log("debugging decompose_show",data);
+	// return {
+	// 	[...data, data +  arrMap]
+	// }
 }

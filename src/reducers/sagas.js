@@ -2,8 +2,13 @@ import { takeLatest, call, put } from "redux-saga/effects";
 
 import { decompose_show} from "./helpers.js";
 
+import axios from "axios";
+
+
+
 // function that makes the api request and returns a Promise for response
-const apiFetchCall = (url) => fetch(url).then(response => response.json())
+const apiFetchCall = (url,data,config) => axios({method: config.method, headers: config.headers, url: url, data: data}).then( (response) =>  {console.log("sucessfull call to to API SAGA");
+return response});
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* watcherSaga() {
@@ -20,40 +25,24 @@ function* workerSaga(action) {
   try {
 
 
-    const response = yield call(apiFetchCall, action.payload);
+    const response = yield call(apiFetchCall, action.url, action.data, action.config);
     console.log("here is the response data", response);
 
 
-    let decomposition = response._embedded.episodes ? decompose_show(response._embedded.episodes) : {};
-    
-    let seasonCount = decomposition.seasonCount ? decomposition.seasonCount : 0;
-    
-    let seasons = decomposition.seasons ? decomposition.seasons : [];
 
-    let tvShow = {
-      title: 'something',
-      summary: 'another thing',
-      imgURL: 'url here',
-
-
-    }
 
     console.log("checking workerSaga", response);
 
 
+    yield put({ type: "API_CALL_SUCCESS", response});
 
-    // dispatch a success action to the store with the new tvShow Data
-    yield put({ type: "API_CALL_SUCCESS", tvShow, seasonCount });
-    yield put({ type: "ADD_SEASONS", seasons });
-    
     let seasonNumber = 1;
-    yield put({ type: "DISPLAY_SEASON", seasonNumber });
 
     //
-   
 
 
-  
+
+
   } catch (error) {
     // dispatch a failure action to the store with the error
     console.log("checking error", error);

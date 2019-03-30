@@ -3,26 +3,26 @@ import createSagaMiddleware from 'redux-saga';
 import { combineReducers } from 'redux'
 
 
-import {authentication} from '../reducers/authentication.js';
+import {api_reduc} from '../reducers/api_reduc.js';
 import {loadingOverlay} from '../reducers/loadingOverlay.js';
 
 
 const sagaMiddleWare = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-	authentication,loadingOverlay
+	api_reduc,loadingOverlay
 })
 
 
 export const configureStore = (initialState={}) =>{
 
 
- return { 
- 	store: 
+ return {
+ 	store:
  	createStore(
    			rootReducer,
    			compose( applyMiddleware(sagaMiddleWare) )),
- 				
+
  				sagaMiddleWare: sagaMiddleWare,
 
 	}

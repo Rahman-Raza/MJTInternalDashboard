@@ -31,10 +31,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Drawer from '@material-ui/core/Drawer';
+
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationImportant from '@material-ui/icons/NotificationImportant';
 
 
 class HeaderLinks extends React.Component {
   state = {
+    notificationOpen: false,
     open: false,
     dialogOpen: false,
     loading: false,
@@ -58,7 +69,15 @@ class HeaderLinks extends React.Component {
     .bind(this),
     3000
 );
+
+
   }
+
+  toggleDrawer = (side, open) => () => {
+     this.setState({
+       [side]: open,
+     });
+   };
   render() {
     const self = this;
     const { classes, rtlActive } = this.props;
@@ -82,8 +101,43 @@ class HeaderLinks extends React.Component {
     const managerClasses = classNames({
       [classes.managerClasses]: true
     });
+    const sideList = (
+      <div className={classes.list}>
+        <List>
+          {['Messages', 'Assignments', 'Drafts'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {[{'text': "Notification One", 'data': null}, {'text': "Notification Two", 'data': null}, {'text': "Notification Three", 'data': null}].map((notification, index) => (
+            <ListItem button key={notification.text}>
+              <ListItemIcon>{<NotificationImportant/>}</ListItemIcon>
+              <ListItemText primary={notification.text} />
+
+
+            </ListItem>
+          ))}
+
+
+        </List>
+      </div>
+    );
     return (
       <div className={wrapper}>
+      <Drawer anchor="right" open={this.state.notificationOpen} onClose={this.toggleDrawer('notificationOpen', false)}>
+         <div
+           tabIndex={0}
+           role="button"
+           onClick={this.toggleDrawer('notificationOpen', false)}
+           onKeyDown={this.toggleDrawer('notificationOpen', false)}
+         >
+           {sideList}
+         </div>
+       </Drawer>
        <Dialog
           open={this.state.dialogOpen}
           onClose={this.handleClose}
@@ -95,14 +149,14 @@ class HeaderLinks extends React.Component {
         text={this.state.loadingMessage}
         classNamePrefix="MyLoader_"
         >
-          
+
           <DialogContent>
             <RegisterForm loadingRef={self} />
           </DialogContent>
         </LoadingOverlay>
         </Dialog>
-       
-       
+
+
         <div className={managerClasses}>
           <Button
             color="transparent"
@@ -110,7 +164,7 @@ class HeaderLinks extends React.Component {
             aria-label="Notifications"
             aria-owns={open ? "menu-list" : null}
             aria-haspopup="true"
-            onClick={this.handleClick}
+            onClick={this.toggleDrawer('notificationOpen', true)}
             className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
             muiClasses={{
               label: rtlActive ? classes.labelRTL : ""
@@ -200,8 +254,8 @@ class HeaderLinks extends React.Component {
             )}
           </Popper>
         </div>
-      
-       {  this.props.cookies.get('Role') == 'Admin'? 
+
+       {  this.props.cookies.get('Role') == 'Admin'?
         (<Button
           color="transparent"
           aria-label="Person"
@@ -225,8 +279,8 @@ class HeaderLinks extends React.Component {
 
 
            <Button onClick={this.props.appRef.handleLogOut} className={classes.button}>Log Out</Button>
-        
-        
+
+
       </div>
     );
   }

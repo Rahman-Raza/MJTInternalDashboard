@@ -119,19 +119,19 @@ class Main extends Component {
    componentDidMount = async () =>{
       var self=this;
 
- 
+
 
     this.setState({ isMounted: true});
     this.props.loadingRef(true,"Loading Job Data...");
     await axios.get('http://myjobtank.com:8087/jobpostinginfo/'+this.props.jobID)
-      
+
       .then(function (response) {
         console.log("heres the response from /jobpostinginfo", response);
-        
+
         if(response["status"]  == 200){
 
            if(self.state.isMounted){
-           
+
 
             console.log("success in /jobpostinginfo", response.data["Data"]);
              self.matchingRateServiceCall();
@@ -152,10 +152,10 @@ matchingRateServiceCall =  () =>{
   this.props.loadingRef(true,"Generating Matching Rate List...");
    var self=this;
    axios.get('http://myjobtank.com:8087/listofmatchedresumes/'+this.props.jobID)
-      
+
       .then(function (response) {
         console.log("heres the response from /listofmatchedresumed", response);
-        
+
         if(response["status"]  == 200){
 
            if(self.state.isMounted){
@@ -170,7 +170,7 @@ matchingRateServiceCall =  () =>{
         console.log('error in /matchedRateList ', error);
          self.setState({loadingMessage: 'Error Loading Matching Rate Service Data...'});
          self.handleLoadingClose();
-        
+
       });
 
 }
@@ -178,14 +178,14 @@ matchingRateServiceCall =  () =>{
 viewRecruitersServiceCall = async () =>{
    var self=this;
   await axios.get('http://myjobtank.com:8087/viewrecruiters')
-      
+
       .then(function (response) {
         console.log("heres the response from /viewrecriiters", response);
-        
+
         if(response["status"]  == 200){
 
           if(self.state.isMounted){
-              
+
                 console.log("success in /viewrecruiters", response.data["Data"]);
                 self.setState({ recruiterList: response.data["Data"]});
               }
@@ -194,40 +194,44 @@ viewRecruitersServiceCall = async () =>{
       })
       .catch(function (error) {
         console.log('error in /viewrecruietrs ', error);
-        
+
       });
 
 }
+
+
+
+
 
 matchRecruiterServiceCall = async (recruiterName) =>{
 
    var self=this;
 
-  
+
   await axios.post('http://myjobtank.com:8087/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
-      
+
       .then(function (response) {
         console.log("heres the response from /assignJobOrder", response);
-        
+
         if(response["status"]  == 200){
 
           if(self.state.isMounted){
-              
+
                 console.log("success in /assignJobOrder", response.data["Data"]);
 
-               
+
               }
 
         }
       })
       .catch(function (error) {
         console.log('error in /assignJobOrder ', error);
-        
+
       });
 
 
 }
- 
+
 
   toggleResume(resumeID) {
     console.log("checking resumeID", resumeID);
@@ -246,7 +250,7 @@ handleAssignRecruiter (event){
  handleClose = () => {
     this.setState({ dialogOpen: false});
   };
-  
+
   handleToggle = value => () => {
     const { checked } = this.state;
     const currentIndex = checked.indexOf(value);
@@ -292,11 +296,11 @@ handleAssignRecruiter (event){
     self.setState({matchRecruiterLoading: true});
 
     console.log("checking checked values", this.state.checked);
-    
+
      setTimeout(
     function() {
 
-      
+
         self.setState({matchRecruiterLoading: false});
         self.handleClose();
 
@@ -325,7 +329,7 @@ handleAssignRecruiter (event){
 
     handleLoadingClose = () =>{
 
-   
+
     setTimeout(
     () => {
         this.props.loadingRef(false,"Loading...");
@@ -347,17 +351,17 @@ handleAssignRecruiter (event){
                         active={this.state.matchRecruiterLoading}
                         spinner
                         text={this.state.loadingMessageMatchRecruiter}
-                        
+
                         >
          <DialogContent style={{padding: "40px 60px"}}>
 
-         
+
                <Typography
                       variant="subheading"
                       gutterBottom
                       style={{ color: '#00ADF3', marginBottom:'10px' ,textAlign: "center", fontSize: "20px",}}
                     >
-                      
+
                       Match job with recruiters
                     </Typography>
 
@@ -366,7 +370,7 @@ handleAssignRecruiter (event){
                       gutterBottom
                       style={{ color: '#666666', marginBottom:'25px' ,textAlign: "center",fontSize: "15px",}}
                     >
-                      
+
                      Choose the recruiters you would like to assign this job posting too:
                     </Typography>
 
@@ -399,7 +403,7 @@ handleAssignRecruiter (event){
                     <Button onClick={this.handleSubmitMatchRecruiter}  color="rose" simple size="lg" block>
                         Match
                     </Button>
-         
+
          </DialogContent>
           </LoadingOverlay>
       </Dialog>
@@ -461,7 +465,7 @@ handleAssignRecruiter (event){
                     this.state.jobData["TravelMealHousingAllowance"] === "true"? "Travel / Meal / Housing Allowance":"0",
                     this.state.jobData["HealthBenefits"] === "true"? "Health Benefits":"0",
                     this.state.jobData["Wellness"] === "true" ? "Wellness":"0",
-                    
+
                   ]}
                 />
               </ContentSection>
@@ -470,9 +474,9 @@ handleAssignRecruiter (event){
 
           <Grid item sm={5}>
             <aside style={styles.sidebar} className="sidebar">
-              <h3 style={styles.sidebarHeading}>Matching Rate List</h3>
+              <h3 style={styles.sidebarHeading}>Top Candidates</h3>
               {
-                this.state.matchedRateList.length > 0 ? 
+                this.state.matchedRateList.length > 0 ?
               (
 
                this.state.matchedRateList.map((current, index) => {
@@ -481,14 +485,14 @@ handleAssignRecruiter (event){
                       key={current.ID}
                       resumeToggler={this.toggleResume}
                       percentage={current["ResumeScore"]}
-                      data={current} /> ) 
+                      data={current} /> )
                 })
-              
+
               )
               :
               ( <div style={{padding:"620px"}}> </div>)
-    
-              
+
+
               }
             </aside>
           </Grid>

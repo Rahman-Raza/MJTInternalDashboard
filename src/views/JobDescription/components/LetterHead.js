@@ -12,6 +12,14 @@ import Divider from "@material-ui/core/Divider";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import TagFacesIcon from '@material-ui/icons/TagFaces';
+import Chip from '@material-ui/core/Chip';
+const chipData = [{ key: 0, label: 'Jimmy' },
+      { key: 1, label: 'John' },
+      { key: 2, label: 'Jane' },
+      { key: 3, label: 'Jack' },
+      { key: 4, label: 'James' },];
 
 const styles = {
   letterhead: {},
@@ -45,10 +53,14 @@ const styles = {
   },
   headline: {},
   title: {},
+  margin: {
+    margin: "20px 0px",
+  },
   a: {
     color: "#00ADF3",
     fontSize: "14px",
-    textDecoration: "none"
+    textDecoration: "none",
+
   },
   iconStyle: {
     fontSize: 20,
@@ -65,18 +77,38 @@ const SubHeading = (
 );
 
 class LetterHead extends React.Component {
+  state = {
+   chipData: [
+     { key: 0, label: 'Jimmy' },
+           { key: 1, label: 'John' },
+           { key: 2, label: 'Jane' },
+           { key: 3, label: 'Jack' },
+   ],
+ };
+ handleDelete = data => () => {
+     if (data.label === 'React') {
+       alert('Why would you want to delete React?! :)'); // eslint-disable-line no-alert
+       return;
+     }
 
+     this.setState(state => {
+       const chipData = [...state.chipData];
+       const chipToDelete = chipData.indexOf(data);
+       chipData.splice(chipToDelete, 1);
+       return { chipData };
+     });
+   };
 
   render() {
     return (
       <section style={styles.letterhead}>
        <Grid container>
-          
+
           <Grid item md={9}>
             <div style={styles.infoContainer}>
           <Typography
-                
-                
+
+
                 style={{ color: 'rgb(0, 173, 243)', fontSize: '1.75rem' }}
               >
                Job description
@@ -86,10 +118,10 @@ class LetterHead extends React.Component {
           </Grid>
          <Divider inset style={{ margin: "20px" }} />
         <Grid container>
-          
+
           <Grid item md={9}>
             <div style={styles.infoContainer}>
-              
+
               <Typography
                 variant="title"
                 gutterBottom
@@ -109,28 +141,43 @@ class LetterHead extends React.Component {
                 <span>{this.props.jobData["Location"]}</span>
               </Typography>
 
-             {  this.props.cookieRole == 'Admin' ? 
+             {  this.props.cookieRole == 'Admin' ?
 
              (
               <div>
-                <div className="row"> 
-                  <IconButton style={{borderRadius: "0px"}}  onClick={this.props.handleAssignRecruiter}>
-                    
-                 
-                      <a style={styles.a} >
-                         Match Job with Recruiters
-                      </a>
-                 </IconButton>
+              <div className="row" style={{margin: "25px 0px"}}>
+             {
+               this.state.chipData.map( data => {
+                 let icon = <TagFacesIcon/>;
+
+                 return (<Chip
+             key={data.key}
+             icon={icon}
+             label={data.label}
+              onDelete={this.handleDelete(data)} />)
+               })
+             }
+             </div>
+                <div className="row" style={styles.margin}>
+                  <Button style={styles.a} variant="outlined"  onClick={this.props.handleAssignRecruiter}>
+
+
+
+                         Assign Job to Recruiter
+
+                 </Button>
                </div>
-              <div className="row"> 
-                 <IconButton style={{borderRadius: "0px"}}  onClick={this.props.editJobDescription}>
-                    
-                 
-                      <a style={styles.a} >
+              <div className="row" style={styles.margin}>
+                 <Button style={styles.a} variant="outlined"  onClick={this.props.editJobDescription}>
+
+
+
                          Edit Job Description
-                      </a>
-                 </IconButton>
+
+                 </Button>
                </div>
+
+
              </div>
 
              )

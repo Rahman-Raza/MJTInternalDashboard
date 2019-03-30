@@ -28,13 +28,14 @@ class App extends React.Component {
 
     this.state = {
       loggedIn:  bool,
-      prevLocation: props.location,
+      prevLocation: hist.location.pathname,
+      prevState: hist.location.state,
       LoginComponent: LoginComponent,
       DashboardComponent: DashboardComponent,
 
     }
 
-    
+
 
   }
 
@@ -61,17 +62,20 @@ componentWillUnmount = () =>{
 
   printTest = (string) =>{
     console.log("got to printTest", string);
-    
+
   }
 handleLoginTrue = () =>{
   console.log("got to handleLoginTrue");
-  const  prevLocation  = this.state.prevLocation;
+  const  prevLocation  = this.state.prevLocation != '/pages/login-page' ? this.state.prevLocation : '/dashboard';
+
+  console.log("checking prevLocation", prevLocation);
+  const prevState = this.state.prevState;
   this.setState(
     {
       loggedIn: true,
     },
     () => {
-      hist.push(prevLocation || "/dashboard");
+      hist.push((prevLocation || "/dashboard"),prevState);
     },
   );
 }
@@ -82,7 +86,7 @@ handleLogOut = () =>{
 
 }
 render() {
-   
+
 
 
    const self = this;
@@ -98,7 +102,7 @@ render() {
           <Route path={'/pages'}  appRef={self} component={ this.state.LoginComponent} key={'/pages'} />
           <ProtectedRoute path={'/'} loggedIn={this.state.loggedIn} component={ this.state.DashboardComponent} key={'/'} />
 
-         
+
 
         </Switch>
      </Router>

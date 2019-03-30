@@ -49,7 +49,7 @@ class LoginPage extends React.Component {
       700
     );
 
-   
+
   }
 
   componentDidUpdate(){
@@ -58,7 +58,7 @@ class LoginPage extends React.Component {
   componentWillUnmount() {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
-    
+
   }
 
   handleSubmit = (event) =>{
@@ -89,40 +89,46 @@ class LoginPage extends React.Component {
     console.log("checking cookie in /sendData function of login page", cookies);
 
      self.dispatchLoading("Logging in...",true);
-   await axios ("http://myjobtank.com:8087/login",{
-   method: 'post',
-   data:  form,
-   headers: {
-        'content-type': 'multipart/form-data'
-      }
-
- })      
-      .then(function (response) {
-        console.log("heres the response from /loginseven", response);
-        cookies.set(response.headers["x-cookie-header"]);
-        console.log("checking cookies", cookies.getAll());
-        
-        if(response["status"]  == 200){
-
-          
-            console.log("sucessfull call to /login");
-           
-
-            //history.push('/dashboard');
-            cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (24 * 60 * 60)});
-
-            self.handleLogin();
-             self.handleLoadingClose();
-          
-        
-
-        }
-      })
-      .catch(function (error) {
-        console.log('error in /login ', error);
-        self.setState({loadingMessage: 'There was an issue with your login.  Please try again.'});
-        self.handleLoadingClose();
-      });
+     let config = {'headers': {
+          'content-type': 'multipart/form-data'
+        },
+        'method': 'post',
+      };
+     await this.props.dispatch_login_api("http://myjobtank.com:8087/login", form, config)
+ //   await axios ("http://myjobtank.com:8087/login",{
+ //   method: 'post',
+ //   data:  form,
+ //   headers: {
+ //        'content-type': 'multipart/form-data'
+ //      }
+ //
+ // })
+ //      .then(function (response) {
+ //        console.log("heres the response from /loginseven", response);
+ //        cookies.set(response.headers["x-cookie-header"]);
+ //        console.log("checking cookies", cookies.getAll());
+ //
+ //        if(response["status"]  == 200){
+ //
+ //
+ //            console.log("sucessfull call to /login");
+ //
+ //
+ //            //history.push('/dashboard');
+ //            cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (24 * 60 * 60)});
+ //
+ //            self.handleLogin();
+ //             self.handleLoadingClose();
+ //
+ //
+ //
+ //        }
+ //      })
+ //      .catch(function (error) {
+ //        console.log('error in /login ', error);
+ //        self.setState({loadingMessage: 'There was an issue with your login.  Please try again.'});
+ //        self.handleLoadingClose();
+ //      });
   }
   handleLoadingClose = () =>{
    this.dispatchLoading("Loading", false);
@@ -141,12 +147,12 @@ dispatchLoading = (loadingMessage, loading) =>{
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
-        
+
           <GridItem xs={12} sm={6} md={4}>
-         
+
             <form onSubmit={this.handleSubmit}>
               <Card login className={classes[this.state.cardAnimaton]}>
-              
+
                 <CardHeader
                   className={`${classes.cardHeader} ${classes.textCenter}`}
                   color="rose"
@@ -172,7 +178,7 @@ dispatchLoading = (loadingMessage, loading) =>{
                   </div>
                 </CardHeader>
                 <CardBody>
-                
+
                   <CustomInput
                     labelText="Email..."
                     id="email"
@@ -212,12 +218,12 @@ dispatchLoading = (loadingMessage, loading) =>{
                     Let's Go
                   </Button>
                 </CardFooter>
-                
+
               </Card>
             </form>
-           
+
           </GridItem>
-          
+
         </GridContainer>
       </div>
     );
@@ -236,7 +242,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   loading_handler_true: (loadingMessage) => dispatch({ type: "LOADING_TRUE", payload: loadingMessage}),
-  loading_handler_false: () => dispatch ({type: "LOADING_FALSE"})
+  loading_handler_false: () => dispatch ({type: "LOADING_FALSE"}),
+  dispatch_login_api: (url, data, config) => dispatch({type: "API_CALL_REQUEST", url: url , data:data, config:config })
 });
 
 export default connect(mapStateToProps,mapDispatchToProps) (withStyles(loginPageStyle)(LoginPage));

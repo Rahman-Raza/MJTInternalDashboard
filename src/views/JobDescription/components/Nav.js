@@ -10,7 +10,7 @@ import "./Nav.scss";
 
 const styles = {
   nav: {
-    
+
     marginBottom: "20px",
     marginLeft: "25px",
   },
@@ -29,7 +29,7 @@ const styles = {
 class Nav extends React.Component {
 
   handlePageChange = () =>{
-    history.goBack();
+    history.push('/dashboard');
   }
   render() {
     return (
@@ -37,8 +37,8 @@ class Nav extends React.Component {
         <Grid container justify="flex-start">
           <Grid md={8} item >
            <IconButton style={{borderRadius: "0px"}} disableRipple={true} onClick={this.handlePageChange}>
-                
-             
+
+
             <a style={styles.a} >
               <ArrowBack style={styles.iconStyle} /> Job Positions
             </a>

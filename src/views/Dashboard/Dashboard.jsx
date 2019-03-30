@@ -157,47 +157,22 @@ class Dashboard extends React.Component {
       }
     ],
     closed: [],
-    openings: [
-      {
-        CompanyName: "Google",
-        JobPosition: "Machine Learning Engineer",
-        Location: "San Francisco",
-        icon: FaGooglePlusSquare
-      },
-      {
-        CompanyName: "Apple",
-        JobPosition: "IOS Software Engineer",
-        Location: "Cupertino",
-        icon: FaApple
-      },
-      {
-        CompanyName: "Facebook",
-        JobPosition: "Backend Software Engineer",
-        Location: "Menlo Park",
-        icon: FaFacebookSquare
-      },
-      {
-        CompanyName: "LinkedIn",
-        JobPosition: "Machine Learning Engineer",
-        Location: "San Francisco",
-        icon: FaLinkedinSquare
-      }
-    ]
+
   }
- 
- 
+
+
   }
- 
+
 
   reloadPageData = async (url) =>{
 var self = this;
 
 this.setState({loading: true});
    await axios.get(url)
-      
+
       .then(function (response) {
         console.log("heres the response from axios pagination call in reload data", response);
-        
+
         if(response["status"]  == 200){
           self.handlePagination(response.data["Data"]["paginator"]);
           self.handleJobPostingsData(response.data["Data"]["items"]);
@@ -211,13 +186,13 @@ this.setState({loading: true});
 
   }
 
-  
+
 
   handlePageChange = (pageNumber) =>  {
     console.log(`active page is ${pageNumber}`);
 
     var url = '';
-    
+
     if(pageNumber - this.state.activePage == 1){
       console.log("was in next");
        url = 'http://myjobtank.com:8087/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
@@ -253,7 +228,7 @@ this.setState({loading: true});
 
   handleAssignedJobPostingsData = (data) =>{
 
-     
+
      console.log("checking job postings items assigned", data);
 
      let assignedOpenings = [];
@@ -271,11 +246,11 @@ this.setState({loading: true});
 
   }
   componentDidMount = () =>{
-    
+
      this.setState({isMounted: true});
  this.fetchData(this.state.positionStatus);
-  
-  
+
+
    this.props.appRef.printTest("adcdeded");
 
 
@@ -285,14 +260,14 @@ this.setState({loading: true});
 
     let getURL = '';
 
-    positionStatus.length>0 ?  getURL = filter ? 'http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0' 
+    positionStatus.length>0 ?  getURL = filter ? 'http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'http://myjobtank.com:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0'
 
                   : getURL =  'http://myjobtank.com:8087/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword
 
-     
 
-   
-   try{ 
+
+
+   try{
 
       var self=this;
 
@@ -300,10 +275,10 @@ this.setState({loading: true});
 
       this.setState({loading: true, positionStatus: positionStatus});
        await axios.get(getURL)
-        
+
         .then(function (response) {
           console.log("heres the response from axios pagination call", response);
-          
+
           if(response["status"]  == 200){
 
             if(self.state.isMounted){
@@ -328,23 +303,23 @@ this.setState({loading: true});
 
   fetchDataAssigned = async () =>{
 
-   
-   try{ 
+
+   try{
 
       var self=this;
 
       this.setState({loading: true});
        await axios.get('http://myjobtank.com:8087/viewassignedjoborders')
-        
+
         .then(function (response) {
           console.log("heres the response from axios viewassignedjoborders call", response);
-          
+
           if(response["status"]  == 200){
 
             if(self.state.isMounted){
 
 
-          
+
             self.handleAssignedJobPostingsData(response.data["Data"]);
             self.setState({loading: false});
             // self.setState({loading: false});
@@ -410,7 +385,7 @@ this.setState({loading: true});
             this.props.classes.button + " " + this.props.classes.danger
           }
         >
-          <AddJob />
+
         </SweetAlert>
       )
     });
@@ -537,11 +512,11 @@ this.setState({loading: true});
 
   parseTime = (time) =>{
    // console.log("checking time ", time);
- 
+
     let newTime = this.time_ago(new Date(time));
 
    // console.log("checking new time", newTime);
-   
+
 
 
     return newTime;
@@ -551,7 +526,7 @@ this.setState({loading: true});
   dispatchLoading = (loadingMessage, loading) =>{
   loading == true ? this.props.loading_handler_true(loadingMessage) : this.props.loading_handler_false();
 }
-  
+
 
   render() {
     const { classes } = this.props;
@@ -565,7 +540,7 @@ this.setState({loading: true});
                 text={this.state.loadingMessage}
                 classNamePrefix="MyLoaderDashboard_"
                 >
-      
+
         <AddJob open={this.state.open} onClose={this.handleClose} />
 
         <Section
@@ -584,7 +559,7 @@ this.setState({loading: true});
             <ItemGrid xs={10} sm={10} style={{ marginTop: "50px" }}>
               <RegularCard
                 cardTitle={<span>Job Positions</span>}
-                
+
                 subtitleAlign="right"
                 content={
                 <div>
@@ -599,10 +574,10 @@ this.setState({loading: true});
                         tabContent: (
                           <div>
                             <GridContainer>
-                              {this.state.newOpenings.map((opening, index) => 
+                              {this.state.newOpenings.map((opening, index) =>
                                 {
                                   let updatedAt = opening.UpdatedAt ? this.parseTime(opening.UpdatedAt) : "0 min ago";
-                                  
+
                                   return(
                                           <ItemGrid xs={12} sm={6} md={3} key={index}>
                                             <StatsCard
@@ -687,7 +662,7 @@ this.setState({loading: true});
                         )
                       },
 
-                      this.props.cookies.get('Role') == 'User' ? 
+                      this.props.cookies.get('Role') == 'User' ?
                       ({
                         tabButton: "Assigned Positions",
                         tabContent: (
@@ -723,7 +698,7 @@ this.setState({loading: true});
                   />
 
 
-           
+
         </div>
                 }
               />
@@ -745,10 +720,10 @@ this.setState({loading: true});
           itemClassPrev="pagination__group"
           hideFirstLastPages={true}
 
-          
-          
+
+
         />
-        
+
           </GridContainer>
         </Section>
 

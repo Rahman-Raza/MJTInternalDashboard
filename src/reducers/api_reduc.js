@@ -9,20 +9,23 @@ const DISPLAY_SEASON = "DISPLAY_SEASON";
 
 // reducer with initial state
 const initialState = {
-  loggedIn: false,
-  
+  fetching: false,
+  error: null,
+  response: null,
+
+
+
 };
 
-export  const authentication = (state = initialState, action) =>{
+
+export  const api_reduc = (state = initialState, action) =>{
   switch (action.type) {
     case API_CALL_REQUEST:
       return { ...state, fetching: true, error: null };
     case API_CALL_SUCCESS:
-      return { ...state, fetching: false, tvShow: action.tvShow, seasonCount: action.seasonCount, currentSeason: 1 };
+      return { ...state, fetching: false, response: action.response  };
     case API_CALL_FAILURE:
       return { ...state, fetching: false,  error: action.error };
-   case DISPLAY_SEASON :
-      return {...state, currentSeason: action.seasonNumber}
     default:
       return state;
   }
