@@ -48,6 +48,7 @@ class App extends React.Component {
   }
 
 
+
 componentWillUnmount = () =>{
   console.log("unmounting")
 }
@@ -64,9 +65,10 @@ componentWillUnmount = () =>{
     console.log("got to printTest", string);
 
   }
+
 handleLoginTrue = () =>{
   console.log("got to handleLoginTrue");
-  const  prevLocation  = this.state.prevLocation != '/pages/login-page' ? this.state.prevLocation : '/dashboard';
+  const  prevLocation  = this.state.prevLocation != '/pages/login-page' ? this.state.prevLocation : '/';
 
   console.log("checking prevLocation", prevLocation);
   const prevState = this.state.prevState;

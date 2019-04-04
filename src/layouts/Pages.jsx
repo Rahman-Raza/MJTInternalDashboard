@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
+import {connect} from "react-redux";
 
 // @material-ui/core components
 import {withStyles} from '@material-ui/core/styles';
@@ -12,7 +13,7 @@ import Footer from "components/Footer/Footer.jsx";
 import pagesRoutes from "routes/pages.jsx";
 
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx";
-import LoadingOverlay from 'react-loading-overlay';
+
 import bgImage from "assets/img/loginBG.png";
 
 import {AddPropsToRoute} from "variables/general.jsx";
@@ -20,15 +21,22 @@ import {AddPropsToRoute} from "variables/general.jsx";
 class Pages extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      loading: false,
-      loadingMessage: 'Logging in...',
-    }
+    
   }
   componentDidMount() {
     document.body.style.overflow = "unset";
 
     console.log("checking props in Pages layout", this.props);
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+
+
+    if(nextProps.loading != this.props.loading){
+      return false;
+    }
+
+    else return true;
   }
   render() {
     const self = this;
@@ -36,12 +44,7 @@ class Pages extends React.Component {
     var cookieProp = {"cookies" : this.props.cookies};
     return (
       <div>
-        <LoadingOverlay
-                active={this.state.loading}
-                spinner
-                text={this.state.loadingMessage}
-                classNamePrefix="MyLoader_"
-                >
+
         <PagesHeader {...rest} />
         <div className={classes.wrapper} ref="wrapper">
           <div
@@ -62,7 +65,7 @@ class Pages extends React.Component {
                   <Route
                     path={prop.path}
                    component={ AddPropsToRoute(AddPropsToRoute(prop.component,cookieProp),{"appRef": this.props.appRef})}
-                    
+
                     key={key}/>
                 );
               })}
@@ -70,7 +73,7 @@ class Pages extends React.Component {
             <Footer white />
           </div>
         </div>
-        </LoadingOverlay>
+
       </div>
     );
   }
@@ -80,4 +83,9 @@ Pages.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(pagesStyle)(Pages);
+const mapStateToProps = ({loadingOverlay}) => {
+  return {
+    loading: loadingOverlay.loading
+  }
+}
+export default connect(mapStateToProps) ( withStyles(pagesStyle)(Pages));

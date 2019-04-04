@@ -61,6 +61,20 @@ class LoginPage extends React.Component {
 
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+
+    console.log("here is nextProps", nextProps);
+    console.log("here is currentProps", this.props);
+    if(nextProps.loading != this.props.loading){
+      console.log("should return false");
+      return false;
+
+    }
+
+    else return true;
+  }
+
+
   handleSubmit = (event) =>{
     event.preventDefault();
 
@@ -94,41 +108,41 @@ class LoginPage extends React.Component {
         },
         'method': 'post',
       };
-     await this.props.dispatch_login_api("http://myjobtank.com:8087/login", form, config)
- //   await axios ("http://myjobtank.com:8087/login",{
- //   method: 'post',
- //   data:  form,
- //   headers: {
- //        'content-type': 'multipart/form-data'
- //      }
- //
- // })
- //      .then(function (response) {
- //        console.log("heres the response from /loginseven", response);
- //        cookies.set(response.headers["x-cookie-header"]);
- //        console.log("checking cookies", cookies.getAll());
- //
- //        if(response["status"]  == 200){
- //
- //
- //            console.log("sucessfull call to /login");
- //
- //
- //            //history.push('/dashboard');
- //            cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (24 * 60 * 60)});
- //
- //            self.handleLogin();
- //             self.handleLoadingClose();
- //
- //
- //
- //        }
- //      })
- //      .catch(function (error) {
- //        console.log('error in /login ', error);
- //        self.setState({loadingMessage: 'There was an issue with your login.  Please try again.'});
- //        self.handleLoadingClose();
- //      });
+     //await this.props.dispatch_login_api("http://myjobtank.com:8087/login", form, config)
+   await axios ("http://myjobtank.com:8087/login",{
+   method: 'post',
+   data:  form,
+   headers: {
+        'content-type': 'multipart/form-data'
+      }
+
+ })
+      .then(function (response) {
+        console.log("heres the response from /loginseven", response);
+        cookies.set(response.headers["x-cookie-header"]);
+        console.log("checking cookies", cookies.getAll());
+
+        if(response["status"]  == 200){
+
+
+            console.log("sucessfull call to /login");
+
+
+            //history.push('/dashboard');
+            cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (24 * 60 * 60)});
+
+            self.handleLogin();
+             self.handleLoadingClose();
+
+
+
+        }
+      })
+      .catch(function (error) {
+        console.log('error in /login ', error);
+        self.setState({loadingMessage: 'There was an issue with your login.  Please try again.'});
+        self.handleLoadingClose();
+      });
   }
   handleLoadingClose = () =>{
    this.dispatchLoading("Loading", false);
@@ -234,9 +248,9 @@ LoginPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({loadingOverlay}) => {
   return {
-    loadingOverlay: state.loadingOverlay
+    loading: loadingOverlay.loading
   }
 }
 
