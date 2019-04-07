@@ -14,6 +14,7 @@ import NumberedListItem from "./NumberedListItem";
 import ChipSection from "./ChipSection";
 import ChecklistSection from "./ChecklistSection";
 import CandidateCard from "./CandidateCard";
+import MatchingRateList from "./MatchingRateList";
 import Resume from "./Resume";
 import LoadingOverlay from 'react-loading-overlay';
 
@@ -473,28 +474,7 @@ handleAssignRecruiter (event){
           </Grid>
 
           <Grid item sm={5}>
-            <aside style={styles.sidebar} className="sidebar">
-              <h3 style={styles.sidebarHeading}>Top Candidates</h3>
-              {
-                this.state.matchedRateList.length > 0 ?
-              (
-
-               this.state.matchedRateList.map((current, index) => {
-                  return (
-                     <CandidateCard
-                      key={current.ID}
-                      resumeToggler={this.toggleResume}
-                      percentage={current["ResumeScore"]}
-                      data={current} /> )
-                })
-
-              )
-              :
-              ( <div style={{padding:"620px"}}> </div>)
-
-
-              }
-            </aside>
+            <MatchingRateList data={this.state.matchedRateList} />
           </Grid>
         </Grid>
       </div>
