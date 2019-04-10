@@ -474,7 +474,7 @@ handleAssignRecruiter (event){
           </Grid>
 
           <Grid item sm={5}>
-            <MatchingRateList data={this.state.matchedRateList} />
+            <MatchingRateList data={this.state.matchedRateList} toggleResume={this.toggleResume} />
           </Grid>
         </Grid>
       </div>

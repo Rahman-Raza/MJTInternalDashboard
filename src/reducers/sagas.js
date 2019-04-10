@@ -36,9 +36,14 @@ function* workerSaga(action) {
 
     yield put({ type: "API_CALL_SUCCESS", response});
 
-    let seasonNumber = 1;
+    if(response.data.Code === 200){
 
-    //
+      switch(action.url){
+      case 'http://myjobtank.com:8087/login':
+          
+    }
+  }
+
 
 
 

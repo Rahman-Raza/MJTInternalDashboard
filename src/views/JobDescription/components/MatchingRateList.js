@@ -4,8 +4,39 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Search from "@material-ui/icons/Search";
 import TextField from '@material-ui/core/TextField';
-import CustomizedInputBase from './CustomizedInputBase';
+import MatchingRateListFilter from './MatchingRateListFilter';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import RatedInputContainer from 'components/RatedInput/RatedInputContainer.js';
+import TagFacesIcon from '@material-ui/icons/TagFaces';
+import Work from '@material-ui/icons/Work';
+import LocationCity from '@material-ui/icons/LocationCity';
+import School from '@material-ui/icons/School';
+import Layers from '@material-ui/icons/Layers';
+import Grid from '@material-ui/core/Grid';
+
+
 const styles = {
+  gridRoot:{
+    flexGrow: 1,
+  },
+  appBar: {
+   position: "relative",
+   background: "#00ADF3",
+ },
+ flex: {
+   flex: 1,
+ },
   paper: {
     padding: "20px"
   },
@@ -48,7 +79,9 @@ const styles = {
 class MatchingRateList extends React.Component{
 
 state={
+  dialogOpen: false,
   filter: "",
+  sortAscending: true,
 }
 
 
@@ -60,17 +93,141 @@ handleFilter = (newFilter ) =>{
   }));
 };
 
+sortAscending = () =>{
+
+this.setState({sortAscending: !this.state.sortAscending});
+};
+
+handleSort = (data) =>{
+ if(this.state.sortAscending == true){
+
+   return data.sort((a,b) => a.Name.localeCompare(b.Name))
+ }
+ else{
+   return data.sort((a,b) => a.Name.localeCompare(b.Name)).reverse()
+ }
+}
+
+handleClickOpen = () => {
+   this.setState({ dialogOpen: true });
+ };
+
+ handleClose = () => {
+   this.setState({ dialogOpen: false });
+ };
+
 render(){
 //  const list = this.state.options.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase))
-
-const list = this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase()));
+const { classes } = this.props;
+const list = this.handleSort(this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase())));
 //const list = this.props.data;
 
   return (
+<div>
+  <Dialog
+              fullScreen
+              open={this.state.dialogOpen}
+              onClose={this.handleClose}
+            >
+              <AppBar className={classes.appBar}>
+                <Toolbar>
+                  <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+                    <CloseIcon />
+                  </IconButton>
+                  <Button color="inherit" onClick={this.handleClose}>
+                    filter
+                  </Button>
+                </Toolbar>
+              </AppBar>
+              <Grid container className={classes.gridRoot} spacing={32}>
+                <Grid item >
+                  <List>
+                    <ListItem>
+                    <RatedInputContainer
+                               onRef={(ref) => {this.CompanyNamesContainer = ref}}
+                                  title="Company Name"
+                                  icon={<LocationCity/>}
+                                  defaultValues={[]}
+                              />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                    <RatedInputContainer
+                               onRef={(ref) => {this.JobTitlesContainer = ref}}
+                                  title="Job Title"
+                                  icon={<Work/>}
+                                  dataType="Languages"
+                                  defaultValues={[]}
+                              />
+                    </ListItem>
+                    <Divider/>
+                    <ListItem>
+                    <RatedInputContainer
+                               onRef={(ref) => {this.SkillsContainer = ref}}
+                                  title="Skills"
+                                  icon={<Layers/>}
+                                  dataType="Languages"
+                                  defaultValues={[]}
+                              />
+                    </ListItem>
+                    <Divider/>
+                    <ListItem>
+                    <RatedInputContainer
+                               onRef={(ref) => {this.UniversitiesContainer = ref}}
+                                  title="University"
+                                  icon={<School/>}
+                                  dataType="Languages"
+                                  defaultValues={[]}
+                              />
+                    </ListItem>
+                  </List>
+                </Grid>
+                <Grid item>
+                <div className="row">
+                  <div className="col-md-12" style={{margin: "40px 0px"}}>
+                  <TextField
+                      id="outlined-search"
+                      label="Degree Type"
+                      type="search"
+                      margin="normal"
+                      variant="outlined"
+                    />
+                    </div>
+                    <div className="col-md-12" style={{margin: "40px 0px"}}>
+                    <TextField
+                        id="outlined-search"
+                        label="Work Experience"
+                        type="search"
+                        margin="normal"
+                        variant="outlined"
+                      />
+                      </div>
+                      <div className="col-md-12" style={{margin: "40px 0px"}}>
+                      <TextField
+                          id="outlined-search"
+                          label="Another field"
+                          type="search"
+                          margin="normal"
+                          variant="outlined"
+                        />
+                      </div>
+                      <div className="col-md-12" style={{margin: "40px 0px"}}>
+                      <TextField
+                          id="outlined-search"
+                          label="One More"
+                          type="search"
+                          margin="normal"
+                          variant="outlined"
+                        />
+                      </div>
+                  </div>
+                </Grid>
+              </Grid>
+    </Dialog>
     <aside style={styles.sidebar} className="sidebar">
       <div style={styles.sideBarContainer}>
         <h3 style={styles.sidebarHeading}>Top Candidates</h3>
-        <Filter handleFilter={this.handleFilter}/>
+      <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
           list.length > 0 ?
         (
@@ -79,7 +236,7 @@ const list = this.props.data.filter(option => option.Name.toLowerCase().includes
             return (
                <CandidateCard
                 key={current.ID}
-                resumeToggler={this.toggleResume}
+                resumeToggler={this.props.toggleResume}
                 percentage={current["ResumeScore"]}
                 data={current} /> )
           })
@@ -92,16 +249,11 @@ const list = this.props.data.filter(option => option.Name.toLowerCase().includes
         }
       </div>
     </aside>
+  </div>
 
   )
 }
 }
 
-const Filter = (props) => (
-  <div>
-  <CustomizedInputBase handleFilter={props.handleFilter}/>
-  
-  </div>
-);
 
-export default MatchingRateList;
+export default withStyles(styles)(MatchingRateList);

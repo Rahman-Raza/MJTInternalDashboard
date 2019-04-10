@@ -31,12 +31,12 @@ const styles = {
   },
 };
 
-function CustomizedInputBase(props) {
+function MatchingRateListFilter(props) {
   const { classes } = props;
 
   return (
     <Paper className={classes.root} elevation={1}>
-      <IconButton className={classes.iconButton} aria-label="Menu">
+      <IconButton onClick={props.advancedFilter} className={classes.iconButton} aria-label="Menu">
         <MenuIcon />
       </IconButton>
       <InputBase className={classes.input} placeholder="Filter by Name"
@@ -45,15 +45,15 @@ function CustomizedInputBase(props) {
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} />
-      <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
+      <IconButton color="primary" onClick={props.sortAscending} className={classes.iconButton} aria-label="Directions">
         <SortByAlphaIcon />
       </IconButton>
     </Paper>
   );
 }
 
-CustomizedInputBase.propTypes = {
+MatchingRateListFilter.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CustomizedInputBase);
+export default withStyles(styles)(MatchingRateListFilter);
