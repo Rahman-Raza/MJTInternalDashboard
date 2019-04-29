@@ -25,7 +25,7 @@ import School from '@material-ui/icons/School';
 import Layers from '@material-ui/icons/Layers';
 import Grid from '@material-ui/core/Grid';
 
-
+const themeColor = "#00ADF3";
 const styles = {
   gridRoot:{
     flexGrow: 1,
@@ -73,6 +73,18 @@ const styles = {
     filter:{
 
     },
+    textLabel: {
+        color: "#00ADF3",
+        fontFamily: "Roboto",
+        fontWeight: "400"
+    },
+    a: {
+      padding: "10px 0px",
+      color: "#00ADF3",
+      fontSize: "14px",
+      textDecoration: "none",
+
+    },
   }
 };
 
@@ -115,6 +127,9 @@ handleClickOpen = () => {
  handleClose = () => {
    this.setState({ dialogOpen: false });
  };
+ handleFilterSubmit = () =>{
+   console.log("got to handlefulter submit");
+ }
 
 render(){
 //  const list = this.state.options.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase))
@@ -141,88 +156,146 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
               </AppBar>
               <Grid container className={classes.gridRoot} spacing={32}>
                 <Grid item >
-                  <List>
-                    <ListItem>
-                    <RatedInputContainer
-                               onRef={(ref) => {this.CompanyNamesContainer = ref}}
-                                  title="Company Name"
-                                  icon={<LocationCity/>}
-                                  defaultValues={[]}
-                              />
+                      <List>
+                      <ListItem>
+                      <div className="col-md-12" style={{margin: "5px 0px"}}>
+                        <p style={{color:"#00ADF3"}}>Work</p>
+                      </div>
+                      </ListItem>
+                        <ListItem>
+
+                        <div className="col-md-12" style={{margin: "0px 0px"}}>
+                        <TextField
+                            id="outlined-search"
+                            label="Job Title"
+                            type="search"
+                            margin="normal"
+                            variant="outlined"
+                          />
+                        </div>
+                        </ListItem>
+                        <ListItem>
+                        <div className="col-md-12" style={{margin: "0px 0px"}}>
+                        <TextField
+                            id="outlined-search"
+                            label="Company Name"
+                            type="search"
+                            margin="normal"
+                            variant="outlined"
+                          />
+                        </div>
+                        </ListItem>
+                        <ListItem>
+                        <div className="col-md-12" style={{margin: "0px 0px"}}>
+                        <TextField
+                            id="outlined-search"
+                            label="Minimum work length"
+                            type="search"
+                            margin="normal"
+                            variant="outlined"
+                          />
+                        </div>
+                        </ListItem>
+                        <ListItem>
+                        <div className="col-md-12" style={{margin: "0px 0px"}}>
+                          <TextField
+                              id="outlined-search"
+                              label="Job Description"
+
+                              margin="normal"
+                              variant="outlined"
+                              multiline={true}
+                              rows={4}
+                            />
+                        </div>
+                          </ListItem>
+
+                      </List>
+                    </Grid>
+                    <Grid item>
+                    <div className="row">
+                      <List>
+                        <ListItem>
+                        <div className="col-md-12" style={{margin: "5px 0px"}}>
+                          <p style={{color:"#00ADF3"}}>School</p>
+                        </div>
+                        </ListItem>
+                        <ListItem>
+                          <div className="col-md-12" style={{margin: "0px 0px"}}>
+                          <TextField
+                              id="outlined-search"
+                              label="Degree Type"
+                              type="search"
+                              margin="normal"
+                              variant="outlined"
+                            />
+                          </div>
+                      </ListItem>
+                      <ListItem>
+                        <div className="col-md-12" style={{margin: "0px 0px"}}>
+                        <TextField
+                            id="outlined-search"
+                            label="Major"
+                            type="search"
+                            margin="normal"
+                            variant="outlined"
+                          />
+                        </div>
                     </ListItem>
-                    <Divider />
                     <ListItem>
-                    <RatedInputContainer
-                               onRef={(ref) => {this.JobTitlesContainer = ref}}
-                                  title="Job Title"
-                                  icon={<Work/>}
-                                  dataType="Languages"
-                                  defaultValues={[]}
-                              />
-                    </ListItem>
-                    <Divider/>
-                    <ListItem>
-                    <RatedInputContainer
-                               onRef={(ref) => {this.SkillsContainer = ref}}
-                                  title="Skills"
-                                  icon={<Layers/>}
-                                  dataType="Languages"
-                                  defaultValues={[]}
-                              />
-                    </ListItem>
-                    <Divider/>
-                    <ListItem>
-                    <RatedInputContainer
-                               onRef={(ref) => {this.UniversitiesContainer = ref}}
-                                  title="University"
-                                  icon={<School/>}
-                                  dataType="Languages"
-                                  defaultValues={[]}
-                              />
-                    </ListItem>
-                  </List>
-                </Grid>
-                <Grid item>
-                <div className="row">
-                  <div className="col-md-12" style={{margin: "40px 0px"}}>
-                  <TextField
-                      id="outlined-search"
-                      label="Degree Type"
-                      type="search"
-                      margin="normal"
-                      variant="outlined"
-                    />
-                    </div>
-                    <div className="col-md-12" style={{margin: "40px 0px"}}>
+                      <div className="col-md-12" style={{margin: "0px 0px"}}>
+                      <TextField
+                          id="outlined-search"
+                          label="Univeristy"
+                          type="search"
+                          margin="normal"
+                          variant="outlined"
+                        />
+                      </div>
+                  </ListItem>
+                  <ListItem>
+                  <div className="col-md-12" style={{margin: "0px 0px"}}>
                     <TextField
                         id="outlined-search"
-                        label="Work Experience"
-                        type="search"
+                        label="School Description"
+
                         margin="normal"
                         variant="outlined"
+                        multiline={true}
+                        rows={4}
                       />
-                      </div>
-                      <div className="col-md-12" style={{margin: "40px 0px"}}>
-                      <TextField
-                          id="outlined-search"
-                          label="Another field"
-                          type="search"
-                          margin="normal"
-                          variant="outlined"
-                        />
-                      </div>
-                      <div className="col-md-12" style={{margin: "40px 0px"}}>
-                      <TextField
-                          id="outlined-search"
-                          label="One More"
-                          type="search"
-                          margin="normal"
-                          variant="outlined"
-                        />
-                      </div>
                   </div>
+                    </ListItem>
+                </List>
+              </div>
+                </Grid>
+                <Grid item >
+                <div className="row">
+                <List>
+                <ListItem>
+                <div className="col-md-12" style={{margin: "5px 0px"}}>
+                  <p style={{color:"#00ADF3"}}>Skills</p>
+                </div>
+                </ListItem>
+                <ListItem>
+                  <div className="col-md-12" style={{margin: "5px 0px"}}>
+                <RatedInputContainer
+                           onRef={(ref) => {this.SkillsContainer = ref}}
+                              title="Skills"
+                              icon={<Layers/>}
+                              dataType="Languages"
+                              defaultValues={[]}
+                          />
+                </div>
+                </ListItem>
+                </List>
+                </div>
                 </Grid>
               </Grid>
+              <Button style={styles.a} variant="outlined"  onClick={this.handleFilterSubmit}>
+                Filter Resumes
+             </Button>
+
     </Dialog>
     <aside style={styles.sidebar} className="sidebar">
       <div style={styles.sideBarContainer}>

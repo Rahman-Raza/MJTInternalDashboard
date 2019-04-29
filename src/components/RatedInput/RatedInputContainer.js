@@ -78,7 +78,7 @@ class RatedInputContainer extends Component {
   render() {
     return (
       <article style={styles.root}>
-        <Typography style={styles.title}>{this.props.title}</Typography>
+        <Typography style={styles.title}>{this.props.label}</Typography>
 
         {this.state.inputs.map((current, index) => (
           <RatedInput
