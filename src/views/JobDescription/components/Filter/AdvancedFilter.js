@@ -85,10 +85,45 @@ const styles = {
 };
 
 class  AdvancedFilter extends React.Component{
+  state={
+    formData:{
+      DataSource: 1,
+      Skills: [],
+      SkillsInclusive: 1,
+      Employer: "",
+      Title: "",
+      WorkLengthMin: 0,
+      JobDescription: "",
+      Institution: "",
+      Major: "",
+      DegreeType: "",
+    }
+  }
+
+  handleChange = (event) =>{
+
+      var originalForm = this.state.formData;
+
+      originalForm[event.target.name] = event.target.value;
+      this.setState({formData: originalForm});
 
 
+  }
+handleFilterSubmit = () =>{
+
+  console.log("got to handleFilterSubmit");
+
+  let submitForm = this.state.formData;
+
+  submitForm["Skills"] = JSON.stringify(this.SkillsContainer.returnInfo());
+  submitForm["WorkLengthMin"] = parseInt(this.state.formData["WorkLengthMin"]);
+
+  console.log("checking advanced filter data before submission", submitForm);
+
+  this.props.handleFilterSubmit( submitForm);
+}
   render(){
-
+    const {formData} = this.state;
     const {classes} = this.props;
 
   return (
@@ -115,6 +150,8 @@ class  AdvancedFilter extends React.Component{
 
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
+                onChange={this.handleChange}
+                name="Title"
                 id="outlined-search"
                 label="Job Title"
                 type="search"
@@ -127,6 +164,9 @@ class  AdvancedFilter extends React.Component{
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 id="outlined-search"
+                onChange={this.handleChange}
+                value={formData["Employer"]}
+                name="Employer"
                 label="Company Name"
                 type="search"
                 margin="normal"
@@ -137,8 +177,11 @@ class  AdvancedFilter extends React.Component{
             <ListItem>
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
+                onChange={this.handleChange}
                 id="outlined-search"
                 label="Minimum work length"
+                value={formData["WorkLengthMin"]}
+                name="WorkLengthMin"
                 type="search"
                 margin="normal"
                 variant="outlined"
@@ -149,8 +192,10 @@ class  AdvancedFilter extends React.Component{
             <div className="col-md-12" style={{margin: "0px 0px"}}>
               <TextField
                   id="outlined-search"
+                  onChange={this.handleChange}
                   label="Job Description"
-
+                  value={formData["JobDescription"]}
+                  name="JobDescription"
                   margin="normal"
                   variant="outlined"
                   multiline={true}
@@ -173,6 +218,9 @@ class  AdvancedFilter extends React.Component{
               <div className="col-md-12" style={{margin: "0px 0px"}}>
               <TextField
                   id="outlined-search"
+                  onChange={this.handleChange}
+                  value={formData["DegreeType"]}
+                  name="DegreeType"
                   label="Degree Type"
                   type="search"
                   margin="normal"
@@ -184,7 +232,10 @@ class  AdvancedFilter extends React.Component{
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 id="outlined-search"
+                onChange={this.handleChange}
                 label="Major"
+                value={formData["Major"]}
+                name="Major"
                 type="search"
                 margin="normal"
                 variant="outlined"
@@ -195,6 +246,9 @@ class  AdvancedFilter extends React.Component{
           <div className="col-md-12" style={{margin: "0px 0px"}}>
           <TextField
               id="outlined-search"
+              onChange={this.handleChange}
+              value={formData["Institution"]}
+              name="Institution"
               label="Univeristy"
               type="search"
               margin="normal"
@@ -206,6 +260,7 @@ class  AdvancedFilter extends React.Component{
       <div className="col-md-12" style={{margin: "0px 0px"}}>
         <TextField
             id="outlined-search"
+            onChange={this.handleChange}
             label="School Description"
 
             margin="normal"
@@ -241,9 +296,13 @@ class  AdvancedFilter extends React.Component{
     </div>
     </Grid>
   </Grid>
-  <Button style={styles.a} variant="outlined"  onClick={this.props.handleFilterSubmit}>
-    Filter Resumes
-  </Button>
+  <div className="row" >
+    <div class="col-lg-3 col-md-offset-3">
+    <Button style={styles.a} variant="outlined"  onClick={this.handleFilterSubmit}>
+      Filter Resumes
+    </Button>
+    </div>
+  </div>
   </div>
   )
 

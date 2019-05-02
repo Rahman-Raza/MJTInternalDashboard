@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
 import Paper from "@material-ui/core/Paper";
 
 import "./JobDescription.scss";
@@ -37,11 +36,12 @@ class JobDescription extends Component {
     };
 }
 
+
 handleLoading = (loading, loadingMessage) =>{
     this.setState({loading: loading, loadingMessage: loadingMessage});
 }
 
-    
+
     render() {
         return (
         <div>
@@ -50,7 +50,7 @@ handleLoading = (loading, loadingMessage) =>{
                         spinner
                         text={this.state.loadingMessage}
                         classNamePrefix="MyLoader_"
-                        
+
                         >
             <div className="container">
             <Nav />
@@ -59,9 +59,9 @@ handleLoading = (loading, loadingMessage) =>{
 
                 <Paper style={styles.paper}>
 
-                    
+
                     <Main loadingRef={this.handleLoading} jobID={this.props.location.state.jobID} cookies={this.props.cookies}  />
-               
+
                 </Paper>
             </div>
             </LoadingOverlay>
@@ -69,5 +69,7 @@ handleLoading = (loading, loadingMessage) =>{
         );
     }
 }
+
+
 
 export default JobDescription;

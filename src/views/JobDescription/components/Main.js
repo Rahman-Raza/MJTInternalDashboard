@@ -149,6 +149,10 @@ class Main extends Component {
       });
   }
 
+filterResumesServiceCall = async () =>{
+
+}
+
 matchingRateServiceCall =  () =>{
   this.props.loadingRef(true,"Generating Matching Rate List...");
    var self=this;
@@ -340,6 +344,41 @@ handleAssignRecruiter (event){
 );
   };
 
+  filterResumesServiceCall = async (filterObject = {}) =>{
+    this.props.loadingRef(true,"Filtering Resumes");
+    console.log("checking data before filterresumeset api call", filterObject);
+
+    var self=this;
+
+
+   await axios.post('https://mjtbe.tk/filterresumeset/', filterObject)
+
+       .then(function (response) {
+         console.log("heres the response from /filterresumeset", response);
+
+         if(response["status"]  == 200){
+
+           if(self.state.isMounted){
+
+                 console.log("success in /filterresumeset", response.data["Data"]);
+
+
+               }
+
+         }
+       })
+       .catch(function (error) {
+         console.log('error in /filterresumeset ', error);
+         self.handleLoadingClose();
+
+       });
+
+
+
+  }
+
+
+
   render() {
     return (
     <div>
@@ -474,7 +513,7 @@ handleAssignRecruiter (event){
           </Grid>
 
           <Grid item sm={5}>
-            <MatchingRateList data={this.state.matchedRateList} toggleResume={this.toggleResume} />
+            <MatchingRateList data={this.state.matchedRateList}  filterResumesServiceCall={this.filterResumesServiceCall} toggleResume={this.toggleResume} />
           </Grid>
         </Grid>
       </div>
@@ -483,4 +522,5 @@ handleAssignRecruiter (event){
   }
 }
 
-export default withStyles(styles)(Main);
+
+export default  withStyles(styles)(Main);

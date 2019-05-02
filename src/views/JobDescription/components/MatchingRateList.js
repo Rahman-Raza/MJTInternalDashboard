@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {connect} from "react-redux";
+
 import CandidateCard from "./CandidateCard";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -98,6 +100,8 @@ state={
 }
 
 
+
+
 handleFilter = (newFilter ) =>{
 
   console.log("got to handleFilter");
@@ -128,8 +132,13 @@ handleClickOpen = () => {
  handleClose = () => {
    this.setState({ dialogOpen: false });
  };
- handleFilterSubmit = () =>{
-   console.log("got to handlefulter submit");
+
+
+ handleFilterSubmit = (filterObject) =>{
+   this.handleClose();
+   this.props.filterResumesServiceCall(filterObject);
+
+
  }
 
 render(){
@@ -137,7 +146,6 @@ render(){
 const { classes } = this.props;
 const list = this.handleSort(this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase())));
 //const list = this.props.data;
-
   return (
 <div>
   <Dialog
