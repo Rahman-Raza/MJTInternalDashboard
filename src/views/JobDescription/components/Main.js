@@ -351,7 +351,7 @@ handleAssignRecruiter (event){
     var self=this;
 
 
-   await axios.post('https://mjtbe.tk/filterresumeset/', filterObject)
+   await axios.post('https://mjtbe.tk/filterresumeset', filterObject)
 
        .then(function (response) {
          console.log("heres the response from /filterresumeset", response);
@@ -359,8 +359,9 @@ handleAssignRecruiter (event){
          if(response["status"]  == 200){
 
            if(self.state.isMounted){
-
-                 console.log("success in /filterresumeset", response.data["Data"]);
+              console.log("Success in /filterresumeset");
+                // console.log("success in /filterresumeset", response.data["Data"]);
+                    self.handleLoadingClose();
 
 
                }

@@ -8,6 +8,7 @@ import Search from "@material-ui/icons/Search";
 import TextField from '@material-ui/core/TextField';
 import MatchingRateListFilter from './Filter/MatchingRateListFilter';
 import AdvancedFilter from './Filter/AdvancedFilter';
+import ExpansionPanel from './Filter/ExpansionPanel';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -42,6 +43,12 @@ const styles = {
  },
   paper: {
     padding: "20px"
+  },
+  filterSideBar:{
+    padding: " 55px 0px",
+    position: "relative",
+    top: "-50px",
+    minHeight: "101.9%",
   },
   sidebar: {
     background: "#00ADF3",
@@ -156,6 +163,9 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
             <AdvancedFilter handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit}/>
 
     </Dialog>
+      <aside style={styles.filterSideBar} className="sidebar">
+      <ExpansionPanel/>
+      </aside>
     <aside style={styles.sidebar} className="sidebar">
       <div style={styles.sideBarContainer}>
         <h3 style={styles.sidebarHeading}>Top Candidates</h3>

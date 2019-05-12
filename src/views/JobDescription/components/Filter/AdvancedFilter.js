@@ -89,7 +89,7 @@ class  AdvancedFilter extends React.Component{
     formData:{
       DataSource: 1,
       Skills: [],
-      SkillsInclusive: 1,
+      SkillsInclusive: true,
       Employer: "",
       Title: "",
       WorkLengthMin: 0,
@@ -115,7 +115,7 @@ handleFilterSubmit = () =>{
 
   let submitForm = this.state.formData;
 
-  submitForm["Skills"] = JSON.stringify(this.SkillsContainer.returnInfo());
+  submitForm["Skills"] = this.SkillsContainer.returnInfo();
   submitForm["WorkLengthMin"] = parseInt(this.state.formData["WorkLengthMin"]);
 
   console.log("checking advanced filter data before submission", submitForm);
@@ -296,8 +296,9 @@ handleFilterSubmit = () =>{
     </div>
     </Grid>
   </Grid>
-  <div className="row" >
-    <div class="col-lg-3 col-md-offset-3">
+  <div className="row" style={{marginTop: "25px"}} >
+    <div className="col-lg-2"></div>
+    <div className="col-lg-3 col-md-offset-3">
     <Button style={styles.a} variant="outlined"  onClick={this.handleFilterSubmit}>
       Filter Resumes
     </Button>
