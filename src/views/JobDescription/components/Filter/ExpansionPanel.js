@@ -41,6 +41,11 @@ class SimpleExpansionPanel extends React.Component{
     this.setState({ dialogOpen: false });
   };
 
+  handleFilterSubmit = (filterObject) => {
+    this.setState({expanded: false});
+    this.props.handleFilterSubmit(filterObject);
+  }
+
 
 
   render(){
@@ -55,7 +60,7 @@ class SimpleExpansionPanel extends React.Component{
             <Typography className={classes.heading}>Filter by Work / School / Skills</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-              <AdvancedFilter handleClose={this.handleExpand} handleFilterSubmit={this.props.handleFilterSubmit}/>
+              <AdvancedFilter handleClose={this.handleExpand} handleFilterSubmit={this.handleFilterSubmit}/>
           </ExpansionPanelDetails>
         </ExpansionPanel>
 

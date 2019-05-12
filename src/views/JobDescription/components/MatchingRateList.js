@@ -60,7 +60,7 @@ const styles = {
 
   },
   sideBarContainer: {
-    margin: "100px 0px",
+    margin: "50px 0px",
   },
 
   sidebarHeading: {
@@ -142,8 +142,8 @@ handleClickOpen = () => {
 
 
  handleFilterSubmit = (filterObject) =>{
-   this.handleClose();
-   this.props.filterResumesServiceCall(filterObject);
+
+   this.props.handleFilterSubmit(filterObject);
 
 
  }

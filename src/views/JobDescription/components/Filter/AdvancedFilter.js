@@ -77,7 +77,7 @@ const styles = {
         fontFamily: "Roboto",
         fontWeight: "400"
     },
-    a: {
+    filterButton: {
       padding: "10px 0px",
       color: "#00ADF3",
       fontSize: "14px",
@@ -131,10 +131,10 @@ handleFilterSubmit = () =>{
 
   return (
   <div style={styles.filterContainer}>
-  <div className="row" style={{marginTop: "25px"}} >
+  <div className="row" style={{marginTop: "10px"}} >
     <div className="col-lg-2"></div>
     <div className="col-lg-10">
-    <Button style={styles.a} variant="outlined"  onClick={this.handleFilterSubmit}>
+    <Button style={styles.filterButton} variant="outlined"  onClick={this.handleFilterSubmit}>
       Filter Resumes
     </Button>
     </div>
@@ -142,13 +142,11 @@ handleFilterSubmit = () =>{
   <Grid container className={classes.gridRoot} spacing={16}>
     <Grid item >
           <List>
-          <ListItem>
-          <div className="col-md-12" style={{margin: "5px 0px"}}>
-            <p style={{color:"#00ADF3"}}>Work</p>
-          </div>
-          </ListItem>
             <ListItem>
-
+            <div className="row">
+            <div className="col-md-12" style={{margin: "5px 0px"}}>
+              <p style={{color:"#00ADF3"}}>Work</p>
+            </div>
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 onChange={this.handleChange}
@@ -160,8 +158,7 @@ handleFilterSubmit = () =>{
                 variant="outlined"
               />
             </div>
-            </ListItem>
-            <ListItem>
+
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 id="outlined-search"
@@ -174,8 +171,7 @@ handleFilterSubmit = () =>{
                 variant="outlined"
               />
             </div>
-            </ListItem>
-            <ListItem>
+
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 onChange={this.handleChange}
@@ -188,8 +184,7 @@ handleFilterSubmit = () =>{
                 variant="outlined"
               />
             </div>
-            </ListItem>
-            <ListItem>
+
             <div className="col-md-12" style={{margin: "0px 0px"}}>
               <TextField
                   id="outlined-search"
@@ -203,94 +198,89 @@ handleFilterSubmit = () =>{
                   rows={4}
                 />
             </div>
-              </ListItem>
-
+              </div>
+            </ListItem>
           </List>
-        </Grid>
-        <Grid item>
+
         <div className="row">
           <List>
             <ListItem>
-            <div className="col-md-12" style={{margin: "5px 0px"}}>
-              <p style={{color:"#00ADF3"}}>School</p>
-            </div>
-            </ListItem>
-            <ListItem>
+            <div className="row">
+              <div className="col-md-12" style={{margin: "5px 0px"}}>
+                <p style={{color:"#00ADF3"}}>School</p>
+              </div>
+
+                <div className="col-md-12" style={{margin: "0px 0px"}}>
+                <TextField
+                    id="outlined-search"
+                    onChange={this.handleChange}
+                    value={formData["DegreeType"]}
+                    name="DegreeType"
+                    label="Degree Type"
+                    type="search"
+                    margin="normal"
+                    variant="outlined"
+                  />
+                </div>
+
               <div className="col-md-12" style={{margin: "0px 0px"}}>
               <TextField
                   id="outlined-search"
                   onChange={this.handleChange}
-                  value={formData["DegreeType"]}
-                  name="DegreeType"
-                  label="Degree Type"
+                  label="Major"
+                  value={formData["Major"]}
+                  name="Major"
                   type="search"
                   margin="normal"
                   variant="outlined"
                 />
               </div>
-          </ListItem>
-          <ListItem>
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 id="outlined-search"
                 onChange={this.handleChange}
-                label="Major"
-                value={formData["Major"]}
-                name="Major"
+                value={formData["Institution"]}
+                name="Institution"
+                label="Univeristy"
                 type="search"
                 margin="normal"
                 variant="outlined"
               />
             </div>
-        </ListItem>
-        <ListItem>
-          <div className="col-md-12" style={{margin: "0px 0px"}}>
+        <div className="col-md-12" style={{margin: "0px 0px"}}>
           <TextField
               id="outlined-search"
               onChange={this.handleChange}
-              value={formData["Institution"]}
-              name="Institution"
-              label="Univeristy"
-              type="search"
+              label="School Description"
+
               margin="normal"
               variant="outlined"
+              multiline={true}
+              rows={4}
             />
-          </div>
-      </ListItem>
-      <ListItem>
-      <div className="col-md-12" style={{margin: "0px 0px"}}>
-        <TextField
-            id="outlined-search"
-            onChange={this.handleChange}
-            label="School Description"
-
-            margin="normal"
-            variant="outlined"
-            multiline={true}
-            rows={4}
-          />
+        </div>
       </div>
         </ListItem>
     </List>
   </div>
-    </Grid>
-    <Grid item >
+
     <div className="row" style={{minWidth: "100px"}}>
     <List>
     <ListItem>
-    <div className="col-md-12" style={{margin: "5px 10px"}}>
-      <p style={{color:"#00ADF3"}}>Skills</p>
-    </div>
-    </ListItem>
-    <ListItem>
-      <div className="col-md-12" style={{margin: "5px 10px"}}>
-    <RatedInputContainer
-               onRef={(ref) => {this.SkillsContainer = ref}}
-                  title="Skills"
-                  icon={<Layers/>}
-                  dataType="Languages"
-                  defaultValues={[]}
-              />
+    <div className="row" style={{minWidth: "100px"}}>
+        <div className="col-md-12" style={{margin: "5px 10px"}}>
+          <p style={{color:"#00ADF3"}}>Skills</p>
+        </div>
+
+        <div className="col-md-12" style={{margin: "5px 10px"}}>
+          <RatedInputContainer
+                 onRef={(ref) => {this.SkillsContainer = ref}}
+                    title="Skills"
+                    icon={<Layers/>}
+                    dataType="Languages"
+                    defaultValues={[]}
+                />
+      </div>
     </div>
     </ListItem>
     </List>
