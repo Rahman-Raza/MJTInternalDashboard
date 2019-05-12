@@ -108,8 +108,8 @@ class LoginPage extends React.Component {
         },
         'method': 'post',
       };
-     //await this.props.dispatch_login_api("http://myjobtank.com:8087/login", form, config)
-   await axios ("http://myjobtank.com:8087/login",{
+     //await this.props.dispatch_login_api("http://206.189.217.219:8087/login", form, config)
+   await axios ("http://206.189.217.219:8087/login",{
    method: 'post',
    data:  form,
    headers: {

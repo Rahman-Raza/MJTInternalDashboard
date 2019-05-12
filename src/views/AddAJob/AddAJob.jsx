@@ -232,7 +232,7 @@ class AddAJob extends React.Component {
 
     const self = this;
 
-    await axios("http://myjobtank.com:8087/jobposting", {
+    await axios("http://206.189.217.219:8087/jobposting", {
      method: 'post',
       data: json,
       headers: {
@@ -264,7 +264,7 @@ class AddAJob extends React.Component {
      var json = JSON.stringify(form);
 
     const self = this;
-       await axios("http://myjobtank.com:8087/editjobposting", {
+       await axios("http://206.189.217.219:8087/editjobposting", {
      method: 'post',
       data: form,
       headers: {

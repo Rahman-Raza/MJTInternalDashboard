@@ -86,7 +86,7 @@ class Particulars extends React.Component {
 
     console.log("checking json",json);
 
-axios ("http://myjobtank.com:8087/jdresumerating",{
+axios ("http://206.189.217.219:8087/jdresumerating",{
    method: 'post',
    data:  json,
     headers: {

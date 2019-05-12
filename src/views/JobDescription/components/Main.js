@@ -124,7 +124,7 @@ class Main extends Component {
 
     this.setState({ isMounted: true});
     this.props.loadingRef(true,"Loading Job Data...");
-    await axios.get('http://myjobtank.com:8087/jobpostinginfo/'+this.props.jobID)
+    await axios.get('http://206.189.217.219:8087/jobpostinginfo/'+this.props.jobID)
 
       .then(function (response) {
         console.log("heres the response from /jobpostinginfo", response);
@@ -156,7 +156,7 @@ filterResumesServiceCall = async () =>{
 matchingRateServiceCall =  () =>{
   this.props.loadingRef(true,"Generating Matching Rate List...");
    var self=this;
-   axios.get('http://myjobtank.com:8087/listofmatchedresumes/'+this.props.jobID)
+   axios.get('http://206.189.217.219:8087/listofmatchedresumes/'+this.props.jobID)
 
       .then(function (response) {
         console.log("heres the response from /listofmatchedresumed", response);
@@ -182,7 +182,7 @@ matchingRateServiceCall =  () =>{
 
 viewRecruitersServiceCall = async () =>{
    var self=this;
-  await axios.get('http://myjobtank.com:8087/viewrecruiters')
+  await axios.get('http://206.189.217.219:8087/viewrecruiters')
 
       .then(function (response) {
         console.log("heres the response from /viewrecriiters", response);
@@ -213,7 +213,7 @@ matchRecruiterServiceCall = async (recruiterName) =>{
    var self=this;
 
 
-  await axios.post('http://myjobtank.com:8087/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
+  await axios.post('http://206.189.217.219:8087/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
 
       .then(function (response) {
         console.log("heres the response from /assignJobOrder", response);
@@ -344,7 +344,7 @@ handleAssignRecruiter (event){
 );
   };
 
-  filterResumesServiceCall = async (filterObject = {}) =>{
+  handleFilterSubmit = async (filterObject = {}) =>{
     this.props.loadingRef(true,"Filtering Resumes");
     console.log("checking data before filterresumeset api call", filterObject);
 
@@ -514,7 +514,7 @@ handleAssignRecruiter (event){
           </Grid>
 
           <Grid item sm={5}>
-            <MatchingRateList data={this.state.matchedRateList}  filterResumesServiceCall={this.filterResumesServiceCall} toggleResume={this.toggleResume} />
+            <MatchingRateList data={this.state.matchedRateList}  handleFilterSubmit={this.handleFilterSubmit} toggleResume={this.toggleResume} />
           </Grid>
         </Grid>
       </div>

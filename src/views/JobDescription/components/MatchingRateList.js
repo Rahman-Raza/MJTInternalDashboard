@@ -164,7 +164,7 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
 
     </Dialog>
       <aside style={styles.filterSideBar} className="sidebar">
-      <ExpansionPanel/>
+      <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>
     <aside style={styles.sidebar} className="sidebar">
       <div style={styles.sideBarContainer}>

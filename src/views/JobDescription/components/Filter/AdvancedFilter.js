@@ -23,6 +23,9 @@ import Grid from '@material-ui/core/Grid';
 
 const themeColor = "#00ADF3";
 const styles = {
+  filterContainer:{
+    maxWidth: "300px",
+  },
   gridRoot:{
     flexGrow: 1,
   },
@@ -127,18 +130,16 @@ handleFilterSubmit = () =>{
     const {classes} = this.props;
 
   return (
-  <div>
-  <AppBar className={classes.appBar}>
-    <Toolbar>
-      <IconButton color="inherit" onClick={this.props.handleClose} aria-label="Close">
-        <CloseIcon />
-      </IconButton>
-      <Button color="inherit" onClick={this.props.handleClose}>
-        filter
-      </Button>
-    </Toolbar>
-  </AppBar>
-  <Grid container className={classes.gridRoot} spacing={32}>
+  <div style={styles.filterContainer}>
+  <div className="row" style={{marginTop: "25px"}} >
+    <div className="col-lg-2"></div>
+    <div className="col-lg-10">
+    <Button style={styles.a} variant="outlined"  onClick={this.handleFilterSubmit}>
+      Filter Resumes
+    </Button>
+    </div>
+  </div>
+  <Grid container className={classes.gridRoot} spacing={16}>
     <Grid item >
           <List>
           <ListItem>
@@ -274,15 +275,15 @@ handleFilterSubmit = () =>{
   </div>
     </Grid>
     <Grid item >
-    <div className="row">
+    <div className="row" style={{minWidth: "100px"}}>
     <List>
     <ListItem>
-    <div className="col-md-12" style={{margin: "5px 0px"}}>
+    <div className="col-md-12" style={{margin: "5px 10px"}}>
       <p style={{color:"#00ADF3"}}>Skills</p>
     </div>
     </ListItem>
     <ListItem>
-      <div className="col-md-12" style={{margin: "5px 0px"}}>
+      <div className="col-md-12" style={{margin: "5px 10px"}}>
     <RatedInputContainer
                onRef={(ref) => {this.SkillsContainer = ref}}
                   title="Skills"
@@ -296,14 +297,7 @@ handleFilterSubmit = () =>{
     </div>
     </Grid>
   </Grid>
-  <div className="row" style={{marginTop: "25px"}} >
-    <div className="col-lg-2"></div>
-    <div className="col-lg-3 col-md-offset-3">
-    <Button style={styles.a} variant="outlined"  onClick={this.handleFilterSubmit}>
-      Filter Resumes
-    </Button>
-    </div>
-  </div>
+
   </div>
   )
 

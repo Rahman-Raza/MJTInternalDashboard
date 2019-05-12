@@ -39,7 +39,7 @@ function* workerSaga(action) {
     if(response.data.Code === 200){
 
       switch(action.url){
-      case 'http://myjobtank.com:8087/login':
+      case 'http://206.189.217.219:8087/login':
           
     }
   }
