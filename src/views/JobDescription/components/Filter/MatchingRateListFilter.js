@@ -36,9 +36,6 @@ function MatchingRateListFilter(props) {
 
   return (
     <Paper className={classes.root} elevation={1}>
-      <IconButton onClick={props.advancedFilter} className={classes.iconButton} aria-label="Menu">
-        <MenuIcon />
-      </IconButton>
       <InputBase className={classes.input} placeholder="Filter by Name"
         onChange={(e) => {props.handleFilter(e.target.value)}} />
       <IconButton className={classes.iconButton} aria-label="Search">

@@ -19,7 +19,7 @@ var fileDownload = require('js-file-download');
 const styles = {
   root: {
     position: "fixed",
-   
+
     overflowY: "scroll",
     top: "0",
     left: "0",
@@ -40,7 +40,7 @@ const styles = {
     marginLeft:"18.5%",
     padding: "50px 0 0",
     width: "63%",
-   
+
     position: "absolute",
 
 
@@ -89,7 +89,7 @@ class Resume extends React.Component {
       loading: false,
       resumeID: this.props.resumeID,
       jobID: this.props.jobID,
-     
+
       resumeData:{
         Edu: [],
         Email: "example@gmail.com",
@@ -105,23 +105,23 @@ class Resume extends React.Component {
   }
 
     componentDidMount = () =>{
-     
+
       this.loadData(this.props.resumeID);
-   
+
   }
 
   loadData = async (resumeID) =>{
      var self=this;
      this.setState({loading: true});
     await axios.get('http://206.189.217.219:8087/personalresume/'+resumeID)
-      
+
       .then(function (response) {
         console.log("heres the response from /personalresume", response);
-        
+
         if(response["status"]  == 200){
             self.setState({loading: false, resumeData: response.data["Data"], resumeID:resumeID});
             console.log("success in /personalresume", response.data["Data"]);
-             
+
 
         }
       })
@@ -147,7 +147,7 @@ class Resume extends React.Component {
                 'Content-Type': 'application/json',
                 'Accept': 'application/pdf'
             }
-         
+
         }).then((response) => {
           console.log("success in /getresumefile", response);
           const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -164,7 +164,7 @@ class Resume extends React.Component {
         self.setState({loadingMessage: 'Error Loading Data...'});
       });
 
-    
+
 
   }
   render() {
@@ -174,7 +174,7 @@ class Resume extends React.Component {
                         active={this.state.loading}
                         spinner
                         text={this.state.loadingMessage}
-                        
+
                         >
       <div style={styles.root}>
         <Icon style={styles.closeIcon} onClick={this.props.closeHandler}>
@@ -208,15 +208,15 @@ class Resume extends React.Component {
               {this.state.resumeData["Work"].length > 0 ? this.state.resumeData["Work"].map((current, index) => {
                 return ( <ResumeEntry data={current} />)
               }) : (<div> </div>)}
-                
-                
+
+
               </ResumeSection>
-              
+
             </Grid>
 
             <Grid style={styles.sidebar} item sm={4}>
               <ResumeSection icon="school" heading="Education" color="#FFF">
-                
+
               {this.state.resumeData["Edu"].length > 0 ? this.state.resumeData["Edu"].map((current, index) => {
                 return ( <EducationEntry key={index} data={current} />)
               }) : (<div> </div>)}
@@ -227,18 +227,7 @@ class Resume extends React.Component {
                 heading="Skill"
                 color="#FFF"
               >
-                {[
-                  "Sketch",
-                  "Less",
-                  "PHP",
-                  "Photoshop",
-                  "Illustrator",
-                  "C++",
-                  "Sublime Text",
-                  "JavaScript",
-                  "InDesign",
-                  "jQuery"
-                ].map(current => (
+                {this.state.resumeData["Skills"].map(current => (
                   <Typography variant="body2" style={styles.skill}>{current}</Typography>
                 ))}
               </ResumeSection>

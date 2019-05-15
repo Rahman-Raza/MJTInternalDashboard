@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import isEmpty from 'variables/isEmpty.js';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -111,6 +111,7 @@ class Main extends Component {
         WorkExperience: "2 - 5 Years",
       },
       matchedRateList: [],
+      originalMatchedRateList: [],
       recruiterList: [],
     };
     this.toggleResume = this.toggleResume.bind(this);
@@ -350,29 +351,47 @@ handleAssignRecruiter (event){
 
     var self=this;
 
+    if (isEmpty(filterObject)){
 
-   await axios.post('https://mjtbe.tk/filterresumeset', filterObject)
-
-       .then(function (response) {
-         console.log("heres the response from /filterresumeset", response);
-
-         if(response["status"]  == 200){
-
-           if(self.state.isMounted){
-              console.log("Success in /filterresumeset");
-                // console.log("success in /filterresumeset", response.data["Data"]);
-                    self.handleLoadingClose();
-
-
+      console.log("is empty filterobject");
+      this.setState({matchedRateList: this.state.originalMatchedRateList});
+      self.handleLoadingClose();
+    }
+    else{
+         await axios.post('https://mjtbe.tk/filterresumeset', filterObject)
+             .then(function (response) {
+               console.log("heres the response from /filterresumeset", response);
+               if(response["status"]  == 200){
+                 if(self.state.isMounted){
+                    console.log("Success in /filterresumeset");
+                       console.log("success in /filterresumeset", response.data["Data"]);
+                          self.handleLoadingClose();
+                          self.organizeFilterDataToMatchingRateList(response.data["Data"]["items"]);
+                     }
                }
+             })
+             .catch(function (error) {
+               console.log('error in /filterresumeset ', error);
+               self.handleLoadingClose();
+             });
+     }
+  }
 
-         }
-       })
-       .catch(function (error) {
-         console.log('error in /filterresumeset ', error);
-         self.handleLoadingClose();
+  organizeFilterDataToMatchingRateList = (data) =>{
+    const {matchedRateList} = this.state;
 
-       });
+    let originalMatchedRateList = matchedRateList;
+
+    console.log("checking existing matchedRateList", matchedRateList);
+    console.log("checking new data coming from filterresumeset", data);
+
+    let newMatchedRateList = data.map((resumeData) => {
+      return {ID: resumeData["ID"], Name: resumeData["Name"], Email: resumeData["Email"], Phone: resumeData["Phone"]};
+    });
+
+    console.log("checking new cleaned matchedratelist", newMatchedRateList);
+
+    this.setState({matchedRateList: newMatchedRateList, originalMatchedRateList: originalMatchedRateList});
 
 
 

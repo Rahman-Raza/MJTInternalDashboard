@@ -11,7 +11,7 @@ import "react-circular-progressbar/dist/styles.css";
 
 const styles = {
   wordWrap: {
-   
+
     wordWrap: "break-word",
   },
   card: {
@@ -51,7 +51,7 @@ const styles = {
   },
    emailIcon: {
     position: "relative",
-   
+
     margin: "0 5px"
   },
   name: {
@@ -74,7 +74,8 @@ class CandidateCard extends React.Component {
         key={this.props.key}
       >
         <CardContent style={styles.cardContent}>
-          <section style={styles.percentageContainer}>
+
+          { this.props.percentage && <section style={styles.percentageContainer}>
             <CircularProgressbar
               percentage={this.props.percentage}
               text={`${this.props.percentage}%`}
@@ -87,7 +88,7 @@ class CandidateCard extends React.Component {
                 }
               }}
             />
-          </section>
+          </section>}
 
           <section style={styles.detailContainer}>
             <Typography style={styles.name} variant="button">

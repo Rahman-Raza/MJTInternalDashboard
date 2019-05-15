@@ -20,7 +20,7 @@ import LocationCity from '@material-ui/icons/LocationCity';
 import School from '@material-ui/icons/School';
 import Layers from '@material-ui/icons/Layers';
 import Grid from '@material-ui/core/Grid';
-
+import isEqual from 'variables/isEqual';
 const themeColor = "#00ADF3";
 const styles = {
   filterContainer:{
@@ -100,6 +100,18 @@ class  AdvancedFilter extends React.Component{
       Institution: "",
       Major: "",
       DegreeType: "",
+    },
+    formDataTemplate:{
+      DataSource: 1,
+      Skills: [],
+      SkillsInclusive: true,
+      Employer: "",
+      Title: "",
+      WorkLengthMin: 0,
+      JobDescription: "",
+      Institution: "",
+      Major: "",
+      DegreeType: "",
     }
   }
 
@@ -116,14 +128,25 @@ handleFilterSubmit = () =>{
 
   console.log("got to handleFilterSubmit");
 
+
+
   let submitForm = this.state.formData;
+  let {formDataTemplate} = this.state;
 
   submitForm["Skills"] = this.SkillsContainer.returnInfo();
   submitForm["WorkLengthMin"] = parseInt(this.state.formData["WorkLengthMin"]);
 
   console.log("checking advanced filter data before submission", submitForm);
 
-  this.props.handleFilterSubmit( submitForm);
+
+  if (JSON.stringify(submitForm) === JSON.stringify(formDataTemplate)){
+
+    console.log("submitForm is empty object");
+    this.props.handleFilterSubmit({});
+  }
+  else{
+    this.props.handleFilterSubmit( submitForm);
+  }
 }
   render(){
     const {formData} = this.state;
