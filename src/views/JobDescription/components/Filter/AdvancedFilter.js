@@ -154,14 +154,6 @@ handleFilterSubmit = () =>{
 
   return (
   <div style={styles.filterContainer}>
-  <div className="row" style={{marginTop: "10px"}} >
-    <div className="col-lg-2"></div>
-    <div className="col-lg-10">
-    <Button style={styles.filterButton} variant="outlined"  onClick={this.handleFilterSubmit}>
-      Filter Resumes
-    </Button>
-    </div>
-  </div>
   <Grid container className={classes.gridRoot} spacing={16}>
     <Grid item >
           <List>
@@ -310,7 +302,14 @@ handleFilterSubmit = () =>{
     </div>
     </Grid>
   </Grid>
-
+  <div className="row" style={{marginTop: "10px"}} >
+    <div className="col-lg-2"></div>
+    <div className="col-lg-10">
+    <Button style={styles.filterButton} variant="outlined"  onClick={this.handleFilterSubmit}>
+      Filter Resumes
+    </Button>
+    </div>
+  </div>
   </div>
   )
 

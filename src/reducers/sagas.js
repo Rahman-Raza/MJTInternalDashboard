@@ -39,7 +39,7 @@ function* workerSaga(action) {
     if(response.data.Code === 200){
 
       switch(action.url){
-      case 'http://206.189.217.219:8087/login':
+      case 'https://mjtbe.tk/login':
           
     }
   }

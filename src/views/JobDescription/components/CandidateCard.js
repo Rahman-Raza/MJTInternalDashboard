@@ -62,6 +62,8 @@ const styles = {
 };
 
 class CandidateCard extends React.Component {
+
+
   render() {
 
 
@@ -94,7 +96,7 @@ class CandidateCard extends React.Component {
             <Typography style={styles.name} variant="button">
               {this.props.data["Name"]}
             </Typography>
-            <p style={{ margin: 0 }}>
+            <p  style={{ margin: 0 }}>
               <Icon style={styles.icon}>phone</Icon>
               <span > {this.props.data["Phone"]}</span>
             </p>

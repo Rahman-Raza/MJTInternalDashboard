@@ -94,7 +94,7 @@ class RegisterForm extends React.Component {
 
     sendData = (form) =>{
     const self = this;
-    axios ("http://206.189.217.219:8087/register",{
+    axios ("https://mjtbe.tk/register",{
    method: 'post',
    data:  form,
    headers: {

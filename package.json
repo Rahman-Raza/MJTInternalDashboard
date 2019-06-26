@@ -40,6 +40,7 @@
     "react-table": "6.8.6",
     "react-tagsinput": "3.19.0",
     "redux-saga": "^1.0.2",
+    "twilio": "^3.32.0",
     "universal-cookie": "^3.0.7"
   },
   "scripts": {

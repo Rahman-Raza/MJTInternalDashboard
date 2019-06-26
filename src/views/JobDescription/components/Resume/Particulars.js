@@ -86,7 +86,7 @@ class Particulars extends React.Component {
 
     console.log("checking json",json);
 
-axios ("http://206.189.217.219:8087/jdresumerating",{
+axios ("https://mjtbe.tk/jdresumerating",{
    method: 'post',
    data:  json,
     headers: {
@@ -95,7 +95,7 @@ axios ("http://206.189.217.219:8087/jdresumerating",{
  })
       .then(function (response) {
         console.log("heres the response from /jdresumerating", response);
-        
+
         if(response["status"]  == 200){
           console.log("sucessfull call to /jdresumerating");
 
@@ -115,7 +115,7 @@ axios ("http://206.189.217.219:8087/jdresumerating",{
         this.props.resumeRef.handleResumeChange(matchratelist[++index]["ID"]);
       }
         break;
-      } 
+      }
     }
   }
 
@@ -128,8 +128,19 @@ axios ("http://206.189.217.219:8087/jdresumerating",{
         this.props.resumeRef.handleResumeChange(matchratelist[index-1]["ID"]);
       }
         break;
-      } 
+      }
     }
+  }
+  makeTwilioPhoneCall = (event) =>{
+
+    console.log("got to client makeTwilioPhoneCall");
+
+    const formData = this.props.resumeData["Phone"];
+
+    axios.post("/twilio", { formData }).then( res => {
+      console.log("heres the response from server for twilio: ", res.data);
+    });
+
   }
   render() {
     return (
@@ -146,9 +157,11 @@ axios ("http://206.189.217.219:8087/jdresumerating",{
           <Typography align="center" gutterBottom>
            {this.props.resumeData["Occupation"]}
           </Typography>
-          <Typography style={styles.details} align="center" gutterBottom>
-            {this.props.resumeData["Phone"]}
-          </Typography>
+          <a onClick={this.makeTwilioPhoneCall}>
+            <Typography  style={styles.details} align="center" gutterBottom>
+              {this.props.resumeData["Phone"]}
+            </Typography>
+          </a>
           <Typography style={styles.details} align="center">
            {this.props.resumeData["Email"]}
           </Typography>

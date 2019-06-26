@@ -195,12 +195,12 @@ this.setState({loading: true});
 
     if(pageNumber - this.state.activePage == 1){
       console.log("was in next");
-       url = 'http://206.189.217.219:8087/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
+       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
     }
     else if (pageNumber - this.state.activePage == -1){
        console.log("was in previous");
        console.log("checking in previous this.state.paginator[0]",this.state.paginator[0] );
-       url = 'http://206.189.217.219:8087/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
+       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
     }
 
     else {
@@ -260,9 +260,9 @@ this.setState({loading: true});
 
     let getURL = '';
 
-    positionStatus.length>0 ?  getURL = filter ? 'http://206.189.217.219:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'http://206.189.217.219:8087/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0'
+    positionStatus.length>0 ?  getURL = filter ? 'https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0'
 
-                  : getURL =  'http://206.189.217.219:8087/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword
+                  : getURL =  'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword
 
 
 
@@ -309,7 +309,7 @@ this.setState({loading: true});
       var self=this;
 
       this.setState({loading: true});
-       await axios.get('http://206.189.217.219:8087/viewassignedjoborders')
+       await axios.get('https://mjtbe.tk/viewassignedjoborders')
 
         .then(function (response) {
           console.log("heres the response from axios viewassignedjoborders call", response);

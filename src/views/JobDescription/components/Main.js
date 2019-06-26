@@ -125,7 +125,7 @@ class Main extends Component {
 
     this.setState({ isMounted: true});
     this.props.loadingRef(true,"Loading Job Data...");
-    await axios.get('http://206.189.217.219:8087/jobpostinginfo/'+this.props.jobID)
+    await axios.get('https://mjtbe.tk/jobpostinginfo/'+this.props.jobID)
 
       .then(function (response) {
         console.log("heres the response from /jobpostinginfo", response);
@@ -157,7 +157,7 @@ filterResumesServiceCall = async () =>{
 matchingRateServiceCall =  () =>{
   this.props.loadingRef(true,"Generating Matching Rate List...");
    var self=this;
-   axios.get('http://206.189.217.219:8087/listofmatchedresumes/'+this.props.jobID)
+   axios.get('https://mjtbe.tk/listofmatchedresumes/'+this.props.jobID)
 
       .then(function (response) {
         console.log("heres the response from /listofmatchedresumed", response);
@@ -183,7 +183,7 @@ matchingRateServiceCall =  () =>{
 
 viewRecruitersServiceCall = async () =>{
    var self=this;
-  await axios.get('http://206.189.217.219:8087/viewrecruiters')
+  await axios.get('https://mjtbe.tk/viewrecruiters')
 
       .then(function (response) {
         console.log("heres the response from /viewrecriiters", response);
@@ -214,7 +214,7 @@ matchRecruiterServiceCall = async (recruiterName) =>{
    var self=this;
 
 
-  await axios.post('http://206.189.217.219:8087/assignjoborder/', {job_id: this.props.jobID, recruiter_name: recruiterName })
+  await axios.post('https://mjtbe.tk/assignjoborder', {jobPostingId: this.props.jobID, AssignedRecruiterName: recruiterName })
 
       .then(function (response) {
         console.log("heres the response from /assignJobOrder", response);
@@ -223,7 +223,7 @@ matchRecruiterServiceCall = async (recruiterName) =>{
 
           if(self.state.isMounted){
 
-                console.log("success in /assignJobOrder", response.data["Data"]);
+                console.log("success in /assignjoborder", response.data["Data"]);
 
 
               }
@@ -231,7 +231,7 @@ matchRecruiterServiceCall = async (recruiterName) =>{
         }
       })
       .catch(function (error) {
-        console.log('error in /assignJobOrder ', error);
+        console.log('error in /assignjoborder ', error);
 
       });
 

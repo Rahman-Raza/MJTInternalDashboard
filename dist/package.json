@@ -38,7 +38,8 @@
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "sendmail": "^1.4.1",
-    "serve-static": "^1.13.2"
+    "serve-static": "^1.13.2",
+    "twilio": "^3.32.0"
   },
   "optionalDependencies": {
     "fsevents": "*"

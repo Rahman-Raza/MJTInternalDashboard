@@ -113,7 +113,7 @@ class Resume extends React.Component {
   loadData = async (resumeID) =>{
      var self=this;
      this.setState({loading: true});
-    await axios.get('http://206.189.217.219:8087/personalresume/'+resumeID)
+    await axios.get('https://mjtbe.tk/personalresume/'+resumeID)
 
       .then(function (response) {
         console.log("heres the response from /personalresume", response);
@@ -140,7 +140,7 @@ class Resume extends React.Component {
      this.setState({loading: true});
      console.log("checking resume FileName",self.state.resumeData["FileName"] );
     axios({
-          url: 'http://206.189.217.219:8087/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
+          url: 'https://mjtbe.tk/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
           method: 'GET',
          responseType: 'arraybuffer',
             headers: {
@@ -227,9 +227,11 @@ class Resume extends React.Component {
                 heading="Skill"
                 color="#FFF"
               >
-                {this.state.resumeData["Skills"].map(current => (
+                {this.state.resumeData["Skills"] != null? this.state.resumeData["Skills"].map(current => (
                   <Typography variant="body2" style={styles.skill}>{current}</Typography>
-                ))}
+                )) :<Typography variant="body2" style={styles.skill}>No Skills present</Typography>
+
+              }
               </ResumeSection>
             </Grid>
           </Grid>
