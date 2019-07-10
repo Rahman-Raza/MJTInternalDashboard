@@ -19,8 +19,7 @@ module.exports = (app) => {
         console.log("sucessful post to /twilio");
         client.calls
           .create({
-             url: 'http://demo.twilio.com/docs/voice.xml',
-             to: '+15307609050',
+             to: phone_number,
              from: '+12172882015'
            })
           .then(call => console.log("here is call.sid", call.sid))

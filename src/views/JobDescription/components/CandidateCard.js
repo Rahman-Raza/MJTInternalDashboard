@@ -1,10 +1,10 @@
 import React from "react";
-
+import Button from '@material-ui/core/Button';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Icon from "@material-ui/core/Icon";
 import Typography from "@material-ui/core/Typography";
-
+import axios from 'axios';
 import CircularProgressbar from "react-circular-progressbar";
 
 import "react-circular-progressbar/dist/styles.css";
@@ -41,27 +41,39 @@ const styles = {
     display: "inline-block",
     fontFamily: "Helvetica",
     fontSize: "14px",
-    width: "70%",
+    width: "100%",
     padding: "21px"
   },
   icon: {
     position: "relative",
-    top: "5px",
     margin: "0 5px"
   },
    emailIcon: {
     position: "relative",
-
+    top: "5px",
     margin: "0 5px"
   },
   name: {
     color: "#00ADF3",
     textTransform: "uppercase",
     margin: "0 0 0 5px"
-  }
+  },
 };
 
 class CandidateCard extends React.Component {
+
+  makeTwilioPhoneCall = (event) =>{
+
+    event.stopPropagation()
+    console.log("got to client makeTwilioPhoneCall");
+
+    const formData = this.props.data["Phone"];
+
+    axios.post("/twilio", { formData }).then( res => {
+      console.log("heres the response from server for twilio: ", res.data);
+    });
+
+  }
 
 
   render() {
@@ -93,17 +105,22 @@ class CandidateCard extends React.Component {
           </section>}
 
           <section style={styles.detailContainer}>
-            <Typography style={styles.name} variant="button">
-              {this.props.data["Name"]}
-            </Typography>
-            <p  style={{ margin: 0 }}>
-              <Icon style={styles.icon}>phone</Icon>
-              <span > {this.props.data["Phone"]}</span>
-            </p>
-            <p style={{ margin: 0, display: "inline-flex" }}>
-              <Icon style={styles.emailIcon}>email</Icon>
-              <span style={styles.wordWrap}> {this.props.data["Email"]}</span>
-            </p>
+                 
+                  <Button style={styles.name} >
+                    {this.props.data["Name"]}
+                  </Button>
+            
+                  <Button style={styles.name} onClick={this.makeTwilioPhoneCall}>
+                    <Icon style={styles.icon}>phone</Icon>
+                    {this.props.data["Phone"]}
+                  </Button>
+
+                   <Button style={styles.name} onClick={(event) => event.stopPropagation()}>
+                    <Icon style={styles.icon}>email</Icon>
+                    {this.props.data["Email"]}
+                  </Button>
+              
+        
           </section>
         </CardContent>
       </Card>

@@ -1,11 +1,19 @@
 import React from "react";
 import axios from "axios";
-
+import Button from '@material-ui/core/Button';
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import orange from "@material-ui/core/colors/orange";
 import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+
+
 const styles = {
+  input: {
+    display: 'none',
+  },
   root: {
     display: "flex",
     justifyContent: "space-around",
@@ -23,7 +31,7 @@ const styles = {
     textTransform: "uppercase"
   },
   details: {
-    color: "#00ADF3",
+    color: "#000",
     fontFamily: "Roboto",
     margin: "10px 0"
   },
@@ -81,18 +89,18 @@ class Particulars extends React.Component {
 
     console.log("checking parameters jobid, resumeID, rating: ", this.props.jobID, this.props.resumeID, rating);
 
-    var obj = {JobID: this.props.jobID, ResumeID: this.props.resumeID, Rating: rating};
+      var obj = {JobID: this.props.jobID, ResumeID: this.props.resumeID, Rating: rating};
       var json = JSON.stringify(obj);
 
-    console.log("checking json",json);
+      console.log("checking json",json);
 
-axios ("https://mjtbe.tk/jdresumerating",{
-   method: 'post',
-   data:  json,
-    headers: {
-        'content-type': 'multipart/form-data'
-      }
- })
+      axios ("https://mjtbe.tk/jdresumerating",{
+         method: 'post',
+         data:  json,
+          headers: {
+              'content-type': 'multipart/form-data'
+            }
+       })
       .then(function (response) {
         console.log("heres the response from /jdresumerating", response);
 
@@ -157,11 +165,16 @@ axios ("https://mjtbe.tk/jdresumerating",{
           <Typography align="center" gutterBottom>
            {this.props.resumeData["Occupation"]}
           </Typography>
-          <a onClick={this.makeTwilioPhoneCall}>
-            <Typography  style={styles.details} align="center" gutterBottom>
+
+          
+          
+            <Typography align="center" gutterBottom>
+              <Button  style={styles.name} onClick={this.makeTwilioPhoneCall}>
               {this.props.resumeData["Phone"]}
+              </Button>
             </Typography>
-          </a>
+          
+    
           <Typography style={styles.details} align="center">
            {this.props.resumeData["Email"]}
           </Typography>

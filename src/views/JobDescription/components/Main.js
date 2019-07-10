@@ -400,6 +400,9 @@ handleAssignRecruiter (event){
 
 
   render() {
+    let langArray = this.state.jobData["Language"].constructor === Array ? JSON.parse(this.state.jobData["Language"]) : [];
+    let skillArray = this.state.jobData["RequiredSkills"].constructor === Array ? JSON.parse(this.state.jobData["RequiredSkills"]) : [];
+
     return (
     <div>
 
@@ -507,8 +510,8 @@ handleAssignRecruiter (event){
               <Divider />
 
               <ContentSection heading="Required Skills">
-                <ChipSection subheading="Language" labels={JSON.parse(this.state.jobData["Language"])} />
-                <ChipSection subheading="Required Skills" labels={JSON.parse(this.state.jobData["RequiredSkills"])} />
+                <ChipSection subheading="Language" labels={langArray} />
+                <ChipSection subheading="Required Skills" labels={skillArray} />
               </ContentSection>
 
               <ContentSection heading="Compensation">
