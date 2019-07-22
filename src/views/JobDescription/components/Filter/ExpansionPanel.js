@@ -57,7 +57,7 @@ class SimpleExpansionPanel extends React.Component{
         <ExpansionPanel onChange={this.handleExpand} expanded={expanded} elevation={0} classes={{}}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
             <PlaylistPlay style={expandIconStyle}/>
-            <Typography className={classes.heading}>Filter by Work / School / Skills</Typography>
+            <Typography className={classes.heading}>依据 工作/学校/技能 筛选</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
               <AdvancedFilter handleClose={this.handleExpand} handleFilterSubmit={this.handleFilterSubmit}/>

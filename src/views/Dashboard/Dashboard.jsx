@@ -558,7 +558,7 @@ this.setState({loading: true});
 
             <ItemGrid xs={10} sm={10} style={{ marginTop: "50px" }}>
               <RegularCard
-                cardTitle={<span>Job Positions</span>}
+                cardTitle={<span>职位</span>}
 
                 subtitleAlign="right"
                 content={
@@ -570,7 +570,7 @@ this.setState({loading: true});
                     filterJobs={this.fetchData}
                     tabs={[
                       {
-                        tabButton: "New Positions",
+                        tabButton: "New Jobs",
                         tabContent: (
                           <div>
                             <GridContainer>
@@ -593,7 +593,7 @@ this.setState({loading: true});
                                               small="Tech"
                                               category="New"
                                               statIcon={Email}
-                                              statText={"Updated " + updatedAt}
+                                              statText={"两周前更新 " + updatedAt}
                                             />
                                           </ItemGrid>
                                          )})}
@@ -602,7 +602,7 @@ this.setState({loading: true});
                         )
                       },
                       {
-                        tabButton: "Open Positions",
+                        tabButton: "空缺职位",
                         tabContent: (
                           <div>
                              <GridContainer>
@@ -623,7 +623,7 @@ this.setState({loading: true});
                                     small="Tech"
                                     category="Open"
                                     statIcon={Email}
-                                    statText={"Updated " + updatedAt}
+                                    statText={"两周前更新" + updatedAt}
                                   />
                                 </ItemGrid>
                               )})}
@@ -632,7 +632,7 @@ this.setState({loading: true});
                         )
                       },
                       {
-                        tabButton: "Closed Positions",
+                        tabButton: "结束应聘的职位",
                         tabContent: (
                           <div>
                               <GridContainer>
@@ -653,7 +653,7 @@ this.setState({loading: true});
                                     description={opening.JobPosition}
                                     small="Tech"
                                     statIcon={Email}
-                                    statText={"Updated " + updatedAt}
+                                    statText={"两周前更新 " + updatedAt}
                                   />
                                 </ItemGrid>
                               )})}
@@ -685,8 +685,8 @@ this.setState({loading: true});
                                     description={opening.JobPosition}
                                     small="Tech"
                                     statIcon={Email}
-                                    statText="Updated 2 Min ago..."
-                                    statText={"Updated " + updatedAt}
+                                    statText="两周前更新"
+                                    statText={"两周前更新 " + updatedAt}
                                   />
                                 </ItemGrid>
                               )})}

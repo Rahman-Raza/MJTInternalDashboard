@@ -124,14 +124,14 @@ class FilterForm extends React.Component {
                   className={`${classes.cardHeader} ${classes.textCenter}`}
                   color="rose"
                 >
-                  <h4 className={classes.cardTitle}>Filter Jobs</h4>
+                  <h4 className={classes.cardTitle}>筛选职位</h4>
                  
                 </CardHeader>
                 <CardBody>
                      
                   <CustomInput
 
-                    labelText="Filter by keyword"
+                    labelText="关键字查询"
                     id="keyword"
                     name="keyword"
                     formControlProps={{
@@ -154,9 +154,9 @@ class FilterForm extends React.Component {
                                     }
                                     >
                                         <MenuItem value="category">
-                                        <em>Select category</em>
+                                        <em>选择分类</em>
                                     </MenuItem>
-                                        <MenuItem value={"cname"}>Company Name</MenuItem>
+                                        <MenuItem value={"cname"}>公司名称</MenuItem>
                                         <MenuItem value={"status"}>Status</MenuItem>
                                          <MenuItem value={"position"}>Position</MenuItem>
                                          <MenuItem value={"location"}>Location</MenuItem>

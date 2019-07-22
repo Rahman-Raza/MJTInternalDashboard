@@ -111,7 +111,7 @@ class LetterHead extends React.Component {
 
                 style={{ color: 'rgb(0, 173, 243)', fontSize: '1.75rem' }}
               >
-               Job description
+               职位简介
               </Typography>
               </div>
             </Grid>
@@ -163,7 +163,7 @@ class LetterHead extends React.Component {
 
 
 
-                         Assign Job to Recruiter
+                         给招聘人员分配职位
 
                  </Button>
                </div>
@@ -172,7 +172,7 @@ class LetterHead extends React.Component {
 
 
 
-                         Edit Job Description
+                         编辑职位描述
 
                  </Button>
                </div>

@@ -143,7 +143,7 @@ class RegisterForm extends React.Component {
                   className={`${classes.cardHeader} ${classes.textCenter}`}
                   color="rose"
                 >
-                  <h4 className={classes.cardTitle}>Register New User</h4>
+                  <h4 className={classes.cardTitle}>新用户注册</h4>
                   <div className={classes.socialLine}>
                     {[
                       "fab fa-facebook-square",
@@ -165,7 +165,7 @@ class RegisterForm extends React.Component {
                 </CardHeader>
                 <CardBody>
                      <CustomInput
-                    labelText="Name..."
+                    labelText="姓名"
                     id="name"
                     name="Name"
                     formControlProps={{
@@ -179,7 +179,7 @@ class RegisterForm extends React.Component {
                       )
                     }}/>
                   <CustomInput
-                    labelText="Email..."
+                    labelText="邮箱"
                     id="email"
                     name="Email"
                     formControlProps={{
@@ -193,7 +193,7 @@ class RegisterForm extends React.Component {
                       )
                     }}/>
                   <CustomInput
-                    labelText="Password"
+                    labelText="密码"
                     type="password"
                     id="password"
                     name="Password"
@@ -218,16 +218,16 @@ class RegisterForm extends React.Component {
                                     }
                                     >
                                         <MenuItem value="Role">
-                                        <em>Select Role</em>
+                                        <em>选择职能类别</em>
                                     </MenuItem>
-                                        <MenuItem value={"User"}>User</MenuItem>
-                                        <MenuItem value={"Admin"}>Admin</MenuItem>
+                                        <MenuItem value={"User"}>用户</MenuItem>
+                                        <MenuItem value={"Admin"}>管理员</MenuItem>
                                         
                                     </Select>
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
                   <Button type="submit"  color="rose" simple size="lg" block>
-                   Submit
+                   提交
                   </Button>
                 </CardFooter>
               </Card>

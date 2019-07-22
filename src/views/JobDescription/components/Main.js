@@ -487,7 +487,7 @@ handleAssignRecruiter (event){
                 <li>- {this.state.jobData["Education"]}</li>
               </ul>
 
-              <ContentSection heading="Summary">
+              <ContentSection heading="总结">
                 <Typography
                   style={{ padding: "20px", lineHeight: "30px", color:'#666666' }}
                   variant="subheading"
@@ -497,7 +497,7 @@ handleAssignRecruiter (event){
                 </Typography>
               </ContentSection>
 
-              <ContentSection heading="Key Responsibilities">
+              <ContentSection heading="关键职责">
                 <Typography
                   style={{ padding: "20px", lineHeight: "30px", color:'#666666' }}
                   variant="subheading"
@@ -509,18 +509,18 @@ handleAssignRecruiter (event){
 
               <Divider />
 
-              <ContentSection heading="Required Skills">
+              <ContentSection heading="必要技能">
                 <ChipSection subheading="Language" labels={langArray} />
-                <ChipSection subheading="Required Skills" labels={skillArray} />
+                <ChipSection subheading="必要技能" labels={skillArray} />
               </ContentSection>
 
-              <ContentSection heading="Compensation">
+              <ContentSection heading="必要技能">
                 <ChipSection
-                  subheading="Salary Range"
+                  subheading="工资"
                   labels={[this.state.jobData["BaseSalary"]]}
                 />
                 <ChecklistSection
-                  subheading="Benefits"
+                  subheading="B必要技能"
                   labels={[
                     this.state.jobData["Commission"] === "true" ? "Commmission":"0",
                     this.state.jobData["Bonuses"] === "true"? "Bonuses":"0",

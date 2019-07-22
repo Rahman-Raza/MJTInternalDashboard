@@ -168,7 +168,7 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
       </aside>
     <aside style={styles.sidebar} className="sidebar">
       <div style={styles.sideBarContainer}>
-        <h3 style={styles.sidebarHeading}>Top Candidates</h3>
+        <h3 style={styles.sidebarHeading}>最优候选人</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
           list.length > 0 ?

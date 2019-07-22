@@ -180,7 +180,7 @@ handleFilterSubmit = () =>{
                 onChange={this.handleChange}
                 value={formData["Employer"]}
                 name="Employer"
-                label="Company Name"
+                label="公司名称"
                 type="search"
                 margin="normal"
                 variant="outlined"
@@ -191,7 +191,7 @@ handleFilterSubmit = () =>{
             <TextField
                 onChange={this.handleChange}
                 id="outlined-search"
-                label="Minimum work length"
+                label="最短工龄"
                 value={formData["WorkLengthMin"]}
                 name="WorkLengthMin"
                 type="search"
@@ -204,7 +204,7 @@ handleFilterSubmit = () =>{
               <TextField
                   id="outlined-search"
                   onChange={this.handleChange}
-                  label="Job Description"
+                  label="职位简介"
                   value={formData["JobDescription"]}
                   name="JobDescription"
                   margin="normal"
@@ -222,7 +222,7 @@ handleFilterSubmit = () =>{
             <ListItem>
             <div className="row">
               <div className="col-md-12" style={{margin: "5px 0px"}}>
-                <p style={{color:"#00ADF3"}}>School</p>
+                <p style={{color:"#00ADF3"}}>学校</p>
               </div>
 
                 <div className="col-md-12" style={{margin: "0px 0px"}}>
@@ -231,7 +231,7 @@ handleFilterSubmit = () =>{
                     onChange={this.handleChange}
                     value={formData["DegreeType"]}
                     name="DegreeType"
-                    label="Degree Type"
+                    label="文凭种类"
                     type="search"
                     margin="normal"
                     variant="outlined"
@@ -242,7 +242,7 @@ handleFilterSubmit = () =>{
               <TextField
                   id="outlined-search"
                   onChange={this.handleChange}
-                  label="Major"
+                  label="专业"
                   value={formData["Major"]}
                   name="Major"
                   type="search"
@@ -256,7 +256,7 @@ handleFilterSubmit = () =>{
                 onChange={this.handleChange}
                 value={formData["Institution"]}
                 name="Institution"
-                label="Univeristy"
+                label="大学"
                 type="search"
                 margin="normal"
                 variant="outlined"
@@ -266,7 +266,7 @@ handleFilterSubmit = () =>{
           <TextField
               id="outlined-search"
               onChange={this.handleChange}
-              label="School Description"
+              label="学校简介"
 
               margin="normal"
               variant="outlined"
@@ -290,7 +290,7 @@ handleFilterSubmit = () =>{
         <div className="col-md-12" style={{margin: "5px 10px"}}>
           <RatedInputContainer
                  onRef={(ref) => {this.SkillsContainer = ref}}
-                    title="Skills"
+                    title="技能"
                     icon={<Layers/>}
                     dataType="Languages"
                     defaultValues={[]}

@@ -223,7 +223,7 @@ class AddJob extends React.Component {
                 <div>
                   <TextField
                     id="textarea"
-                    label="Required Skills"
+                    label="必要技能"
                     className={classes.textField}
                     margin="normal"
                   />
