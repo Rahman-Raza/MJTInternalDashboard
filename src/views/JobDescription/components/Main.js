@@ -125,8 +125,8 @@ class Main extends Component {
 
     this.setState({ isMounted: true});
     this.props.loadingRef(true,"Loading Job Data...");
+    // await axios.get('https://mjtbe.tk/jobpostinginfo/'+this.props.jobID)
     await axios.get('https://mjtbe.tk/jobpostinginfo/'+this.props.jobID)
-
       .then(function (response) {
         console.log("heres the response from /jobpostinginfo", response);
 

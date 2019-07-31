@@ -19,6 +19,7 @@ module.exports = (app) => {
         console.log("sucessful post to /twilio");
         client.calls
           .create({
+             url: 'http://demo.twilio.com/docs/voice.xml',
              to: phone_number,
              from: '+12172882015'
            })
@@ -27,7 +28,7 @@ module.exports = (app) => {
 
           console.log("Unsuccessful call", err);
 
-          res.status(500);
+          res.status(500).send("Call did not go through")
 
         });
 

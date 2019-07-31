@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
+import Modal from '@material-ui/core/Modal';
 
 import CandidateCard from "./CandidateCard";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
@@ -56,7 +57,7 @@ const styles = {
     position: "relative",
     top: "-50px",
     minHeight: "101.9%",
-    width: "103%",
+    width: "114%",
 
   },
   sideBarContainer: {
@@ -104,6 +105,9 @@ state={
   dialogOpen: false,
   filter: "",
   sortAscending: true,
+  twilioOpen: false,
+  twilioDialog: " ",
+
 }
 
 
@@ -147,11 +151,25 @@ handleClickOpen = () => {
 
 
  }
+handlePhoneToggle = (phone_message) => {
+  
+
+  this.state.twilioOpen === false ? this.setState({twilioOpen: true, twilioDialog: phone_message }) : this.setState({twilioDialog: phone_message});
+
+
+}
+
+
+handlePhoneDialogClose = () =>{
+  this.setState({twilioOpen: false});
+}
+
 
 render(){
 //  const list = this.state.options.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase))
 const { classes } = this.props;
 const list = this.handleSort(this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase())));
+let score = 100;
 //const list = this.props.data;
   return (
 <div>
@@ -163,6 +181,13 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
             <AdvancedFilter handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit}/>
 
     </Dialog>
+     <Dialog
+       fullScreen
+        open={this.state.twilioOpen}
+        onClose={this.handlePhoneDialogClose}
+      >
+      <div> it worked {this.state.twilioDialog}</div>
+      </Dialog>
       <aside style={styles.filterSideBar} className="sidebar">
       <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>
@@ -171,15 +196,18 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
         <h3 style={styles.sidebarHeading}>Top Candidates</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
+          
           list.length > 0 ?
         (
 
          list.map((current, index) => {
+          score = score -10;
             return (
                <CandidateCard
                 key={current.ID}
                 resumeToggler={this.props.toggleResume}
-                percentage={current["ResumeScore"]}
+                handlePhoneToggle={this.handlePhoneToggle}
+                percentage={score}
                 data={current} /> )
           })
 
