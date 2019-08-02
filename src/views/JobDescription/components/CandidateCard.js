@@ -82,7 +82,7 @@ class CandidateCard extends React.Component {
     axios.post("/twilio", { formData }).then( res => {
       console.log("heres the response from server for twilio: ", res.data);
 
-        self.props.handlePhoneToggle("Phone call was recieved by " + res.data);
+        self.props.handlePhoneToggle(res.data);
     })
     .catch(function (error) {
         console.log('error in /twilio ', error);

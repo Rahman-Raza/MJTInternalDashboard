@@ -8,6 +8,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Search from "@material-ui/icons/Search";
 import TextField from '@material-ui/core/TextField';
 import MatchingRateListFilter from './Filter/MatchingRateListFilter';
+import SweetAlert from "react-bootstrap-sweetalert";
 import AdvancedFilter from './Filter/AdvancedFilter';
 import ExpansionPanel from './Filter/ExpansionPanel';
 import { withStyles } from '@material-ui/core/styles';
@@ -181,13 +182,9 @@ let score = 100;
             <AdvancedFilter handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit}/>
 
     </Dialog>
-     <Dialog
-       fullScreen
-        open={this.state.twilioOpen}
-        onClose={this.handlePhoneDialogClose}
-      >
-      <div> it worked {this.state.twilioDialog}</div>
-      </Dialog>
+     {this.state.twilioOpen == true &&
+        <SweetAlert success title={this.state.twilioDialog}  onConfirm={this.handlePhoneDialogClose} />
+     }
       <aside style={styles.filterSideBar} className="sidebar">
       <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>

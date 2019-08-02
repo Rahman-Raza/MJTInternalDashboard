@@ -32,7 +32,7 @@ module.exports = (app) => {
 
         });
 
-       res.status(200).send("Twilio phone number was recieved by server");
+       res.status(200).send("A recorded phone message was sent to " + phone_number);
 
 
     }

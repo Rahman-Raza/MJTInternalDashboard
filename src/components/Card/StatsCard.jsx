@@ -59,12 +59,12 @@ function StatsCard({ ...props }) {
         {small}
       </Typography>
       <CardContent className={classes.cardContent}>
-        <Typography component="p" className={classes.cardCategory}>
+        <Typography variant="headline" component="h1" className={classes.cardCategory}>
           {company}
         </Typography>
         <Typography
-          variant="headline"
-          component="h2"
+          
+          component="p"
           className={classes.cardTitle}
         >
           {description}{" "}

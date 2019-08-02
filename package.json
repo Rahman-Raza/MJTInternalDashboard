@@ -19,7 +19,7 @@
     "prop-types": "^15.7.2",
     "react": "16.5.2",
     "react-big-calendar": "0.20.1",
-    "react-bootstrap-sweetalert": "4.4.1",
+    "react-bootstrap-sweetalert": "^4.4.1",
     "react-chartist": "0.13.1",
     "react-circular-progressbar": "^1.0.0",
     "react-cookie": "^3.0.8",
