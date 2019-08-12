@@ -1,11 +1,10 @@
 import React from "react";
-
+import Radium from 'radium';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { withStyles } from "@material-ui/core/styles";
-// import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // @material-ui/icons
 import Add from "@material-ui/icons/Add";
@@ -26,7 +25,11 @@ const styles = {
         fontSize: 30,
         position: "absolute",
         right: "90px",
-        top: "10px"
+        top: "10px",
+        '@media screen and (max-width: 400px)': {
+            top: "10px",
+            right: "50px",
+        },
     },
     addIconStyleMobile:{
       border: "1px solid #00ADF3",
@@ -44,7 +47,6 @@ const styles = {
 };
 
 class FilterJobs extends React.Component {
-   mobileview = false;
     state = {
         anchorEl: null,
         open: false
@@ -63,15 +65,17 @@ class FilterJobs extends React.Component {
                 <Dialog  onClose={this.handleClose} open={this.state.open}>
                     <FilterForm closeRef={this.handleClose} filterJobs={this.props.filterJobs}/>
                 </Dialog>
-                <FilterList
-                    classes={{
-                        root: this.mobileview ? classes.addIconStyleMobile : classes.addIconStyle
-                    }}
-                    onClick={this.handleClick}
-                />
+
+                  <FilterList
+                      classes={{
+                          root: classes.addIconStyle
+                      }}
+                      onClick={this.handleClick}
+                  />
+
             </div>
         );
     }
 }
 
-export default withStyles(styles)(FilterJobs);
+export default withStyles(styles)(Radium(FilterJobs));

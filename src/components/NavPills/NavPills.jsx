@@ -93,10 +93,9 @@ class NavPills extends React.Component {
             />
           );
         })}
-       <div class="jobmenu-container">
+
         <FilterJobs filterJobs={this.props.filterJobs} />
          <JobMenu loadingRef={this.props.loadingRef} />
-      </div>
       </Tabs>
     );
     const tabContent = (

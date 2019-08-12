@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Radium from 'radium';
 import {connect} from "react-redux";
 import SweetAlert from "react-bootstrap-sweetalert";
 import CandidateCard from "./CandidateCard";
@@ -57,7 +58,10 @@ const styles = {
     top: "-50px",
     minHeight: "101.9%",
     width: "114%",
-
+    // '@media screen and (max-width: 400px)': {
+    //   width: "50%",
+    //   padding: " 1px 20px",
+    // },
   },
   sideBarContainer: {
     margin: "50px 0px",
@@ -150,7 +154,7 @@ handleClickOpen = () => {
 
  }
  handlePhoneToggle = (phone_message) => {
-  
+
 
   this.state.twilioOpen === false ? this.setState({twilioOpen: true, twilioDialog: phone_message }) : this.setState({twilioDialog: phone_message});
 
@@ -189,7 +193,7 @@ let score = 100;
         <h3 style={styles.sidebarHeading}>最优候选人序列</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
-          
+
           list.length > 0 ?
         (
 
@@ -219,4 +223,4 @@ let score = 100;
 }
 
 
-export default withStyles(styles)(MatchingRateList);
+export default withStyles(styles)(Radium(MatchingRateList));

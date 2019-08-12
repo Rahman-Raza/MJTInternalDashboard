@@ -1,8 +1,9 @@
 import React from "react";
-
+import Radium from 'radium';
 import Typography from "@material-ui/core/Typography";
 import grey from "@material-ui/core/colors/grey";
 import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
 
 import CloudUpload from "@material-ui/icons/CloudUpload";
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -22,7 +23,10 @@ const chipData = [{ key: 0, label: 'Jimmy' },
       { key: 4, label: 'James' },];
 
 const styles = {
-  letterhead: {},
+  letterhead: {
+    minWidth: "10px",
+    
+  },
   logoContainer: {
     height: "100px",
     width: "100px",
@@ -35,7 +39,8 @@ const styles = {
   },
   infoContainer: {
     marginLeft: "30px",
-    padding: "30px 0 0 30px"
+    padding: "30px 0 0 30px",
+
   },
   subHeadingStyle: {
     color: "#00ADF3",
@@ -104,7 +109,7 @@ class LetterHead extends React.Component {
       <section style={styles.letterhead}>
        <Grid container>
 
-          <Grid item md={9}>
+          <Grid item md={9} sm={5}>
             <div style={styles.infoContainer}>
           <Typography
 
@@ -194,4 +199,4 @@ class LetterHead extends React.Component {
   }
 }
 
-export default LetterHead;
+export default withStyles(styles)(Radium(LetterHead));

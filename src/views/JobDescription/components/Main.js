@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Radium from 'radium';
+
 import isEmpty from 'variables/isEmpty.js';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -33,7 +35,10 @@ import history from 'index.js';
 
 const styles = {
   paper: {
-    padding: "20px"
+    padding: "20px",
+    '@media screen and (max-width: 400px)': {
+        padding:"0px",
+    },
   },
   sidebar: {
     background: "#00ADF3",
@@ -545,4 +550,4 @@ handleAssignRecruiter (event){
 }
 
 
-export default  withStyles(styles)(Main);
+export default  withStyles(styles)(Radium(Main));

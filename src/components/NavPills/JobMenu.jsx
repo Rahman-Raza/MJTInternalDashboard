@@ -1,4 +1,5 @@
 import React from "react";
+import Radium from 'radium';
 
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,7 +24,11 @@ const styles = {
         fontSize: 30,
         position: "absolute",
         right: "31px",
-        top: "10px"
+        top: "10px",
+        '@media screen and (max-width: 400px)': {
+            top: "10px",
+            right:"0px",
+        },
     },
     menuItemStyle: {
         color: "#00ADF3"
@@ -130,11 +135,12 @@ sendResume = (resume) =>{
                         上传简历
                     </MenuItem>
                 </Menu>
-              
+
+
             </div>
 
         );
     }
 }
 
-export default withStyles(styles)(JobMenu);
+export default withStyles(styles)(Radium(JobMenu));
