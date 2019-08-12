@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Radium from 'radium';
 import {connect} from "react-redux";
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -31,7 +31,7 @@ import Layers from '@material-ui/icons/Layers';
 import Grid from '@material-ui/core/Grid';
 
 const themeColor = "#00ADF3";
-const styles = {
+const styles =  theme => ({
   gridRoot:{
     flexGrow: 1,
   },
@@ -52,16 +52,10 @@ const styles = {
     minHeight: "101.9%",
   },
   sidebar: {
-    background: "#00ADF3",
-    padding: " 1px 50px",
-    position: "relative",
-    top: "-50px",
-    minHeight: "101.9%",
-    width: "114%",
-    // '@media screen and (max-width: 400px)': {
-    //   width: "50%",
-    //   padding: " 1px 20px",
-    // },
+    [theme.breakpoints.down('sm')]: {
+      width: "350px",
+      marginTop: "50px",
+    },
   },
   sideBarContainer: {
     margin: "50px 0px",
@@ -100,7 +94,7 @@ const styles = {
 
     },
   }
-};
+});
 
 class MatchingRateList extends React.Component{
 
@@ -188,7 +182,7 @@ let score = 100;
       <aside style={styles.filterSideBar} className="sidebar">
       <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>
-    <aside style={styles.sidebar} className="sidebar">
+    <aside style={styles.sidebar} className={classes.sidebar}>
       <div style={styles.sideBarContainer}>
         <h3 style={styles.sidebarHeading}>最优候选人序列</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>

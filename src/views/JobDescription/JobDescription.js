@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Paper from "@material-ui/core/Paper";
+import Radium from 'radium';
+import { withStyles } from '@material-ui/core/styles';
 
 import "./JobDescription.scss";
 
@@ -10,21 +12,30 @@ import Main from "./components/Main";
 import LoadingOverlay from 'react-loading-overlay';
 import bgImage from "assets/img/job-position-background.png";
 
-const styles = {
+const styles =  theme => ({
     root: {
         background: `url(${bgImage})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain",
-        paddingTop: "25px"
+        paddingTop: "25px",
+        [theme.breakpoints.down('sm')]: {
+          background: "none",
+          padding: "0px",
+    },
     },
     paper: {
-        width: "75%",
+        width: "85%",
         margin: "75px auto",
-        padding: "50px 0 0 0"
+        padding: "50px 0 0 0",
+        [theme.breakpoints.down('sm')]: {
+          width: "100%",
+          padding: "10px 0 0 0",
+          margin: "0px",
+    },
     }
-};
+});
 
-class JobDescription extends Component {
+class JobDescription extends React.Component {
 
      constructor(props) {
 
@@ -43,6 +54,7 @@ handleLoading = (loading, loadingMessage) =>{
 
 
     render() {
+      const { classes } = this.props;
         return (
         <div>
         <LoadingOverlay
@@ -55,13 +67,9 @@ handleLoading = (loading, loadingMessage) =>{
             <div className="container">
             <Nav />
             </div>
-            <div style={styles.root}>
-
-                <Paper style={styles.paper}>
-
-
+            <div className={classes.root}>
+                <Paper className={classes.paper}>
                     <Main loadingRef={this.handleLoading} jobID={this.props.location.state.jobID} cookies={this.props.cookies}  />
-
                 </Paper>
             </div>
             </LoadingOverlay>
@@ -72,4 +80,4 @@ handleLoading = (loading, loadingMessage) =>{
 
 
 
-export default JobDescription;
+export default withStyles(styles)(Radium(JobDescription));

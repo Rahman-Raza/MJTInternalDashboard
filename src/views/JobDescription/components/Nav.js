@@ -1,18 +1,21 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import blue from "@material-ui/core/colors/blue";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import history from 'index.js';
 import IconButton from '@material-ui/core/IconButton';
 import "./Nav.scss";
+import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
+const styles =  theme => ({
   nav: {
-
     marginBottom: "20px",
     marginLeft: "25px",
+    [theme.breakpoints.down('sm')]: {
+      marginTop: "20px",
+      marginLeft: "25px",
+    },
   },
   a: {
     color: "#00ADF3",
@@ -24,7 +27,7 @@ const styles = {
     position: "relative",
     top: "0px"
   }
-};
+});
 
 class Nav extends React.Component {
 
@@ -32,8 +35,9 @@ class Nav extends React.Component {
     history.push('/dashboard');
   }
   render() {
+    const { classes } = this.props;
     return (
-      <nav className="nav" style={styles.nav}>
+      <nav className={classes.nav}>
         <Grid container justify="flex-start">
           <Grid md={8} item >
            <IconButton style={{borderRadius: "0px"}} disableRipple={true} onClick={this.handlePageChange}>
@@ -51,4 +55,4 @@ class Nav extends React.Component {
   }
 }
 
-export default Nav;
+export default withStyles(styles)(Nav);

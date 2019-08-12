@@ -1,4 +1,5 @@
 import React from "react";
+import Radium from 'radium';
 import Button from '@material-ui/core/Button';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -18,12 +19,18 @@ const styles = {
     boxShadow: "0 0 16px 0 #eee",
     cursor: "pointer",
     marginBottom: "15px",
-    backgroundColor: "linear-gradient(60deg, #ffa726, #fb8c00)"
+    backgroundColor: "linear-gradient(60deg, #ffa726, #fb8c00)",
+    '@media screen and (max-width: 500px)': {
+      display: "inline-block !important",
+    }
   },
   cardContent: {
     display: "flex",
     justifyContent: "space-around",
-    padding: "10px 20px"
+    padding: "10px 20px",
+    '@media screen and (max-width: 500px)': {
+      display: "inline-block",
+    }
   },
   percentageContainer: {
     alignItems: "center",
@@ -38,7 +45,21 @@ const styles = {
     marginLeft: "35px",
     marginRight: "-35px",
     height: "100px",
-    marginTop: "35px"
+    marginTop: "35px",
+    '@media screen and (max-width: 400px)': {
+        display: "inline",
+        float: "left",
+        color: "#00ADF3",
+        display: "block",
+        fontFamily: "Helvetica",
+        fontSize: "44px",
+        fontWeight: 700,
+        justifyContent: "center",
+        width: "100%",
+        marginLeft: "0px",
+        marginRight: "0px",
+
+    },
   },
   detailContainer: {
     color: "#00ADF3",
@@ -47,52 +68,63 @@ const styles = {
     fontSize: "14px",
     width: "100%",
     maxWidth: "300px",
-    padding: "21px"
+    padding: "21px",
+    '@media screen and (max-width: 400px)': {
+      float: "left",
+      width: "100%",
+      color: "#00ADF3",
+      display: "block",
+      fontFamily: "Helvetica",
+      fontSize: "44px",
+      fontWeight: 700,
+      justifyContent: "center",
+
+    },
   },
   icon: {
     position: "relative",
-    margin: "0 5px"
+    margin: "0 5px",
+    '@media screen and (max-width: 400px)': {
+        margin: "0px",
+    },
   },
    emailIcon: {
     position: "relative",
     top: "5px",
-    margin: "0 5px"
+    margin: "0 5px",
+    '@media screen and (max-width: 400px)': {
+        margin: "0px",
+    },
   },
   name: {
     color: "#00ADF3",
     textTransform: "uppercase",
-    margin: "0 0 0 5px"
+    margin: "0 0 0 5px",
+    '@media screen and (max-width: 400px)': {
+        margin: "0px",
+    },
   },
+
 };
 
 class CandidateCard extends React.Component {
 
   makeTwilioPhoneCall = (event) =>{
     var self = this;
-
     event.stopPropagation()
     console.log("got to handlephone");
-
     this.props.handlePhoneToggle("Sending a call to " + this.props.data["Phone"]);
-
     console.log("got to client makeTwilioPhoneCall");
-
     const formData = this.props.data["Phone"];
-
     axios.post("/twilio", { formData }).then( res => {
       console.log("heres the response from server for twilio: ", res.data);
-
         self.props.handlePhoneToggle(res.data);
     })
     .catch(function (error) {
         console.log('error in /twilio ', error);
         self.props.handlePhoneToggle("Error in phone call" + error);
-        
       });
-
   }
-
-
   render() {
 
 
@@ -105,7 +137,6 @@ class CandidateCard extends React.Component {
         key={this.props.key}
       >
         <CardContent style={styles.cardContent}>
-
            <section style={styles.percentageContainer}>
             <CircularProgressbar
               percentage={this.props.percentage}
@@ -120,24 +151,18 @@ class CandidateCard extends React.Component {
               }}
             />
           </section>
-
           <section style={styles.detailContainer}>
-                 
                   <Button style={styles.name} >
                     {this.props.data["Name"]}
                   </Button>
-            
                   <Button style={styles.name} onClick={this.makeTwilioPhoneCall}>
                     <Icon style={styles.icon}>phone</Icon>
                     {this.props.data["Phone"]}
                   </Button>
-
                    <Button style={styles.name} onClick={(event) => event.stopPropagation()}>
                     <Icon style={styles.icon}>email</Icon>
                     {this.props.data["Email"]}
                   </Button>
-              
-        
           </section>
         </CardContent>
       </Card>
@@ -145,4 +170,4 @@ class CandidateCard extends React.Component {
   }
 }
 
-export default CandidateCard;
+export default Radium(CandidateCard);

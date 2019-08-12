@@ -1,4 +1,6 @@
 import React from "react";
+import {StyleRoot} from 'radium';
+
 import { withCookies } from 'react-cookie';
 import { Router, Route, Switch } from "react-router-dom";
 import {connect} from "react-redux";
@@ -95,6 +97,7 @@ render() {
 
    const self = this;
       return (
+         <StyleRoot>
        <LoadingOverlay
                 active={this.props.loading}
                 spinner
@@ -110,6 +113,7 @@ render() {
         </Switch>
      </Router>
     </LoadingOverlay>
+    </StyleRoot>
     );
    }
   }

@@ -25,7 +25,9 @@ const chipData = [{ key: 0, label: 'Jimmy' },
 const styles = {
   letterhead: {
     minWidth: "10px",
-    
+    '@media screen and (max-width: 400px)': {
+      width: "200px"
+    },
   },
   logoContainer: {
     height: "100px",
