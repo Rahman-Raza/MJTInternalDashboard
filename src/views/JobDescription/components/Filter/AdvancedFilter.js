@@ -95,7 +95,7 @@ class  AdvancedFilter extends React.Component{
       SkillsInclusive: true,
       Employer: "",
       Title: "",
-      WorkLengthMin: 0,
+      WorkLengthMin: "",
       JobDescription: "",
       Institution: "",
       Major: "",
@@ -107,7 +107,7 @@ class  AdvancedFilter extends React.Component{
       SkillsInclusive: true,
       Employer: "",
       Title: "",
-      WorkLengthMin: 0,
+      WorkLengthMin: "",
       JobDescription: "",
       Institution: "",
       Major: "",
@@ -160,14 +160,14 @@ handleFilterSubmit = () =>{
             <ListItem>
             <div className="row">
             <div className="col-md-12" style={{margin: "5px 0px"}}>
-              <p style={{color:"#00ADF3"}}>Work</p>
+              <p style={{color:"#00ADF3"}}>雇用</p>
             </div>
             <div className="col-md-12" style={{margin: "0px 0px"}}>
             <TextField
                 onChange={this.handleChange}
                 name="Title"
                 id="outlined-search"
-                label="Job Title"
+                label="职称"
                 type="search"
                 margin="normal"
                 variant="outlined"
@@ -284,7 +284,7 @@ handleFilterSubmit = () =>{
     <ListItem>
     <div className="row" style={{minWidth: "100px"}}>
         <div className="col-md-12" style={{margin: "5px 10px"}}>
-          <p style={{color:"#00ADF3"}}>Skills</p>
+          <p style={{color:"#00ADF3"}}>技能</p>
         </div>
 
         <div className="col-md-12" style={{margin: "5px 10px"}}>
@@ -306,7 +306,7 @@ handleFilterSubmit = () =>{
     <div className="col-lg-2"></div>
     <div className="col-lg-10">
     <Button style={styles.filterButton} variant="outlined"  onClick={this.handleFilterSubmit}>
-      Filter Resumes
+      筛选简历
     </Button>
     </div>
   </div>

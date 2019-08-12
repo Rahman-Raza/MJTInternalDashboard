@@ -19,6 +19,7 @@ module.exports = (app) => {
         console.log("sucessful post to /twilio");
         client.calls
           .create({
+            url: 'http://demo.twilio.com/docs/voice.xml',
              to: phone_number,
              from: '+12172882015'
            })
@@ -31,7 +32,7 @@ module.exports = (app) => {
 
         });
 
-       res.status(200).send("Twilio phone number was recieved by server");
+       res.status(200).send("A recorded phone message was sent to " + phone_number);
 
 
     }

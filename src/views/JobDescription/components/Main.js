@@ -124,7 +124,7 @@ class Main extends Component {
 
 
     this.setState({ isMounted: true});
-    this.props.loadingRef(true,"Loading Job Data...");
+    this.props.loadingRef(true,"加载工作信息");
     await axios.get('https://mjtbe.tk/jobpostinginfo/'+this.props.jobID)
 
       .then(function (response) {
@@ -145,7 +145,7 @@ class Main extends Component {
       })
       .catch(function (error) {
         console.log('error in /jobpostinginfo ', error);
-        self.setState({loadingMessage: 'Error Loading Data...'});
+        self.setState({loadingMessage: '加载信息错误'});
         self.handleLoadingClose();
       });
   }
@@ -155,7 +155,7 @@ filterResumesServiceCall = async () =>{
 }
 
 matchingRateServiceCall =  () =>{
-  this.props.loadingRef(true,"Generating Matching Rate List...");
+  this.props.loadingRef(true,"生成匹配列表");
    var self=this;
    axios.get('https://mjtbe.tk/listofmatchedresumes/'+this.props.jobID)
 
@@ -287,12 +287,12 @@ handleAssignRecruiter (event){
 
     if (this.state.checked.length <= 0){
 
-      self.setState({matchRecruiterLoading: true, loadingMessageMatchRecruiter: "Please select at least one recruiter..."});
+      self.setState({matchRecruiterLoading: true, loadingMessageMatchRecruiter: "请选择至少一位招聘员"});
 
       setTimeout(
     function() {
 
-        self.setState({matchRecruiterLoading: false, loadingMessageMatchRecruiter: "Matching Recruiters..."});
+        self.setState({matchRecruiterLoading: false, loadingMessageMatchRecruiter: "匹配招聘员"});
         }, 1200);
 
 
@@ -424,8 +424,7 @@ handleAssignRecruiter (event){
                       gutterBottom
                       style={{ color: '#00ADF3', marginBottom:'10px' ,textAlign: "center", fontSize: "20px",}}
                     >
-
-                      Match job with recruiters
+                    向招聘员分配职位
                     </Typography>
 
                     <Typography
@@ -434,7 +433,7 @@ handleAssignRecruiter (event){
                       style={{ color: '#666666', marginBottom:'25px' ,textAlign: "center",fontSize: "15px",}}
                     >
 
-                     Choose the recruiters you would like to assign this job posting too:
+                     请选择想要分配的招聘员
                     </Typography>
 
                     <List dense >
@@ -446,7 +445,7 @@ handleAssignRecruiter (event){
                         <ListItemAvatar>
                           <Avatar
                             alt={`Avatar n°${index + 1}`}
-                            src={'assets/img/people/'+(index + 1).toString()+'.jpg'}
+                            src={'https://img.icons8.com/metro/52/000000/user-male-circle.png'}
                           />
                         </ListItemAvatar>
                         <ListItemText primary={value["Name"]} />
@@ -464,7 +463,7 @@ handleAssignRecruiter (event){
                   </List>
 
                     <Button onClick={this.handleSubmitMatchRecruiter}  color="rose" simple size="lg" block>
-                        Match
+                        确定
                     </Button>
 
          </DialogContent>
@@ -510,17 +509,17 @@ handleAssignRecruiter (event){
               <Divider />
 
               <ContentSection heading="必要技能">
-                <ChipSection subheading="Language" labels={langArray} />
+                <ChipSection subheading="语言" labels={langArray} />
                 <ChipSection subheading="必要技能" labels={skillArray} />
               </ContentSection>
 
-              <ContentSection heading="必要技能">
+              <ContentSection heading="薪酬范围">
                 <ChipSection
                   subheading="工资"
                   labels={[this.state.jobData["BaseSalary"]]}
                 />
                 <ChecklistSection
-                  subheading="B必要技能"
+                  subheading="福利"
                   labels={[
                     this.state.jobData["Commission"] === "true" ? "Commmission":"0",
                     this.state.jobData["Bonuses"] === "true"? "Bonuses":"0",

@@ -32,9 +32,13 @@ const styles = {
     fontFamily: "Helvetica",
     fontSize: "44px",
     fontWeight: 700,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     padding: "10px",
-    width: "30%"
+    width: "100px",
+    marginLeft: "35px",
+    marginRight: "-35px",
+    height: "100px",
+    marginTop: "35px"
   },
   detailContainer: {
     color: "#00ADF3",
@@ -42,6 +46,7 @@ const styles = {
     fontFamily: "Helvetica",
     fontSize: "14px",
     width: "100%",
+    maxWidth: "300px",
     padding: "21px"
   },
   icon: {
@@ -63,15 +68,27 @@ const styles = {
 class CandidateCard extends React.Component {
 
   makeTwilioPhoneCall = (event) =>{
+    var self = this;
 
     event.stopPropagation()
+    console.log("got to handlephone");
+
+    this.props.handlePhoneToggle("Sending a call to " + this.props.data["Phone"]);
+
     console.log("got to client makeTwilioPhoneCall");
 
     const formData = this.props.data["Phone"];
 
     axios.post("/twilio", { formData }).then( res => {
       console.log("heres the response from server for twilio: ", res.data);
-    });
+
+        self.props.handlePhoneToggle(res.data);
+    })
+    .catch(function (error) {
+        console.log('error in /twilio ', error);
+        self.props.handlePhoneToggle("Error in phone call" + error);
+        
+      });
 
   }
 
@@ -89,7 +106,7 @@ class CandidateCard extends React.Component {
       >
         <CardContent style={styles.cardContent}>
 
-          { this.props.percentage && <section style={styles.percentageContainer}>
+           <section style={styles.percentageContainer}>
             <CircularProgressbar
               percentage={this.props.percentage}
               text={`${this.props.percentage}%`}
@@ -102,7 +119,7 @@ class CandidateCard extends React.Component {
                 }
               }}
             />
-          </section>}
+          </section>
 
           <section style={styles.detailContainer}>
                  

@@ -3,7 +3,9 @@
 LEVEL 0. RESET BROWSER'S STYLES
 =====
 */
-
+.jobmenu-container{
+  margin-bottom: 50px;
+}
 
 .MyLoaderDashboard_wrapper{
  z-index: 1;
@@ -17,8 +19,10 @@ LEVEL 0. RESET BROWSER'S STYLES
 }
 .MyLoader_content{
   position: fixed;
-  top: 60%;
-  left: 45%;
+  top: 50%;
+   left: 50%;
+   /* bring your own prefixes */
+   transform: translate(-50%, -50%);
 }
 .pagination__list {
   padding-left: 0;
@@ -84,7 +88,7 @@ LEVEL 1. CORE COMPONENT STYLES
 }
 
 .pagination__control_prev:before {
- 
+
   left: 0;
 }
 
@@ -93,7 +97,7 @@ LEVEL 1. CORE COMPONENT STYLES
 }
 
 .pagination__control_next:after {
- 
+
   right: 0;
 }
 

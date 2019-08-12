@@ -5,6 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { withStyles } from "@material-ui/core/styles";
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // @material-ui/icons
 import Add from "@material-ui/icons/Add";
@@ -27,6 +28,12 @@ const styles = {
         right: "90px",
         top: "10px"
     },
+    addIconStyleMobile:{
+      border: "1px solid #00ADF3",
+      color: "#00ADF3",
+      cursor: "pointer",
+      fontSize: 30,
+    },
     menuItemStyle: {
         color: "#00ADF3"
     },
@@ -37,44 +44,31 @@ const styles = {
 };
 
 class FilterJobs extends React.Component {
+   mobileview = false;
     state = {
         anchorEl: null,
         open: false
     };
-
     handleClick = event => {
         this.setState({ open: true });
     };
-
     handleClose = () => {
         this.setState({ open: false });
     };
-
-
-
-   
-
-
-
     render() {
         const { anchorEl } = this.state;
         const { classes } = this.props;
-
         return (
             <div>
                 <Dialog  onClose={this.handleClose} open={this.state.open}>
                     <FilterForm closeRef={this.handleClose} filterJobs={this.props.filterJobs}/>
                 </Dialog>
                 <FilterList
-
                     classes={{
-                        root: classes.addIconStyle
+                        root: this.mobileview ? classes.addIconStyleMobile : classes.addIconStyle
                     }}
-                    
-                    
                     onClick={this.handleClick}
                 />
-               
             </div>
         );
     }

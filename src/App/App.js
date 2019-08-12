@@ -87,6 +87,8 @@ handleLogOut = () =>{
   this.setState({loggedIn: false});
 
 }
+
+
 render() {
 
 
@@ -98,13 +100,12 @@ render() {
                 spinner
                 text={this.props.loadingMessage}
                 classNamePrefix="MyLoader_"
+
                 >
        <Router history={hist}>
          <Switch>
           <Route path={'/pages'}  appRef={self} component={ this.state.LoginComponent} key={'/pages'} />
           <ProtectedRoute path={'/'} loggedIn={this.state.loggedIn} component={ this.state.DashboardComponent} key={'/'} />
-
-
 
         </Switch>
      </Router>
@@ -116,9 +117,6 @@ const mapStateToProps = ({loadingOverlay}) => {
   return{
     loading: loadingOverlay.loading,
     loadingMessage: loadingOverlay.loadingMessage,
-
-
-
     };
 };
 

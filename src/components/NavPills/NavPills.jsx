@@ -27,16 +27,16 @@ class NavPills extends React.Component {
   }
   handleChange = (event, active) => {
     console.log("changing active nav pill", active);
-    
+
     this.setState({ active });
     this.props.changeNavPill(active);
   };
   handleChangeIndex = index => {
-    
+
 
     this.setState({ active: index });
 
-    
+
   };
   render() {
     const {
@@ -87,15 +87,16 @@ class NavPills extends React.Component {
                 root: pillsClasses,
                 labelContainer: classes.labelContainer,
                 label: classes.label,
-                
+
                 selected: "selected"
               }}
             />
           );
         })}
-       
+       <div class="jobmenu-container">
         <FilterJobs filterJobs={this.props.filterJobs} />
          <JobMenu loadingRef={this.props.loadingRef} />
+      </div>
       </Tabs>
     );
     const tabContent = (

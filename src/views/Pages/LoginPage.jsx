@@ -97,6 +97,16 @@ class LoginPage extends React.Component {
     this.sendData(json);
   }
 
+  // parse_data = async(inputString, def = fixer) => {
+
+  //   let counter = 0;
+
+  //   let fillArray = {
+  //     array1: [1,2,3]
+
+  //   }
+  // }
+
   sendData = async (form) =>{
     const self = this;
     const { cookies } = this.props;
@@ -121,21 +131,12 @@ class LoginPage extends React.Component {
         console.log("heres the response from /loginseven", response);
         cookies.set(response.headers["x-cookie-header"]);
         console.log("checking cookies", cookies.getAll());
-
         if(response["status"]  == 200){
-
-
             console.log("sucessfull call to /login");
-
-
             //history.push('/dashboard');
             cookies.set('Role',response.data["Data"]["Role"], {'maxAge': (24 * 60 * 60)});
-
             self.handleLogin();
              self.handleLoadingClose();
-
-
-
         }
       })
       .catch(function (error) {
@@ -229,7 +230,7 @@ dispatchLoading = (loadingMessage, loading) =>{
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
                   <Button  type="submit" color="rose" simple size="lg" block>
-                    Let's Go
+                    提交
                   </Button>
                 </CardFooter>
 

@@ -52,7 +52,7 @@ class FilterForm extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden",
      keyword: 'keyword',
-      category: 'category',
+      category: 'sval',
      
 
 
@@ -153,9 +153,9 @@ class FilterForm extends React.Component {
                                         <Input name="category" disableUnderline />
                                     }
                                     >
-                                        <MenuItem value="category">
-                                        <em>选择分类</em>
-                                    </MenuItem>
+                                        <MenuItem value="sval">
+                                        <em>关键词</em>
+                                        </MenuItem>
                                         <MenuItem value={"cname"}>公司名称</MenuItem>
                                         <MenuItem value={"status"}>Status</MenuItem>
                                          <MenuItem value={"position"}>Position</MenuItem>

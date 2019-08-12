@@ -40,7 +40,7 @@ class Nav extends React.Component {
 
 
             <a style={styles.a} >
-              <ArrowBack style={styles.iconStyle} /> Job Positions
+              <ArrowBack style={styles.iconStyle} /> 最新职位
             </a>
              </IconButton>
           </Grid>

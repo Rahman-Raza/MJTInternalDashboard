@@ -278,7 +278,7 @@ class HeaderLinks extends React.Component {
         }
 
 
-           <Button onClick={this.props.appRef.handleLogOut} className={classes.button}>Log Out</Button>
+           <Button onClick={this.props.appRef.handleLogOut} className={classes.button}>登出</Button>
 
 
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
-
+import SweetAlert from "react-bootstrap-sweetalert";
 import CandidateCard from "./CandidateCard";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -56,7 +56,7 @@ const styles = {
     position: "relative",
     top: "-50px",
     minHeight: "101.9%",
-    width: "103%",
+    width: "114%",
 
   },
   sideBarContainer: {
@@ -104,6 +104,8 @@ state={
   dialogOpen: false,
   filter: "",
   sortAscending: true,
+  twilioOpen: false,
+  twilioDialog: " ",
 }
 
 
@@ -147,12 +149,25 @@ handleClickOpen = () => {
 
 
  }
+ handlePhoneToggle = (phone_message) => {
+  
+
+  this.state.twilioOpen === false ? this.setState({twilioOpen: true, twilioDialog: phone_message }) : this.setState({twilioDialog: phone_message});
+
+
+}
+
+
+handlePhoneDialogClose = () =>{
+  this.setState({twilioOpen: false});
+}
 
 render(){
 //  const list = this.state.options.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase))
 const { classes } = this.props;
 const list = this.handleSort(this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase())));
 //const list = this.props.data;
+let score = 100;
   return (
 <div>
   <Dialog
@@ -163,22 +178,28 @@ const list = this.handleSort(this.props.data.filter(option => option.Name.toLowe
             <AdvancedFilter handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit}/>
 
     </Dialog>
+     {this.state.twilioOpen == true &&
+        <SweetAlert success title={this.state.twilioDialog}  onConfirm={this.handlePhoneDialogClose} />
+     }
       <aside style={styles.filterSideBar} className="sidebar">
       <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>
     <aside style={styles.sidebar} className="sidebar">
       <div style={styles.sideBarContainer}>
-        <h3 style={styles.sidebarHeading}>最优候选人</h3>
+        <h3 style={styles.sidebarHeading}>最优候选人序列</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
+          
           list.length > 0 ?
         (
 
          list.map((current, index) => {
+          score = score -10;
             return (
                <CandidateCard
                 key={current.ID}
                 resumeToggler={this.props.toggleResume}
+                handlePhoneToggle={this.handlePhoneToggle}
                 percentage={current["ResumeScore"]}
                 data={current} /> )
           })

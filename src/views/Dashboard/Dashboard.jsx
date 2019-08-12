@@ -264,7 +264,7 @@ this.setState({loading: true});
 
                   : getURL =  'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword
 
-
+               filter ?   console.log("checking filtered fetchData ", getURL) : console.log("no filter");
 
 
    try{
@@ -570,7 +570,7 @@ this.setState({loading: true});
                     filterJobs={this.fetchData}
                     tabs={[
                       {
-                        tabButton: "New Jobs",
+                        tabButton: "最新职位",
                         tabContent: (
                           <div>
                             <GridContainer>

@@ -90,7 +90,7 @@ const statsCardStyle = {
   },
   cardCategory: {
     ...defaultFont,
-    fontSize: "16px",
+    fontSize: "24px",
     fontWeight: "400",
     marginBottom: "0",
     color: "#FFF",

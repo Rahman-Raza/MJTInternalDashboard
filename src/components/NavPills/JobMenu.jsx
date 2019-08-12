@@ -74,13 +74,13 @@ sendResume = (resume) =>{
             data:  form,
             //headers: { "Content-Type": "application/json" }
     })
-      
+
       .then(function (response) {
         console.log("heres the response from /resumeupload", response);
-        
+
         if(response["status"]  == 200){
           console.log("sucessfull call to /resumeupload");
-           self.props.loadingRef.setState({loadingMessage: 'Your resume was recieved by our team.  Someone will be in touch!'}); 
+           self.props.loadingRef.setState({loadingMessage: 'Your resume was recieved by our team.  Someone will be in touch!'});
 
            self.handleClose();
            self.props.loadingRef.handleLoadingClose();
@@ -89,7 +89,7 @@ sendResume = (resume) =>{
       })
       .catch(function (error) {
         console.log('error in /resumeupload ', error);
-         self.props.loadingRef.setState({ loadingMessage: 'There was an error sending your file...Please try again.'}); 
+         self.props.loadingRef.setState({ loadingMessage: 'There was an error sending your file...Please try again.'});
          self.props.loadingRef.handleLoadingClose();
       });
 }
@@ -103,12 +103,11 @@ sendResume = (resume) =>{
                 <Dialog fullScreen open={this.state.open}>
                     <AddAJob closeHandler={e => this.openDialog(false)} />
                 </Dialog>
+
                 <Add
                     classes={{
                         root: classes.addIconStyle
                     }}
-                   
-                    
                     onClick={this.handleClick}
                 />
                 <Menu
@@ -122,16 +121,18 @@ sendResume = (resume) =>{
                         classes={{ root: classes.menuItemStyle }}
                     >
                         <Add classes={{ root: classes.menuItemIconStyle }} />{" "}
-                        Add A Job Description
+                        添加职位简介
                     </MenuItem>
                     <MenuItem classes={{ root: classes.menuItemStyle }} onClick={(e) => this.upload.click() }>
                         <CloudUpload
                             classes={{ root: classes.menuItemIconStyle }}
                         />{" "}
-                        Upload A Resume
+                        上传简历
                     </MenuItem>
                 </Menu>
+              
             </div>
+
         );
     }
 }

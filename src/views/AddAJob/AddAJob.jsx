@@ -342,7 +342,7 @@ handleLoadingClose = () =>{
                             onError={errors => this.handleFormErrors(errors)}>
                           
                             <div style={styles.inputContainer}>
-                                <p style={styles.textLabel}>Company Name</p>
+                                <p style={styles.textLabel}>公司名称</p>
                                 <TextValidator
                                     onChange={this.handleChange}
                                      value={formData.CompanyName}
@@ -363,7 +363,7 @@ handleLoadingClose = () =>{
                           
                            
                             <div style={styles.inputContainer}>
-                                <p style={styles.textLabel}>Job Position</p>
+                                <p style={styles.textLabel}>最新职位</p>
                                 <TextValidator
                                  onChange={this.handleChange}
                                     value={formData.JobPosition}
@@ -384,7 +384,7 @@ handleLoadingClose = () =>{
                         
                      
                             <div style={styles.inputContainer}>
-                                <p style={styles.textLabel}>Company Size</p>
+                                <p style={styles.textLabel}>公司规模</p>
                                 <TextValidator
                                  onChange={this.handleChange}
                                     value={formData.CompanySize}
@@ -404,7 +404,7 @@ handleLoadingClose = () =>{
                         
                             
                             <div style={styles.inputContainer}>
-                                <p style={styles.textLabel}>Employment Type</p>
+                                <p style={styles.textLabel}>就业种类</p>
                                 
                                     <Select
                                         value={formData["EmploymentType"]}
@@ -417,18 +417,18 @@ handleLoadingClose = () =>{
                                         <MenuItem value=" ">
                                             <em>None</em>
                                         </MenuItem>
-                                        <MenuItem value={"Full-time(Long Term)"}>Full-time</MenuItem>
-                                        <MenuItem value={"Full-time (Contactor)"}>Full-time (Contactor)</MenuItem>
-                                        <MenuItem value={"Part-time"}>Part-time</MenuItem>
-                                         <MenuItem value={"Part-time (Contactor)"}>Part-time (Contactor)</MenuItem>
-                                          <MenuItem value={"Intern"}>Intern</MenuItem>
+                                        <MenuItem value={"Full-time(Long Term)"}>全职</MenuItem>
+                                        <MenuItem value={"Full-time (Contactor)"}>全职合同工</MenuItem>
+                                        <MenuItem value={"Part-time"}>兼职</MenuItem>
+                                         <MenuItem value={"Part-time (Contactor)"}>兼职合同工</MenuItem>
+                                          <MenuItem value={"Intern"}>实习</MenuItem>
                                     </Select>
                                 
                             </div>
                            
                          
                             <div style={styles.inputContainer}>
-                                <p style={styles.textLabel}>Work Experience</p>
+                                <p style={styles.textLabel}>工作经验</p>
                                 <Select
                                  onChange={this.handleChange}
                                     value={formData["WorkExperience"]}
@@ -449,7 +449,7 @@ handleLoadingClose = () =>{
                       
                            
                             <div style={styles.inputContainer}>
-                                <p style={styles.textLabel}>Location</p>
+                                <p style={styles.textLabel}>地点</p>
 
                                 <TextValidator
                                  onChange={this.handleChange}
@@ -473,7 +473,7 @@ handleLoadingClose = () =>{
                             <Divider style={styles.divider} />
                        
                             <div>
-                                <p style={styles.textLabel}>Summary</p>
+                                <p style={styles.textLabel}>摘要</p>
                                 <TextValidator
                                  onChange={this.handleChange}
                                  
@@ -499,7 +499,7 @@ handleLoadingClose = () =>{
                      
                             <div>
                                 <p style={styles.textLabel}>
-                                    Key Responsibilities
+                                    关键职责
                                 </p>
                                <TextValidator
                                  onChange={this.handleChange}
@@ -527,14 +527,14 @@ handleLoadingClose = () =>{
 
                             <RatedInputContainer
                              onRef={(ref) => {this.LanguagesContainer = ref}}
-                                title="Languages"
+                                title="说的语言"
                                 dataType="Languages"
                                 defaultValues={formData['Language'].length > 0 ? formData['Language'] : []}
                             />
 
                             <RatedInputContainer
                             onRef={(ref) => {this.SkillsContainer = ref}}
-                                title="Key Skills"
+                                title="关键技能"
                                 dataType="Skills"
                                 defaultValues={formData['RequiredSkills'].length > 0 ? formData['RequiredSkills'] : []}
                             />
@@ -547,32 +547,32 @@ handleLoadingClose = () =>{
                                 inputs={[
             {
               name: "OvertimePay",
-              label: "Overtime",
+              label: "加班",
               checked:false,
             },
             {
               name: "Commission",
-              label: "Commission",
+              label: "佣金",
               checked: false, 
             },
             {
               name: "Bonuses",
-              label: "Bonuses",
+              label: "奖金",
               checked: false,
             },
             {
               name: "HealthBenefits",
-              label: "Health Benefits",
+              label: "医疗福利",
               checked:false,
             },
             {
               name: "Wellness",
-              label: "Wellness",
+              label: "健康福利",
               checked: false
             },
             {
               name: "TravelMealHousingAllowance",
-              label: "Travel / Meal / Housing Allowance",
+              label: "旅行、餐饮、住房额度",
               checked: false,
             }
           ]}/>
@@ -584,7 +584,7 @@ handleLoadingClose = () =>{
                                     margin: "40px 0"
                                 }}
                             >
-                                <p style={styles.textLabel}>Salary Range</p>
+                                <p style={styles.textLabel}>工资范围</p>
                                 <Select
                                  onChange={this.handleChange}
                                     value={this.state.formData["BaseSalary"]}
@@ -609,7 +609,7 @@ handleLoadingClose = () =>{
                                     style={styles.button}
                                     onClick={this.handleGoBack}
                                 >
-                                    Cancel
+                                    取消
                                 </Button>
                                 <Button
                                    type="submit"
@@ -620,7 +620,7 @@ handleLoadingClose = () =>{
                                         backgroundColor: themeColor
                                     }}
                                 >
-                                    Submit
+                                    提交
                                 </Button>
                             </section>
                            
