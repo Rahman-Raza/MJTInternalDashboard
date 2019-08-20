@@ -1,5 +1,5 @@
 import React from "react";
-
+import SweetAlert from "react-bootstrap-sweetalert";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
@@ -29,11 +29,13 @@ const styles = {
     zIndex: "10000"
   },
   closeIcon: {
-    color: grey[500],
+    color: "red",
     cursor: "pointer",
     position: "absolute",
     right: "50px",
-    top: "30px"
+    top: "30px",
+    height: "250px",
+    width: "250px"
   },
   container: {
     margin: "0 auto",
@@ -85,11 +87,12 @@ class Resume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+       twilioOpen: false,
+      twilioDialog: " ",
       loadingMessage: 'Loading Data...',
       loading: false,
       resumeID: this.props.resumeID,
       jobID: this.props.jobID,
-
       resumeData:{
         Edu: [],
         Email: "example@gmail.com",
@@ -167,6 +170,40 @@ class Resume extends React.Component {
 
 
   }
+  makeTwilioPhoneCall = (event) =>{
+    var self = this;
+
+    event.stopPropagation()
+    console.log("got to handlephone");
+
+    this.handlePhoneToggle("Sending a call to " + this.state.resumeData["Phone"]);
+
+    console.log("got to client makeTwilioPhoneCall");
+
+    const formData = this.state.resumeData["Phone"];
+
+    axios.post("/twilio", { formData }).then( res => {
+      console.log("heres the response from server for twilio: ", res.data);
+
+        self.handlePhoneToggle(res.data);
+    })
+    .catch(function (error) {
+        console.log('error in /twilio ', error);
+        self.handlePhoneToggle("Error in phone call" + error);
+        
+      });
+
+  }
+
+handlePhoneToggle = (phone_message) => {
+
+  this.state.twilioOpen === false ? this.setState({twilioOpen: true, twilioDialog: phone_message }) : this.setState({twilioDialog: phone_message});
+
+}
+handlePhoneDialogClose = () =>{
+  this.setState({twilioOpen: false});
+}
+
   render() {
     const self = this;
     return (
@@ -177,10 +214,14 @@ class Resume extends React.Component {
 
                         >
       <div style={styles.root}>
+      
         <Icon style={styles.closeIcon} onClick={this.props.closeHandler}>
           close
         </Icon>
         <div style={styles.container} >
+        {this.state.twilioOpen == true &&
+        <SweetAlert success title={this.state.twilioDialog}  onConfirm={this.handlePhoneDialogClose} />
+     }
           <div style={styles.spaceAround}>
             <h3 style={styles.title}>Resume</h3>
             <span style={styles.download} >
@@ -193,7 +234,7 @@ class Resume extends React.Component {
           <br />
           <Divider />
 
-          <Particulars resumeRef={self} jobID={this.state.jobID} matchedRateList={this.props.matchedRateList} resumeID={this.state.resumeID} resumeData={this.state.resumeData}/>
+          <Particulars makeTwilioPhoneCall={this.makeTwilioPhoneCall} resumeRef={self} jobID={this.state.jobID} matchedRateList={this.props.matchedRateList} resumeID={this.state.resumeID} resumeData={this.state.resumeData}/>
           <Divider />
 
           <Grid container spacing={24} style={{ marginTop: "0px" }}>

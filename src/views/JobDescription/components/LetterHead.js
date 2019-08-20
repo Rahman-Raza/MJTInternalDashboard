@@ -23,6 +23,9 @@ const chipData = [{ key: 0, label: 'Jimmy' },
 
 const styles = {
   letterhead: {},
+  row:{
+    marginLeft: "10px",
+  },
   logoContainer: {
     height: "100px",
     width: "100px",
@@ -34,7 +37,7 @@ const styles = {
     padding: "5px"
   },
   infoContainer: {
-    marginLeft: "30px",
+   
     padding: "30px 0 0 30px"
   },
   subHeadingStyle: {
@@ -121,25 +124,31 @@ class LetterHead extends React.Component {
 
           <Grid item md={9}>
             <div style={styles.infoContainer}>
-
+              <div className="row"  style={styles.row}>
               <Typography
                 variant="title"
                 gutterBottom
                 style={{ color: 'rgba(0, 0, 0, 0.87)',fontSize: '16px',marginBottom:'25px' }}
               >
+
                 {this.props.jobData["CompanyName"]}
               </Typography>
-              <Typography variant="display1" gutterBottom style={{ color: 'rgba(0, 0, 0, 0.87)',fontSize: '20px',marginBottom:'25px' }}>
+              </div>
+              <div className="row" style={styles.row} >
+              <Typography variant="title" gutterBottom style={{ color: 'rgba(0, 0, 0, 0.87)',fontSize: '20px',marginBottom:'25px' }}>
                 {this.props.jobData["JobPosition"]}
               </Typography>
-              <Typography
+              </div>
+              { this.props.jobData["Location"] &&
+              (<Typography
                 variant="subheading"
                 gutterBottom
                 style={{ color: 'rgba(0, 0, 0, 0.87)', marginBottom:'25px' }}
               >
                 <LocationOn style={{ position: "relative", top: "-2px",color:'rgb(0, 173, 243)' }} />
                 <span>{this.props.jobData["Location"]}</span>
-              </Typography>
+              </Typography>)
+            }
 
              {  this.props.cookieRole == 'Admin' ?
 

@@ -17,6 +17,7 @@ import CandidateCard from "./CandidateCard";
 import MatchingRateList from "./MatchingRateList";
 import Resume from "./Resume";
 import LoadingOverlay from 'react-loading-overlay';
+import SweetAlert from "react-bootstrap-sweetalert";
 
 import Dialog from '@material-ui/core/Dialog';
 
@@ -69,6 +70,8 @@ class Main extends Component {
   console.log("checking props in Main", props);
     super(props);
     this.state = {
+      twilioOpen: false,
+      twilioDialog: " ",
       jobDataPulled: false,
       loadingMessageMatchRecruiter: "Matching Recruiters...",
       matchRecruiterLoading: false,
@@ -397,15 +400,19 @@ handleAssignRecruiter (event){
 
   }
 
+  checkEducation = (education_string) =>{
+    var returnString =education_string.length > 0 ? education_string.includes("Degree") ? education_string : education_string + " Degree" : " ";
 
+    return returnString;
+  }
+ 
 
   render() {
     let langArray = this.state.jobData["Language"].constructor === Array ? JSON.parse(this.state.jobData["Language"]) : [];
     let skillArray = this.state.jobData["RequiredSkills"].constructor === Array ? JSON.parse(this.state.jobData["RequiredSkills"]) : [];
-
+    let {jobData} = this.state;
     return (
     <div>
-
     <Dialog
         open={this.state.dialogOpen}
         onClose={this.handleClose}
@@ -414,39 +421,35 @@ handleAssignRecruiter (event){
                         active={this.state.matchRecruiterLoading}
                         spinner
                         text={this.state.loadingMessageMatchRecruiter}
-
                         >
          <DialogContent style={{padding: "40px 60px"}}>
-
-
-               <Typography
-                      variant="subheading"
-                      gutterBottom
-                      style={{ color: '#00ADF3', marginBottom:'10px' ,textAlign: "center", fontSize: "20px",}}
-                    >
-
-                      Match job with recruiters
-                    </Typography>
-
-                    <Typography
-                      variant="subheading"
-                      gutterBottom
-                      style={{ color: '#666666', marginBottom:'25px' ,textAlign: "center",fontSize: "15px",}}
-                    >
-
-                     Choose the recruiters you would like to assign this job posting too:
-                    </Typography>
-
+               <div className="row">
+                     <Typography
+                            variant="subheading"
+                            gutterBottom
+                            style={{ color: '#00ADF3', marginBottom:'10px' ,textAlign: "center", fontSize: "20px",}}
+                          >
+                        Match job with recruiters
+                      </Typography>
+                    </div>
+                    <div className="row">
+                      <Typography
+                        variant="subheading"
+                        gutterBottom
+                        style={{ color: '#666666', marginBottom:'25px' ,textAlign: "center",fontSize: "15px",}}
+                      >
+                       Choose the recruiters you would like to assign this job posting too:
+                      </Typography>
+                    </div>
                     <List dense >
                     {
-
                       this.state.recruiterList.length > 0 ?
                       this.state.recruiterList.map((value,index) => (
                       <ListItem key={index} button>
                         <ListItemAvatar>
                           <Avatar
                             alt={`Avatar n°${index + 1}`}
-                            src={'assets/img/people/'+(index + 1).toString()+'.jpg'}
+                            src={'https://img.icons8.com/metro/52/000000/user-male-circle.png'}
                           />
                         </ListItemAvatar>
                         <ListItemText primary={value["Name"]} />
@@ -462,76 +465,72 @@ handleAssignRecruiter (event){
                       : (<div></div>)
                     }
                   </List>
-
                     <Button onClick={this.handleSubmitMatchRecruiter}  color="rose" simple size="lg" block>
                         Match
                     </Button>
-
          </DialogContent>
           </LoadingOverlay>
       </Dialog>
       <div className="container">
         {this.state.showResume ? (
-          <Resume resumeID={this.state.resumeID} matchedRateList={this.state.matchedRateList} jobID={this.props.jobID} closeHandler={this.toggleResume} />
+          <Resume resumeID={this.state.resumeID} matchedRateList={this.state.matchedRateList} jobID={this.props.jobID} closeHandler={this.toggleResume} handlePhoneToggle={this.handlePhoneToggle} />
         ) : null}
-
         <Grid container spacing={0}>
           <Grid item sm={7}>
             <Paper classes={{ root: this.props.classes.paper }} elevation={0}>
               <LetterHead editJobDescription={this.editJobDescription} handleAssignRecruiter={this.handleAssignRecruiter.bind(this)} jobData={this.state.jobData} cookieRole={this.props.cookies.get('Role')} />
-
               <Divider inset style={{ margin: "40px" }} />
-
               <ul style={{ listStyleType: "none", fontSize: "20px",marginBottom:"25px" }}>
-                <li>- {this.state.jobData["WorkExperience"]}</li>
-                <li>- {this.state.jobData["Education"]}</li>
+                <li> {jobData["WorkExperience"]}</li>
+                <li> {this.checkEducation(jobData["Education"])}</li>
               </ul>
-
               <ContentSection heading="Summary">
                 <Typography
                   style={{ padding: "20px", lineHeight: "30px", color:'#666666' }}
                   variant="subheading"
                   gutterBottom
                 >
-                {this.state.jobData["Summary"]}
+                {jobData["Summary"]}
                 </Typography>
               </ContentSection>
-
-              <ContentSection heading="Key Responsibilities">
+              { jobData["KeyPoints"] &&
+              (<ContentSection heading="Key Responsibilities">
                 <Typography
                   style={{ padding: "20px", lineHeight: "30px", color:'#666666' }}
                   variant="subheading"
                   gutterBottom
                 >
-                {this.state.jobData["KeyPoints"]}
+                {jobData["KeyPoints"]}
                 </Typography>
-              </ContentSection>
-
+              </ContentSection>)
+            }
               <Divider />
-
-              <ContentSection heading="Required Skills">
+              { (langArray.length > 0 && skillArray.length > 0) &&
+              (<ContentSection heading="Required Skills">
                 <ChipSection subheading="Language" labels={langArray} />
                 <ChipSection subheading="Required Skills" labels={skillArray} />
-              </ContentSection>
-
-              <ContentSection heading="Compensation">
+              </ContentSection>)
+            }
+            { jobData["BaseSalary"] &&
+              (<ContentSection heading="Compensation">
                 <ChipSection
                   subheading="Salary Range"
-                  labels={[this.state.jobData["BaseSalary"]]}
+                  labels={[jobData["BaseSalary"]]}
                 />
                 <ChecklistSection
                   subheading="Benefits"
                   labels={[
-                    this.state.jobData["Commission"] === "true" ? "Commmission":"0",
-                    this.state.jobData["Bonuses"] === "true"? "Bonuses":"0",
-                    this.state.jobData["OvertimePay"] === "true"? "Overtime Pay":"0",
-                    this.state.jobData["TravelMealHousingAllowance"] === "true"? "Travel / Meal / Housing Allowance":"0",
-                    this.state.jobData["HealthBenefits"] === "true"? "Health Benefits":"0",
-                    this.state.jobData["Wellness"] === "true" ? "Wellness":"0",
+                    jobData["Commission"] === "true" ? "Commmission":"0",
+                    jobData["Bonuses"] === "true"? "Bonuses":"0",
+                    jobData["OvertimePay"] === "true"? "Overtime Pay":"0",
+                    jobData["TravelMealHousingAllowance"] === "true"? "Travel / Meal / Housing Allowance":"0",
+                    jobData["HealthBenefits"] === "true"? "Health Benefits":"0",
+                    jobData["Wellness"] === "true" ? "Wellness":"0",
 
                   ]}
                 />
-              </ContentSection>
+              </ContentSection>)
+            }
             </Paper>
           </Grid>
 

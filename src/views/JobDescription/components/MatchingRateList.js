@@ -32,7 +32,7 @@ import Layers from '@material-ui/icons/Layers';
 import Grid from '@material-ui/core/Grid';
 
 const themeColor = "#00ADF3";
-const styles = {
+const styles =  theme => ({
   gridRoot:{
     flexGrow: 1,
   },
@@ -53,13 +53,12 @@ const styles = {
     minHeight: "101.9%",
   },
   sidebar: {
-    background: "#00ADF3",
-    padding: " 1px 50px",
-    position: "relative",
-    top: "-50px",
-    minHeight: "101.9%",
-    width: "114%",
+    marginBottom: "50px",
+    [theme.breakpoints.down('sm')]: {
+      width: "350px",
+      marginTop: "50px",
 
+    },
   },
   sideBarContainer: {
     margin: "50px 0px",
@@ -98,7 +97,7 @@ const styles = {
 
     },
   }
-};
+});
 
 class MatchingRateList extends React.Component{
 
@@ -189,7 +188,7 @@ let score = 100;
       <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>
     <aside style={styles.sidebar} className="sidebar">
-      <div style={styles.sideBarContainer}>
+      <div className={classes.sideBarContainer}>
         <h3 style={styles.sidebarHeading}>Top Candidates</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
@@ -204,7 +203,7 @@ let score = 100;
                 key={current.ID}
                 resumeToggler={this.props.toggleResume}
                 handlePhoneToggle={this.handlePhoneToggle}
-                percentage={score}
+                percentage={current["ResumeScore"]}
                 data={current} /> )
           })
 

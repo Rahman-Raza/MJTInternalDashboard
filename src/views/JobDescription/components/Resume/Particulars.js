@@ -28,6 +28,7 @@ const styles = {
     color: "#00ADF3",
     fontFamily: "Roboto",
     margin: "10px 0",
+    marginLeft: "30%",
     textTransform: "uppercase"
   },
   details: {
@@ -169,7 +170,7 @@ class Particulars extends React.Component {
           
           
             <Typography align="center" gutterBottom>
-              <Button  style={styles.name} onClick={this.makeTwilioPhoneCall}>
+              <Button onClick={this.props.makeTwilioPhoneCall}>
               {this.props.resumeData["Phone"]}
               </Button>
             </Typography>

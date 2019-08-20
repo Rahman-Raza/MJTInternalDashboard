@@ -8,6 +8,9 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = {
   root: {},
+  row:{
+    marginLeft: "10px",
+  },
   listItem: {
     color: "#00ADF3",
     display: "inline-block",
@@ -33,10 +36,12 @@ class ChecklistSection extends React.Component {
   render() {
     return (
       <section style={styles.root}>
+      <div className="row" style={styles.row}>
         <Typography style={{ color: "#00ADF3" }} variant="subheading">
           {this.props.subheading}
         </Typography>
-
+        </div>
+      <div className="row" style={styles.row}>
         {this.props.labels.filter(function(item) {
   return item != 0;
 }).map((current, index) => {
@@ -51,6 +56,7 @@ class ChecklistSection extends React.Component {
           
           ) 
         })}
+        </div>
       </section>
     );
   }

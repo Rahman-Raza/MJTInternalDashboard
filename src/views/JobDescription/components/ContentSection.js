@@ -17,12 +17,14 @@ const styles = {
 class ContentSection extends React.Component {
   render() {
     return (
+      <div className="row">
       <section style={styles.root}>
         <Typography variant="title" gutterBottom style={styles.heading}>
           {this.props.heading}
         </Typography>
         {this.props.children}
       </section>
+      </div>
     );
   }
 }
