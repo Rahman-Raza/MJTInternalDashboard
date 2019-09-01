@@ -233,16 +233,21 @@ this.setState({loading: true});
 
      let assignedOpenings = [];
 
-     for (let value of Object.values(data)){
-        if (value.length > 0){
-          for (var i = 0; i < value.length; i++){
-            assignedOpenings.push(value[i]);
-          }
-        }
-     }
+     // for (let value of Object.values(data.items)){
+     //    if (value.length > 0){
+     //      for (var i = 0; i < value.length; i++){
+     //        console.log("checking i :",i);
+     //        assignedOpenings.push(value[i]);
+     //      }
+     //    }
+     // }
+
+     data["items"].map((opening) => {
+       assignedOpenings.push(opening);
+     })
 
 
-   this.setState({assignedOpenings: data});
+   this.setState({assignedOpenings: assignedOpenings});
 
   }
   componentDidMount = () =>{
@@ -309,7 +314,7 @@ this.setState({loading: true});
       var self=this;
 
       this.setState({loading: true});
-       await axios.get('https://mjtbe.tk/viewassignedjoborders')
+       await axios.get('https://mjtbe.tk/viewassignedjoborders?status=New')
 
         .then(function (response) {
           console.log("heres the response from axios viewassignedjoborders call", response);
