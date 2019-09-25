@@ -62,6 +62,11 @@ const RegularMap = withScriptjs(
     </GoogleMap>
   ))
 );
+const styles={
+  paginationContainer: {
+    margin:"200px"
+  }
+}
 
 var mapData = {
   AU: 760,
@@ -186,25 +191,55 @@ this.setState({loading: true});
 
   }
 
+  changeNumberInOffsetString = (newNumber,currentNumber,currentOffsetString) => {
+    console.log("checking string to be replaced", currentOffsetString.replace(currentNumber,newNumber))
+    return currentOffsetString.replace(currentNumber,newNumber);
+  }
 
+constructpaginatorURL = (nextPageNumber,totalCount) =>{
+  let currentOffsetString = "?limit=10&offset="+this.state.paginator["offset"];
+return  totalCount - (nextPageNumber * 10) >= 0 ?
+     this.changeNumberInOffsetString(nextPageNumber * 10,this.state.paginator["offset"],currentOffsetString)  :
+       ""
+}
 
   handlePageChange = (pageNumber) =>  {
-    console.log(`active page is ${pageNumber}`);
 
+    const {paginator} = this.state;
+    console.log(`active page is ${pageNumber}`);
     var url = '';
+      // let nextPageNumber = (pageNumber * 10) >= 10 ? (pageNumber *10) - 10 : 0;
+      // url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + "?limit=10&offset=" + nextPageNumber;
+      // console.log("url pre check: ", url);
 
     if(pageNumber - this.state.activePage == 1){
       console.log("was in next");
-       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus +'&'+ this.state.paginator[0]["next"].slice(1);
+      console.log("checking paginator object: ", paginator);
+
+      paginator[0]["next"] ? console.log("next avail") : console.log("offset: ", parseInt(paginator[0]["offset"]))
+
+      var new_paginator = paginator[0]["next"] ? paginator[0]["next"].slice(1) :  "limit=10&offset=" + parseInt(paginator[0]["totalCount"])
+
+       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus +'&'+ new_paginator;
+       console.log("url pre check: ", url);
     }
     else if (pageNumber - this.state.activePage == -1){
        console.log("was in previous");
-       console.log("checking in previous this.state.paginator[0]",this.state.paginator[0] );
-       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + this.state.paginator[0]["previous"].slice(1);
+       console.log("checking paginator object: ", paginator);
+       console.log("checking in previous this.state.paginator[0]",paginator[0] );
+       url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + paginator[0]["previous"].slice(1);
+       console.log("url pre check: ", url);
     }
 
     else {
-      url = '';
+      console.log("checking paginator object else: ", paginator);
+      let totalCount = parseInt(paginator[0]["total_count"]);
+      let offset = (pageNumber * 10);
+      console.log("checking offset :", offset)
+      console.log("checking totalcount :", totalCount);
+      let nextPageNumber = pageNumber == 1? 0 :  (offset > totalCount) ? (offset - 10) : (offset - 10);
+      url = 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&' + "limit=10&offset=" + nextPageNumber;
+      console.log("url pre check: ", url);
     }
 
     this.reloadPageData(url);
@@ -264,28 +299,16 @@ this.setState({loading: true});
   fetchData = async (positionStatus="", filter=null) =>{
 
     let getURL = '';
-
-    positionStatus.length>0 ?  getURL = filter ? 'https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0'
-
+    console.log("checking position Status: ", this.state.positionStatus);
+    positionStatus.length>0 ?  getURL = filter ? 'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword : 'https://mjtbe.tk/jobpostingspagination?status='+positionStatus+'&limit=10&offset=0'
                   : getURL =  'https://mjtbe.tk/jobpostingspagination?status='+this.state.positionStatus+'&limit=10&offset=0&'+ filter.category + '=' + filter.keyword
-
-
-
-
    try{
-
       var self=this;
-
-      //this.dispatchLoading("Loading Check", true);
-
-      this.setState({loading: true, positionStatus: positionStatus});
+      this.setState({loading: true});
        await axios.get(getURL)
-
         .then(function (response) {
           console.log("heres the response from axios pagination call", response);
-
           if(response["status"]  == 200){
-
             if(self.state.isMounted){
             self.handlePagination(response.data["Data"]["paginator"]);
             self.handleJobPostingsData(response.data["Data"]["items"]);
@@ -294,45 +317,31 @@ this.setState({loading: true});
           }
         })
       }
-
     catch (err) {
-
       if (axios.isCancel(err)) {
         console.log('Error: ', err.message); // => prints: Api is being canceled
       } else {
         this.setState({ isLoading: false });
       }
   }
-
 }
 
   fetchDataAssigned = async () =>{
-
-
    try{
-
       var self=this;
-
       this.setState({loading: true});
        await axios.get('https://mjtbe.tk/viewassignedjoborders?status=New')
-
         .then(function (response) {
           console.log("heres the response from axios viewassignedjoborders call", response);
-
           if(response["status"]  == 200){
-
             if(self.state.isMounted){
-
-
-
             self.handleAssignedJobPostingsData(response.data["Data"]);
             self.setState({loading: false});
-            // self.setState({loading: false});
+
           }
           }
         })
       }
-
     catch (err) {
 
       if (axios.isCancel(err)) {
@@ -359,14 +368,17 @@ this.setState({loading: true});
       case 0:
       this.setState({positionStatus: 'New'});
         this.fetchData('New');
+        this.setState({activePage: 1})
         break;
       case 1:
         this.setState({positionStatus: 'Open'});
         this.fetchData('Open');
+        this.setState({activePage: 1})
         break;
       case 2:
       this.setState({positionStatus: 'Closed'});
         this.fetchData('Closed');
+        this.setState({activePage: 1})
         break;
       case 3:
         this.fetchDataAssigned('Assigned');
@@ -516,16 +528,9 @@ this.setState({loading: true});
 }
 
   parseTime = (time) =>{
-   // console.log("checking time ", time);
 
     let newTime = this.time_ago(new Date(time));
-
-   // console.log("checking new time", newTime);
-
-
-
     return newTime;
-
   }
 
   dispatchLoading = (loadingMessage, loading) =>{
@@ -701,33 +706,35 @@ this.setState({loading: true});
                       }) : {}
                     ]}
                   />
+                  <ItemGrid>
+                       <Pagination
+                  activePage={this.state.activePage}
 
+                  itemsCountPerPage={10}
+                  totalItemsCount={this.state.paginator[0]['total_count']}
+                  pageRangeDisplayed={5}
+                  onChange={this.handlePageChange}
+                  innerClass=" pagination"
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  linkClassPrev="pagination__control_prev"
+                  linkClassNext="pagination__control_next"
+                  activeClass="pagination__group"
+                  activeLinkClass="pagination__item pagination__item_active"
+                  itemClassNext="pagination__group"
+                  itemClassPrev="pagination__group"
+                  hideFirstLastPages={true}
+
+
+
+                  />
+                  </ItemGrid>
 
 
         </div>
                 }
               />
             </ItemGrid>
-               <Pagination
-          activePage={this.state.activePage}
-          itemsCountPerPage={10}
-          totalItemsCount={this.state.paginator[0]['total_count']}
-          pageRangeDisplayed={2}
-          onChange={this.handlePageChange}
-          innerClass=" pagination__list pagination pagination_type2"
-          itemClass="pagination__group"
-          linkClass="pagination__item"
-          linkClassPrev="pagination__control_prev"
-          linkClassNext="pagination__control_next"
-          activeClass="pagination__group"
-          activeLinkClass="pagination__item pagination__item_active"
-          itemClassNext="pagination__group"
-          itemClassPrev="pagination__group"
-          hideFirstLastPages={true}
-
-
-
-        />
 
           </GridContainer>
         </Section>

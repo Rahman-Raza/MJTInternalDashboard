@@ -50,11 +50,11 @@ function StatsCard({ ...props }) {
   let [company, location] = title.split("-");
   company = company.trim();
   location = location.trim();
-  
+
 
   return (
     <Card className={switchCategory(category, classes)} onClick={props.onClick}>
-      
+
       <Typography variant="body2" className={classes.cardHeaderTitle} >
         {small}
       </Typography>
@@ -63,28 +63,30 @@ function StatsCard({ ...props }) {
           {company}
         </Typography>
         <Typography
-          
+
           component="p"
           className={classes.cardTitle}
         >
           {description}{" "}
         </Typography>
-        <Typography
+        {location.length > 0 &&
+        (<Typography
           className={classes.cardContentSubheading}
           variant="subheading"
           gutterBottom
         >
           <LocationOn style={{ fontSize: 20 }} />
           {location}
-        </Typography>
+        </Typography>)
+      }
 
-        {category === "Assigned" ? 
-        ( 
+        {category === "Assigned" ?
+        (
           <Typography
           className={classes.cardContentSubheading}
           variant="subheading"
           gutterBottom >
-          
+
           Assigned by John Adams
            </Typography>
           )

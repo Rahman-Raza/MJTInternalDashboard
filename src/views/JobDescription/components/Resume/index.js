@@ -32,10 +32,7 @@ const styles = {
     color: "red",
     cursor: "pointer",
     position: "absolute",
-    right: "50px",
-    top: "30px",
-    height: "250px",
-    width: "250px"
+    padding: "25px",
   },
   container: {
     margin: "0 auto",
@@ -143,7 +140,7 @@ class Resume extends React.Component {
      this.setState({loading: true});
      console.log("checking resume FileName",self.state.resumeData["FileName"] );
     axios({
-          url: 'https://mjtbe.tk/downloadresumefile/9541cf05-852a-426b-bc0b-982b771879dcJesseHong resume.docx',
+          url: 'https://mjtbe.tk/downloadresumefile/'+self.state.resumeData["FileName"],
           method: 'GET',
          responseType: 'arraybuffer',
             headers: {
@@ -156,7 +153,7 @@ class Resume extends React.Component {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download','00030a1e-f5f9-4ef3-ba76-3d285a4b7771functionalSample.pdf' );
+          link.setAttribute('download',self.state.resumeData["FileName"] );
           document.body.appendChild(link);
           link.click();
 
@@ -190,7 +187,7 @@ class Resume extends React.Component {
     .catch(function (error) {
         console.log('error in /twilio ', error);
         self.handlePhoneToggle("Error in phone call" + error);
-        
+
       });
 
   }
@@ -214,10 +211,10 @@ handlePhoneDialogClose = () =>{
 
                         >
       <div style={styles.root}>
-      
-        <Icon style={styles.closeIcon} onClick={this.props.closeHandler}>
-          close
-        </Icon>
+
+        <IconButton style={styles.closeIcon} onClick={this.props.closeHandler}>
+            <Icon>close</Icon>
+        </IconButton>
         <div style={styles.container} >
         {this.state.twilioOpen == true &&
         <SweetAlert success title={this.state.twilioDialog}  onConfirm={this.handlePhoneDialogClose} />

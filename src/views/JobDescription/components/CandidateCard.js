@@ -61,7 +61,7 @@ const styles = {
   name: {
     color: "#00ADF3",
     textTransform: "uppercase",
-    margin: "0 0 0 5px"
+    
   },
 };
 
@@ -87,7 +87,7 @@ class CandidateCard extends React.Component {
     .catch(function (error) {
         console.log('error in /twilio ', error);
         self.props.handlePhoneToggle("Error in phone call" + error);
-        
+
       });
 
   }
@@ -122,22 +122,24 @@ class CandidateCard extends React.Component {
           </section>
 
           <section style={styles.detailContainer}>
-                 
+
                   <Button style={styles.name} >
                     {this.props.data["Name"]}
                   </Button>
-            
-                  <Button style={styles.name} onClick={this.makeTwilioPhoneCall}>
-                    <Icon style={styles.icon}>phone</Icon>
-                    {this.props.data["Phone"]}
-                  </Button>
+            {this.props.data["Phone"] &&
+            <Button style={styles.name} onClick={this.makeTwilioPhoneCall}>
+              <Icon style={styles.icon}>phone</Icon>
+              {this.props.data["Phone"]}
+            </Button>
+          }
+
 
                    <Button style={styles.name} onClick={(event) => event.stopPropagation()}>
                     <Icon style={styles.icon}>email</Icon>
                     {this.props.data["Email"]}
                   </Button>
-              
-        
+
+
           </section>
         </CardContent>
       </Card>

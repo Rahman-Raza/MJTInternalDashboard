@@ -124,6 +124,7 @@ class LetterHead extends React.Component {
    componentDidMount = () =>{
      this.setState({ isMounted: true});
      this.viewAssignedRecuiters();
+     this.viewRecruitersServiceCall();
 
    }
 
@@ -203,12 +204,10 @@ class LetterHead extends React.Component {
    handleClose = () => {
       this.setState({ dialogOpen: false});
     };
-    handleAssignRecruiter (event){
-      console.log("got to handleAssignRecruiter",event);
-      this.setState({dialogOpen: true});
-    }
+
     handleToggle = value => () => {
       const { checked } = this.state;
+      console.log("checking checked ",checked);
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
       if (currentIndex === -1) {
@@ -224,7 +223,7 @@ class LetterHead extends React.Component {
 
     handleSubmitMatchRecruiter = () =>{
       var self = this;
-      if (this.state.checked.length <= 0){
+      if (this.state.checked.length < 0){
         self.setState({matchRecruiterLoading: true, loadingMessageMatchRecruiter: "Please select at least one recruiter..."});
         setTimeout(
       function() {
@@ -233,10 +232,9 @@ class LetterHead extends React.Component {
       }
       else{
         self.setState({matchRecruiterLoading: true});
-
-      console.log("checking checked values", this.state.checked);
+        console.log("checking checked values", this.state.checked);
        setTimeout(
-      function() {
+         function() {
           self.setState({matchRecruiterLoading: false});
           self.handleClose();
         }
@@ -245,8 +243,14 @@ class LetterHead extends React.Component {
     );
        this.state.checked.map((value, index) => {
         console.log("checked value", this.state.recruiterList[value]["Name"] );
-         this.matchRecruiterServiceCall(this.state.recruiterList[value]["Name"]);
-       })
+        var chipDataListOfNames = this.state.chipData.map(data => data.label);
+        // this.state.recruiterList.map(rec => {console.log("recruiter list: ", rec)})
+        //console.log("is empty? :", this.state.recruiterList.filter(recruiter => !chipDataListOfNames.includes(recruiter["Name"])).length)
+
+        var filteredRecruiters = this.state.recruiterList.filter(recruiter => !chipDataListOfNames.includes(recruiter["Name"]));
+         this.matchRecruiterServiceCall(filteredRecruiters[value]["Name"]);
+       });
+       this.viewAssignedRecuiters();
      }
     }
     matchRecruiterServiceCall = async (recruiterName) =>{
@@ -277,8 +281,21 @@ class LetterHead extends React.Component {
             console.log('error in /assignjoborder ', error);
           });
     }
+    handleAssignRecruiter =  (event) =>{
+      console.log("got to handleAssignRecruiter",event);
+      this.setState({dialogOpen: true});
+    }
 
   render() {
+    var chipDataListOfNames = this.state.chipData.map(data => data.label);
+    // this.state.recruiterList.map(rec => {console.log("recruiter list: ", rec)})
+    //console.log("is empty? :", this.state.recruiterList.filter(recruiter => !chipDataListOfNames.includes(recruiter["Name"])).length)
+
+    var filteredRecruiters = this.state.recruiterList.filter(recruiter => !chipDataListOfNames.includes(recruiter["Name"]));
+    // console.log("checking filteredRecruiters size: ", filteredRecruiters.length);
+    // filteredRecruiters.map((value,index) =>
+    // {console.log("checking list of filtered recruiters", value);}
+    // )
     return (
 <div>
       <Dialog
@@ -312,7 +329,10 @@ class LetterHead extends React.Component {
                       <List dense >
                       {
                         this.state.recruiterList.length > 0 ?
-                        this.state.recruiterList.map((value,index) => (
+                        filteredRecruiters.map((value,index) =>
+                            // console.log("filter recruiter check: ", value);
+                            // console.log("filter recruiter count ", filteredRecruiters.length);
+                          (
                         <ListItem key={index} button>
                           <ListItemAvatar>
                             <Avatar
@@ -325,7 +345,6 @@ class LetterHead extends React.Component {
                             <Checkbox
                               color="primary"
                               onChange={this.handleToggle(index)}
-                              checked={this.state.checked.indexOf(index) !== -1}
                             />
                           </ListItemSecondaryAction>
                         </ListItem>
@@ -409,7 +428,7 @@ class LetterHead extends React.Component {
              }
              </div>
                 <div className="row" style={styles.margin}>
-                  <Button style={styles.a} variant="outlined"  onClick={this.props.handleAssignRecruiter}>
+                  <Button style={styles.a} variant="outlined"  onClick={this.handleAssignRecruiter}>
                          Assign Job to Recruiter
                  </Button>
                </div>

@@ -34,14 +34,14 @@ const cookies = new Cookies();
 const themeColor = "#00ADF3";
 const greyBackground = "#F3F3F3";
 const styles = {
-   
+
     textField: {
-       
+
         borderRadius: "5px",
         padding: "5px",
         minWidth: "90%"
     },
-   
+
 };
 
 
@@ -52,8 +52,8 @@ class FilterForm extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden",
      keyword: 'keyword',
-      category: 'category',
-     
+      category: 'sval',
+
 
 
     };
@@ -69,33 +69,17 @@ class FilterForm extends React.Component {
   }
 
   handleSubmit = (event) =>{
-   
-
   event.preventDefault();
-
-    
-
-    var formData = new FormData(event.target);
-
-   
-
-     var object = {};
-      object['category'] = this.state.category;
-   
-       for (var pair of formData){
-        console.log(pair[0], pair[1]);
-        object[pair[0]] = pair[1];
-       }
-   
-
+  var formData = new FormData(event.target);
+  var object = {};
+  object['category'] = this.state.category;
+  for (var pair of formData){
+    console.log(pair[0], pair[1]);
+    object[pair[0]] = pair[1];
+  }
     console.log("checking JSON", object);
-
     this.props.filterJobs("",object);
-
     this.props.closeRef();
-
-   
-
   }
 
 
@@ -104,20 +88,16 @@ class FilterForm extends React.Component {
     this.timeOutFunction = null;
   }
     handleChange = (event) =>{
-
         var originalForm = this.state.category
-
         originalForm = event.target.value;
         this.setState({category: originalForm});
-
-       // console.log("checking new values", event.target.name, ": ", event.target.value);
     }
   render() {
     const { classes } = this.props;
     const {formData} = this.state;
     return (
 
-        
+
             <form onSubmit={this.handleSubmit}>
               <Card className={classes[this.state.cardAnimaton]}>
                 <CardHeader
@@ -125,10 +105,10 @@ class FilterForm extends React.Component {
                   color="rose"
                 >
                   <h4 className={classes.cardTitle}>Filter Jobs</h4>
-                 
+
                 </CardHeader>
                 <CardBody>
-                     
+
                   <CustomInput
 
                     labelText="Filter by keyword"
@@ -144,27 +124,25 @@ class FilterForm extends React.Component {
                         </InputAdornment>
                       )
                     }}/>
-                 
+
                     <Select
-                                        value={this.state.category}
-                                        onChange={this.handleChange}
-                                        style={styles.textField}
-                                         input={
-                                        <Input name="category" disableUnderline />
-                                    }
-                                    >
-                                        <MenuItem value="category">
-                                        <em>Select category</em>
-                                    </MenuItem>
-                                        <MenuItem value={"cname"}>Company Name</MenuItem>
-                                        <MenuItem value={"status"}>Status</MenuItem>
-                                         <MenuItem value={"position"}>Position</MenuItem>
-                                         <MenuItem value={"location"}>Location</MenuItem>
-                                         <MenuItem value={"salary"}>Salary</MenuItem>
-                                         <MenuItem value={"csize"}>Company Size</MenuItem>
-                                         <MenuItem value={"emptype"}>Employment Type</MenuItem>
-                                        
-                                    </Select>
+                    value={this.state.category}
+                    onChange={this.handleChange}
+                    style={styles.textField}
+                    input={<Input name="category" disableUnderline />}
+                    >
+                      <MenuItem value={"sval"}>
+                        Keyword
+                      </MenuItem>
+                      <MenuItem value={"cname"}>Company Name</MenuItem>
+                      <MenuItem value={"status"}>Status</MenuItem>
+                      <MenuItem value={"position"}>Position</MenuItem>
+                      <MenuItem value={"location"}>Location</MenuItem>
+                      <MenuItem value={"salary"}>Salary</MenuItem>
+                      <MenuItem value={"csize"}>Company Size</MenuItem>
+                      <MenuItem value={"emptype"}>Employment Type</MenuItem>
+
+                    </Select>
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
                   <Button type="submit"  color="rose" simple size="lg" block>
@@ -173,7 +151,7 @@ class FilterForm extends React.Component {
                 </CardFooter>
               </Card>
             </form>
-  
+
     );
   }
 }

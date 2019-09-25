@@ -53,6 +53,7 @@ const styles =  theme => ({
     minHeight: "101.9%",
   },
   sidebar: {
+    background: "#00ADF3",
     marginBottom: "50px",
     [theme.breakpoints.down('sm')]: {
       width: "350px",
@@ -62,6 +63,7 @@ const styles =  theme => ({
   },
   sideBarContainer: {
     margin: "50px 0px",
+    padding: "20px"
   },
 
   sidebarHeading: {
@@ -152,11 +154,15 @@ handleClickOpen = () => {
 
  }
 handlePhoneToggle = (phone_message) => {
-  
+
 
   this.state.twilioOpen === false ? this.setState({twilioOpen: true, twilioDialog: phone_message }) : this.setState({twilioDialog: phone_message});
 
 
+}
+
+handleScoreSort = (data) =>{
+  return data.sort((a,b) => parseInt(a.ResumeScore) > parseInt(b.ResumeScore))
 }
 
 
@@ -168,7 +174,8 @@ handlePhoneDialogClose = () =>{
 render(){
 //  const list = this.state.options.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase))
 const { classes } = this.props;
-const list = this.handleSort(this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase())));
+const list_alphabetical = this.handleSort(this.props.data.filter(option => option.Name.toLowerCase().includes(this.state.filter.toLowerCase())))
+ const list = this.handleScoreSort(list_alphabetical);
 let score = 100;
 //const list = this.props.data;
   return (
@@ -184,20 +191,17 @@ let score = 100;
      {this.state.twilioOpen == true &&
         <SweetAlert success title={this.state.twilioDialog}  onConfirm={this.handlePhoneDialogClose} />
      }
-      <aside style={styles.filterSideBar} className="sidebar">
+      <aside style={styles.filterSideBar} className={classes.sidebar}>
       <ExpansionPanel handleClose={this.handleClose} handleFilterSubmit={this.handleFilterSubmit} />
       </aside>
-    <aside style={styles.sidebar} className="sidebar">
+    <aside className={classes.sidebar}>
       <div className={classes.sideBarContainer}>
         <h3 style={styles.sidebarHeading}>Top Candidates</h3>
       <MatchingRateListFilter advancedFilter={this.handleClickOpen} sortAscending={this.sortAscending} handleFilter={this.handleFilter}/>
         {
-          
           list.length > 0 ?
         (
-
          list.map((current, index) => {
-          score = score -10;
             return (
                <CandidateCard
                 key={current.ID}

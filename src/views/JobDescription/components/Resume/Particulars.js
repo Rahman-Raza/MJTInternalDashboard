@@ -28,7 +28,7 @@ const styles = {
     color: "#00ADF3",
     fontFamily: "Roboto",
     margin: "10px 0",
-    marginLeft: "30%",
+
     textTransform: "uppercase"
   },
   details: {
@@ -121,7 +121,9 @@ class Particulars extends React.Component {
 
       if(matchratelist[index]["ID"] == this.props.resumeID){
         if( index < matchratelist.length){
+        this.setState({star: false, thumbDown: false});
         this.props.resumeRef.handleResumeChange(matchratelist[++index]["ID"]);
+
       }
         break;
       }
@@ -134,7 +136,10 @@ class Particulars extends React.Component {
 
       if(matchratelist[index]["ID"] == this.props.resumeID){
         if( index > 0){
+          this.setState({star: false, thumbDown: false});
         this.props.resumeRef.handleResumeChange(matchratelist[index-1]["ID"]);
+
+
       }
         break;
       }
@@ -167,15 +172,15 @@ class Particulars extends React.Component {
            {this.props.resumeData["Occupation"]}
           </Typography>
 
-          
-          
+
+
             <Typography align="center" gutterBottom>
               <Button onClick={this.props.makeTwilioPhoneCall}>
               {this.props.resumeData["Phone"]}
               </Button>
             </Typography>
-          
-    
+
+
           <Typography style={styles.details} align="center">
            {this.props.resumeData["Email"]}
           </Typography>
